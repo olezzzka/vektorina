@@ -31,10 +31,16 @@ const placeholder = (item, out) => {
   fs.writeFileSync(out, svg);
 };
 
+/**
+ * Скины раунда. У форматов sound (играет выстрел) и spot (радар карты)
+ * их нет вовсе — тогда скачивать нечего, и это не ошибка.
+ */
+const roundItems = (round) =>
+  round.items ?? (round.item ? [round.item] : (round.a && round.b ? [round.a, round.b] : []));
+
 let ok = 0, ph = 0;
 for (const round of quiz.rounds) {
-  const items = round.items ?? (round.item ? [round.item] : [round.a, round.b]);
-  for (const item of items) {
+  for (const item of roundItems(round)) {
     const h = crypto.createHash('sha1').update(item.hash).digest('hex').slice(0, 16);
     let name = `${h}.png`;
     let out = `${dir}/${name}`;
@@ -56,7 +62,11 @@ for (const round of quiz.rounds) {
   }
 }
 writeJson(file, quiz);
-log(`картинки: скачано ${ok}, заглушек ${ph} → public/images/`);
+if (!quiz.rounds.some((r) => roundItems(r).length)) {
+  log(`формат ${quiz.format ?? 'duel'}: картинки скинов не нужны`);
+} else {
+  log(`картинки: скачано ${ok}, заглушек ${ph} → public/images/`);
+}
 if (ph) warn('Steam CDN недоступен из этой среды — на твоей машине картинки скачаются нормально.');
 
 // свежая викторина становится превью для `npm run studio`
