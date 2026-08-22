@@ -132,12 +132,16 @@ export const OddRoundScene: React.FC<{round: OR; index: number; total: number; q
         />
       </div>
 
-      <div style={{marginTop: 130, textAlign: 'center', opacity: headIn}}>
+      <div style={{marginTop: 118, textAlign: 'center', opacity: headIn}}>
         <div style={{font: `700 34px ${theme.fontUI}`, color: theme.gold, letterSpacing: 8}}>
           РАУНД {index + 1}/{total}
         </div>
-        <div style={{font: `900 78px ${theme.fontUI}`, color: theme.text, marginTop: 8, letterSpacing: -1}}>
-          ЧТО ЛИШНЕЕ?
+        <div style={{font: `900 66px ${theme.fontUI}`, color: theme.text, marginTop: 6, letterSpacing: -1}}>
+          ЛИШНИЙ ПО ЦЕНЕ
+        </div>
+        {/* критерий всегда на экране: иначе непонятно, по чему искать чужака */}
+        <div style={{font: `600 30px ${theme.fontUI}`, color: theme.gold, marginTop: 8, opacity: 0.9}}>
+          два стоят почти одинаково
         </div>
       </div>
 
@@ -145,10 +149,10 @@ export const OddRoundScene: React.FC<{round: OR; index: number; total: number; q
       <div
         style={{
           position: 'absolute',
-          top: 152,
-          left: 890,
-          width: 126,
-          height: 126,
+          top: 24,
+          left: 918,
+          width: 112,
+          height: 112,
           borderRadius: '50%',
           background: '#0b0f16',
           border: `5px solid ${revealed ? theme.green : theme.gold}`,

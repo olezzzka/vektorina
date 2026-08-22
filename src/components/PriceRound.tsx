@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {theme, fmtPrice, PriceRound as PR, Quiz} from '../theme';
+import {theme, PriceRound as PR, Quiz} from '../theme';
 import {Card} from './Card';
 
 /** «Угадай цену»: один скин, три варианта цены A/B/C. */
@@ -24,6 +24,13 @@ export const PriceRoundScene: React.FC<{round: PR; index: number; total: number;
   const au = quiz.audio;
   const vol = (k: 'whoosh' | 'tick' | 'reveal') => (au ? au.master * au[k] : 0);
   const ticks = Math.round(countdown / fps);
+
+  // единая точность на все три варианта: иначе копейки у одного выдают его на фоне остальных
+  const cents = round.options.every((v) => v * quiz.rate < 100);
+  const fmt = (v: number) => {
+    const x = v * quiz.rate;
+    return `${quiz.symbol}${cents ? x.toFixed(2) : Math.round(x).toLocaleString('ru-RU')}`;
+  };
 
   return (
     <AbsoluteFill style={{alignItems: 'center'}}>
@@ -133,7 +140,7 @@ export const PriceRoundScene: React.FC<{round: PR; index: number; total: number;
               {'ABC'[i]}
             </span>
             <span style={{font: `400 66px ${theme.fontNum}`, color: theme.text, lineHeight: 1, paddingTop: 6}}>
-              {fmtPrice(value * quiz.rate, quiz.symbol)}
+              {fmt(value)}
             </span>
           </div>
         );

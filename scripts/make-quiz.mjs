@@ -102,11 +102,27 @@ const slim = (i) => ({
   image: i.image,
 });
 
-/** Округляет до «правдоподобной» цены: 2 значащие цифры ($34.52 → $35, $1278 → $1300). */
-const nicePrice = (v) => {
-  const mag = Math.pow(10, Math.floor(Math.log10(v)) - 1);
-  return Math.round(v / mag) * mag;
-};
+/**
+ * Приманка в том же «стиле», что и настоящая цена: на экране до $100 видны
+ * копейки — значит и у приманок они должны быть, а выше $100 — целые, но не
+ * круглые. Иначе правильный ответ вычисляется по виду числа, а не по знанию цен.
+ */
+function decoyPrice(v) {
+  if (v >= 1000) {
+    let n = Math.round(v);
+    if (n % 100 === 0) n += 7 + Math.floor(Math.random() * 40);
+    return n;
+  }
+  if (v >= 100) {
+    let n = Math.round(v);
+    if (n % 10 === 0) n += 1 + Math.floor(Math.random() * 8);
+    return n;
+  }
+  return Number((Math.floor(v) + (1 + Math.floor(Math.random() * 98)) / 100).toFixed(2));
+}
+
+/** Как цена будет выглядеть на экране — по этому и сравниваем варианты. */
+const shownAs = (v) => (v >= 1000 ? String(Math.round(v)) : v >= 100 ? v.toFixed(0) : v.toFixed(2));
 
 /** «Угадай цену»: один скин, три варианта. Разброс вариантов сужается к концу ролика. */
 function buildPriceRound(pool, roundIdx, taken) {
@@ -119,10 +135,12 @@ function buildPriceRound(pool, roundIdx, taken) {
     const item = pickWeighted(scoped);
     if (taken.has(item.name)) continue;
     const jitter = () => spread * (0.85 + Math.random() * 0.3);
-    const low = nicePrice(item.price / jitter());
-    const high = nicePrice(item.price * jitter());
     const real = Number(item.price.toFixed(2));
-    if (low <= 0 || low === high || nicePrice(real) === low || nicePrice(real) === high) continue;
+    const low = decoyPrice(real / jitter());
+    const high = decoyPrice(real * jitter());
+    if (low <= 0) continue;
+    const seen = new Set([real, low, high].map(shownAs));
+    if (seen.size < 3) continue;                     // на экране две одинаковые цены — переигрываем
     const options = shuffle([
       {value: real, correct: true},
       {value: low, correct: false},
@@ -151,7 +169,7 @@ function buildOddRound(pool, roundIdx, taken) {
     const mates = scoped.filter((b) => {
       if (b.name === a.name || taken.has(b.name) || b.weapon === a.weapon) return false;
       const r = Math.max(a.price, b.price) / Math.min(a.price, b.price);
-      return r <= 1.5;                               // одна лига
+      return r <= 1.22;                              // пара должна читаться как «почти одна цена»
     });
     if (!mates.length) continue;
     const b = mates[Math.floor(Math.random() * mates.length)];
@@ -204,7 +222,14 @@ const TAGS = ['#cs2','#кс2','#counterstrike2','#cs2skins','#скиныcs2','#�
 const FORMAT_TEXT = {
   duel: {},
   price: {introTitle: 'УГАДАЙ ЦЕНУ', introSubtitle: '{n} скинов · сколько угадаешь?'},
-  odd: {introTitle: 'ЧТО ЛИШНЕЕ?', introSubtitle: '{n} раундов · найди чужака'},
+  odd: {introTitle: 'ЛИШНИЙ ПО ЦЕНЕ', introSubtitle: 'два скина стоят почти одинаково — найди третий'},
+};
+
+/** Поправки таймингов под формат: odd объясняет правило голосом, ему нужно интро подлиннее. */
+const FORMAT_TIMING = {
+  duel: {},
+  price: {},
+  odd: {intro: 108},
 };
 
 function caption(quiz) {
@@ -247,7 +272,8 @@ function makeOne(index) {
   const quiz = {
     id, format, generatedAt: new Date().toISOString(),
     priceMeta: catalog.meta, symbol: cfg.display.symbol, rate: cfg.display.rate,
-    timing: cfg.timing, text: {...cfg.text, ...FORMAT_TEXT[format]}, audio: cfg.audio, captions: cfg.captions, rounds,
+    timing: {...cfg.timing, ...FORMAT_TIMING[format]},
+    text: {...cfg.text, ...FORMAT_TEXT[format]}, audio: cfg.audio, captions: cfg.captions, rounds,
   };
   quiz.caption = caption(quiz);
   quiz.narration = buildNarration(quiz);

@@ -3,5 +3,6 @@ data/
 out/
 public/images/
 public/voice/
+tools/
 config.local.json
 .env

@@ -71,20 +71,49 @@ npm run studio
 ## Озвучка и субтитры
 
 Реплики генерируются вместе с викториной (`scripts/narration.mjs`) и лежат в JSON
-с точной привязкой к кадрам. Дальше `scripts/voice.mjs`:
+с точной привязкой к кадрам. Дальше `scripts/voice.mjs` синтезирует каждую реплику
+отдельно и кладёт ровно на свой кадр — рассинхрон невозможен по построению.
 
-- каждая реплика — отдельный запрос к ElevenLabs, клип ложится ровно на свой кадр,
-  рассинхрон невозможен по построению;
+Синтез локальный, на твоей машине: движок [Piper](https://github.com/rhasspy/piper)
++ русский голос с Hugging Face. Ставится один раз:
+
+```bash
+node scripts/setup-voice.mjs                  # движок + голос dmitri (~65 МБ)
+node scripts/setup-voice.mjs --voice irina    # женский голос
+```
+
+Дальше всё офлайн, бесплатно и без лимитов (синтез примерно в 8 раз быстрее
+реального времени). Голоса: `dmitri`, `ruslan`, `denis` (мужские), `irina` (женский) —
+выбранный пишется в `config.local.json` → `voice.voice`.
+
 - кэш по хэшу текста в `data/tts-cache/` — повторяющиеся фразы («Раунд 3!»)
-  озвучиваются один раз за всю жизнь проекта, экономит квоту;
-- если фраза длиннее окна — ускорение до 1.15x, потом укороченный вариант фразы;
-- дорожка собирается ffmpeg-ом в `public/voice/<id>.wav` и вшивается в рендер.
+  синтезируются один раз;
+- если фраза длиннее своего окна — ускорение до 1.15x, потом укороченный вариант;
+- тишина по краям клипа срезается, дорожка собирается ffmpeg-ом
+  в `public/voice/<id>.wav` и вшивается в рендер;
+- скорость речи — `voice.lengthScale` (меньше 1.0 = быстрее).
 
-Ключи — в `.env` (`ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`). Без ключей ролик
-собирается без голоса. Громкости слоёв — `config.json` → `audio` (голос — `voice`).
+Не нужен голос вообще — `node scripts/build.mjs --no-voice`, тогда останутся только
+субтитры и сценарий в `out/scripts/` для ручной начитки.
+
+ElevenLabs остался как альтернатива: `--engine elevenlabs` плюс ключи
+`ELEVENLABS_API_KEY` / `ELEVENLABS_VOICE_ID` в `.env`.
 
 Субтитры (`src/components/Captions.tsx`) рисуются из тех же реплик — текст точный
 по построению, распознавание речи не нужно. Выключить: `captions.enabled: false`.
+
+## Звуки
+
+`public/sfx/` генерируется скриптом — звуки не скачиваются, а синтезируются формулами:
+
+```bash
+node scripts/make-sfx.mjs --force
+```
+
+Тик отсчёта — короткий деревянный щелчок, переход — шумовой свист, правильный ответ —
+мажорное трезвучие с колокольным затуханием. Правится в `scripts/make-sfx.mjs`:
+`exp(-k*t)` задаёт скорость затухания, число перед `sin` — громкость составляющей.
+Громкости слоёв в ролике — `config.json` → `audio`, полностью выключить: `audio.enabled: false`.
 
 ---
 
@@ -129,16 +158,19 @@ node scripts/build.mjs --format random  # случайный формат на �
 
 ```
 config.json              все настройки (config.local.json — личные правки, вне гита)
-.env                     ключи ElevenLabs (вне гита, шаблон — .env.example)
+.env                     ключи ElevenLabs, если используешь его вместо Piper
 scripts/fetch-data.mjs   каталог + цены → data/catalog.json
-scripts/make-quiz.mjs    подбор пар + реплики → out/quizzes/<id>.json + текст поста
-scripts/narration.mjs    реплики озвучки по кадрам (вызывается из make-quiz)
+scripts/make-quiz.mjs    подбор раундов + реплики → out/quizzes/<id>.json + текст поста
+scripts/narration.mjs    реплики по кадрам + сценарий для ручной начитки
 scripts/download-images.mjs  картинки → public/images/
-scripts/voice.mjs        TTS ElevenLabs → public/voice/<id>.wav
-scripts/verify-prices.mjs    точечная сверка со Steam
+scripts/setup-voice.mjs  ставит движок Piper + голос с Hugging Face (один раз)
+scripts/voice.mjs        синтез речи → public/voice/<id>.wav
+scripts/make-sfx.mjs     генерит звуки интерфейса → public/sfx/
+scripts/verify-prices.mjs    точечная сверка со Steam (только формат duel)
 scripts/render.mjs       рендер mp4
-scripts/build.mjs        всё вместе (--no-voice — пропустить озвучку)
+scripts/build.mjs        всё вместе (--format, --no-voice, --count)
 src/                     шаблон видео (Remotion)
+tools/                   движок Piper (вне гита, ставится setup-voice)
 ```
 
 ## Требования

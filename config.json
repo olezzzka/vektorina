@@ -57,5 +57,11 @@
   },
   "captions": {
     "enabled": true
+  },
+  "voice": {
+    "engine": "piper",
+    "voice": "dmitri",
+    "lengthScale": 1.0,
+    "maxTempo": 1.15
   }
 }
