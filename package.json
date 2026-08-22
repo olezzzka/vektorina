@@ -13,7 +13,8 @@
     "build": "node scripts/build.mjs",
     "studio": "remotion studio",
     "setup-voice": "node scripts/setup-voice.mjs",
-    "sfx": "node scripts/make-sfx.mjs"
+    "sfx": "node scripts/make-sfx.mjs",
+    "ui": "node scripts/studio.mjs"
   },
   "dependencies": {
     "@fontsource/bebas-neue": "^5.3.0",
