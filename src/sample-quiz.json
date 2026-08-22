@@ -1,7 +1,7 @@
 {
-  "id": "smoke-rarity",
-  "format": "rarity",
-  "generatedAt": "2026-08-22T22:20:08.389Z",
+  "id": "2026-08-22-01-9dz2",
+  "format": "sound",
+  "generatedAt": "2026-08-22T22:28:02.999Z",
   "priceMeta": {
     "source": "steam-snapshot",
     "updatedAt": "2026-08-08T06:46:27.146Z"
@@ -16,8 +16,8 @@
     "outro": 96
   },
   "text": {
-    "introTitle": "КАКАЯ РЕДКОСТЬ?",
-    "introSubtitle": "{n} скинов · угадай тир",
+    "introTitle": "ЧТО ЗА СТВОЛ?",
+    "introSubtitle": "{n} выстрелов · угадай на слух",
     "outroTitle": "СКОЛЬКО УГАДАЛ?",
     "outroSubtitle": "пиши в комменты",
     "outroCta": "подписка — новая викторина каждый день"
@@ -42,223 +42,104 @@
   },
   "rounds": [
     {
-      "item": {
-        "hash": "AK-47 | Vulcan (Factory New)",
-        "name": "AK-47 | Vulcan",
-        "weapon": "AK-47",
-        "pattern": "Vulcan",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 1150,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSMuWRDGKC_uJ_t-l9AXCxxEh14zjTztivci2ePQZ2W8NzTecD4BKwloLiYeqxtAOIj9gUyyngznQeF7I6QE8",
-        "imageLocal": "images/cd959ad01231e6e2.png"
-      },
+      "weapon": "mac10",
+      "file": "weapon-sfx/mac10.wav",
       "options": [
-        "Запрещённое",
-        "Тайное",
-        "Засекреченное"
+        "PP-Bizon",
+        "MAC-10",
+        "MP9"
       ],
-      "optionsSub": [
-        "Restricted",
-        "Covert",
-        "Classified"
-      ],
-      "answer": 1
+      "answer": 1,
+      "key": "mac10"
     },
     {
-      "item": {
-        "hash": "M4A1-S | Imminent Danger (Minimal Wear)",
-        "name": "M4A1-S | Imminent Danger",
-        "weapon": "M4A1-S",
-        "pattern": "Imminent Danger",
-        "wear": "Minimal Wear",
-        "wearShort": "MW",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": false,
-        "price": 1744,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9JpuR7WyC0miIrujqNjsGpciiVZgIpCpAjEOUPuhXuw93kZOzm4laPi4IRyij-2H9P6yc65rwCT-N7rc1sfRJu",
-        "imageLocal": "images/0ffb8ee5495f7cc3.svg"
-      },
+      "weapon": "deagle",
+      "file": "weapon-sfx/deagle.wav",
       "options": [
-        "Засекреченное",
-        "Тайное",
-        "Запрещённое"
+        "Desert Eagle",
+        "Five-SeveN",
+        "Glock-18"
       ],
-      "optionsSub": [
-        "Classified",
-        "Covert",
-        "Restricted"
-      ],
-      "answer": 1
+      "answer": 0,
+      "key": "deagle"
     },
     {
-      "item": {
-        "hash": "SG 553 | Traveler (Factory New)",
-        "name": "SG 553 | Traveler",
-        "weapon": "SG 553",
-        "pattern": "Traveler",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Industrial Grade",
-        "color": "#5e98d9",
-        "knife": false,
-        "hype": false,
-        "price": 39,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLimcO1qx1Y-s2ifaNqIfeWMXSXlLslj-1gSCGn20905myGzIn6cyqePQUpA8FxRLVetRK_lYbkMrmx7wbWjIkXzi2t2HtXrnE8Nea-0H8",
-        "imageLocal": "images/0f52eb332e63d29c.png"
-      },
+      "weapon": "elite",
+      "file": "weapon-sfx/elite.wav",
       "options": [
-        "Армейское качество",
-        "Ширпотреб",
-        "Промышленное качество"
+        "Dual Berettas",
+        "Desert Eagle",
+        "Five-SeveN"
       ],
-      "optionsSub": [
-        "Mil-Spec Grade",
-        "Consumer Grade",
-        "Industrial Grade"
-      ],
-      "answer": 2
+      "answer": 0,
+      "key": "elite"
     },
     {
-      "item": {
-        "hash": "M4A1-S | Golden Coil (Battle-Scarred)",
-        "name": "M4A1-S | Golden Coil",
-        "weapon": "M4A1-S",
-        "pattern": "Golden Coil",
-        "wear": "Battle-Scarred",
-        "wearShort": "BS",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 77.81,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9lj_JnTiK2lxQztgKClYP9HifOOV5kFJclQ-Jb5xW-m9CxPuLq4QTfjd0XzyX6jCpL6X5o5OgDVfYn_a2Ci1rfcepqgV49FrE",
-        "imageLocal": "images/e06d6be9eb5ba6e6.png"
-      },
+      "weapon": "hkp2000",
+      "file": "weapon-sfx/hkp2000.wav",
       "options": [
-        "Запрещённое",
-        "Засекреченное",
-        "Тайное"
+        "P2000",
+        "Dual Berettas",
+        "Desert Eagle"
       ],
-      "optionsSub": [
-        "Restricted",
-        "Classified",
-        "Covert"
-      ],
-      "answer": 2
+      "answer": 0,
+      "key": "hkp2000"
     },
     {
-      "item": {
-        "hash": "AWP | Oni Taiji (Field-Tested)",
-        "name": "AWP | Oni Taiji",
-        "weapon": "AWP",
-        "pattern": "Oni Taiji",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 461.91,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6xsLv6KD1icyOl-pK9vGCqwkx524G_WnNmsInyXOAVyXJJ0TbNb5EOxxIflYbzj4gDdiNlC02yg2XaKgrAq",
-        "imageLocal": "images/7ef1cd044203b8ff.png"
-      },
+      "weapon": "aug",
+      "file": "weapon-sfx/aug.wav",
       "options": [
-        "Тайное",
-        "Засекреченное",
-        "Запрещённое"
+        "Galil AR",
+        "AK-47",
+        "AUG"
       ],
-      "optionsSub": [
-        "Covert",
-        "Classified",
-        "Restricted"
-      ],
-      "answer": 0
+      "answer": 2,
+      "key": "aug"
     },
     {
-      "item": {
-        "hash": "USP-S | Neo-Noir (Minimal Wear)",
-        "name": "USP-S | Neo-Noir",
-        "weapon": "USP-S",
-        "pattern": "Neo-Noir",
-        "wear": "Minimal Wear",
-        "wearShort": "MW",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 156.71,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSI-WsG3SA0tF4v-h7cCW6khUz_WXdmd-vI3uRPwEkApR4QuBcu0Xrk4biYr_mtQXdidlCz3r63Ska7Hx1o7FVWuokIcU",
-        "imageLocal": "images/99b9d345cf90e634.png"
-      },
+      "weapon": "xm1014",
+      "file": "weapon-sfx/xm1014.wav",
       "options": [
-        "Тайное",
-        "Засекреченное",
-        "Запрещённое"
+        "XM1014",
+        "MAG-7",
+        "Sawed-Off"
       ],
-      "optionsSub": [
-        "Covert",
-        "Classified",
-        "Restricted"
-      ],
-      "answer": 0
+      "answer": 0,
+      "key": "xm1014"
     },
     {
-      "item": {
-        "hash": "Tec-9 | Mummy's Rot (Factory New)",
-        "name": "Tec-9 | Mummy's Rot",
-        "weapon": "Tec-9",
-        "pattern": "Mummy's Rot",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Mil-Spec Grade",
-        "color": "#4b69ff",
-        "knife": false,
-        "hype": false,
-        "price": 34.52,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLlm5W5wiFO0Oara_1SLeWeA36vzedxuPUnS3_jlEUm5muAzd6qcXiRaw9yWZciRuQItUHpxNXnP--27lGL2d5CyzK-0H1vVdbZoA",
-        "imageLocal": "images/63a86252c0a8a026.png"
-      },
+      "weapon": "mp9",
+      "file": "weapon-sfx/mp9.wav",
       "options": [
-        "Промышленное качество",
-        "Армейское качество",
-        "Засекреченное"
+        "MP9",
+        "P90",
+        "MP7"
       ],
-      "optionsSub": [
-        "Industrial Grade",
-        "Mil-Spec Grade",
-        "Classified"
-      ],
-      "answer": 1
+      "answer": 0,
+      "key": "mp9"
     }
   ],
   "caption": "90% ошибаются на последнем раунде\nСамый хитрый раунд — последний 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
   "narration": [
     {
-      "text": "Отличишь ковёрт от рестрикта? Сомневаюсь.",
+      "text": "Ты вообще не играл в CS, если ответишь неправильно.",
       "emotion": "hype",
       "alts": [
-        "Отличишь ковёрт от рестрикта?"
+        "Ответишь неверно — ты не играл в CS!"
       ],
       "frame": 4,
       "window": 104,
-      "display": "Отличишь ковёрт от рестрикта? Сомневаюсь."
+      "display": "Ты вообще не играл в CS, если ответишь неправильно."
     },
     {
-      "text": "Тайное — это самый топ, если что.",
-      "emotion": "neutral",
+      "text": "Слышно же, да?",
+      "emotion": "hype",
       "alts": [
-        "Тайное — это топ."
+        "Слышно же!"
       ],
       "frame": 215,
       "window": 61,
-      "display": "Тайное — это самый топ, если что."
+      "display": "Слышно же, да?"
     },
     {
       "text": "Так, а тут?",
@@ -268,101 +149,92 @@
       "display": "Так, а тут?"
     },
     {
-      "text": "Ебать, а выглядит дешевле.",
-      "emotion": "hype",
-      "nsfw": true,
+      "text": "Спутал? Они реально похожи.",
+      "emotion": "neutral",
       "alts": [
-        "А выглядит дешевле!"
+        "Они похожи, бывает."
       ],
       "frame": 383,
       "window": 61,
-      "display": "Ебать, а выглядит дешевле."
+      "display": "Спутал? Они реально похожи."
     },
     {
-      "text": "Тут многие валятся.",
+      "text": "Сука, по звуку сложнее всего.",
       "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Тут многие валятся!"
+        "По звуку сложнее всего!"
       ],
       "frame": 551,
       "window": 61,
-      "display": "Тут многие валятся."
+      "display": "Сука, по звуку сложнее всего."
     },
     {
-      "text": "Блядь, а я думал наоборот.",
+      "text": "Следующий.",
+      "emotion": "neutral",
+      "frame": 618,
+      "window": 92,
+      "display": "Следующий."
+    },
+    {
+      "text": "Не угадал — играй с наушниками.",
       "emotion": "hype",
-      "nsfw": true,
       "alts": [
-        "А я думал наоборот!"
+        "Играй с наушниками!"
       ],
       "frame": 719,
       "window": 61,
-      "display": "Блядь, а я думал наоборот."
+      "display": "Не угадал — играй с наушниками."
     },
     {
-      "text": "Го дальше.",
-      "emotion": "hype",
-      "frame": 786,
-      "window": 92,
-      "display": "Го дальше."
-    },
-    {
-      "text": "Вот и цвет рамки.",
+      "text": "Ветераны такое с полвыстрела ловят.",
       "emotion": "hype",
       "alts": [
-        "Вот и цвет!"
+        "Ветераны ловят сразу!"
       ],
       "frame": 887,
       "window": 61,
-      "display": "Вот и цвет рамки."
+      "display": "Ветераны такое с полвыстрела ловят."
     },
     {
-      "text": "Погнали дальше.",
-      "emotion": "hype",
-      "frame": 954,
-      "window": 92,
-      "display": "Погнали дальше."
-    },
-    {
-      "text": "Не угадал? Ну и хуй с ним.",
-      "emotion": "hype",
-      "nsfw": true,
+      "text": "На слух это отдельный скилл.",
+      "emotion": "neutral",
       "alts": [
-        "Не угадал? Бывает."
+        "Это отдельный скилл."
       ],
       "frame": 1055,
       "window": 61,
-      "display": "Не угадал? Ну и хуй с ним."
+      "display": "На слух это отдельный скилл."
     },
     {
-      "text": "Последний, самый жёсткий.",
+      "text": "Последний. Не слейся.",
       "emotion": "hype",
       "alts": [
         "Последний!"
       ],
       "frame": 1122,
       "window": 92,
-      "display": "Последний, самый жёсткий."
+      "display": "Последний. Не слейся."
     },
     {
-      "text": "Внешность тут вообще не помощник.",
+      "text": "Уши не обманешь.",
       "emotion": "neutral",
       "alts": [
-        "Внешность не помощник."
+        "Уши не обманешь."
       ],
       "frame": 1223,
       "window": 61,
-      "display": "Внешность тут вообще не помощник."
+      "display": "Уши не обманешь."
     },
     {
       "alts": [
         "Пиши в комменты!"
       ],
-      "text": "Пиши в комменты, сколько угадал!",
+      "text": "Сколько угадал? Пиши в комменты и подпишись!",
       "emotion": "warm",
       "frame": 1292,
       "window": 86,
-      "display": "Пиши в комменты, сколько угадал!"
+      "display": "Сколько угадал? Пиши в комменты и подпишись!"
     }
   ]
 }

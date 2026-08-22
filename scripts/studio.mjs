@@ -30,6 +30,19 @@ const push = (line) => {
   for (const c of clients) send(c, 'log', clean);
 };
 
+/** Нарезка длинного видео — тот же механизм запуска и лога, что у сборки. */
+function startClip(opts) {
+  if (job && !job.done) return false;
+  const args = [p('scripts', 'clip.mjs')];
+  if (opts.url) args.push('--url', opts.url);
+  else if (opts.file) args.push('--file', opts.file);
+  else return false;
+  if (opts.length) args.push('--length', String(opts.length));
+  if (opts.every) args.push('--every', String(opts.every));
+  if (opts.limit) args.push('--limit', String(opts.limit));
+  return spawnJob(args);
+}
+
 function startBuild(opts) {
   if (job && !job.done) return false;
   const args = [p('scripts', 'build.mjs'), '--count', String(opts.count || 1)];
@@ -39,7 +52,10 @@ function startBuild(opts) {
   if (!opts.voice) args.push('--no-voice');
   if (!opts.ad) args.push('--no-ad');
   if (!opts.bg) args.push('--no-bg');
+  return spawnJob(args);
+}
 
+function spawnJob(args) {
   const proc = spawn(process.execPath, args, {cwd: p(), env: process.env});
   job = {proc, lines: [], done: false, code: null, started: Date.now()};
 
@@ -139,6 +155,11 @@ const server = http.createServer(async (req, res) => {
   if (route === '/api/build' && req.method === 'POST') {
     const opts = JSON.parse((await readBody(req)) || '{}');
     return json(res, {ok: startBuild(opts)});
+  }
+
+  if (route === '/api/clip' && req.method === 'POST') {
+    const opts = JSON.parse((await readBody(req)) || '{}');
+    return json(res, {ok: startClip(opts)});
   }
 
   if (route === '/api/stop' && req.method === 'POST') {

@@ -41,7 +41,7 @@
 
   label.field { display: block; margin-bottom: 14px; }
   label.field > span { display: block; font-size: 13px; color: var(--dim); margin-bottom: 6px; }
-  select, input[type=number] {
+  select, input[type=number], input[type=text] {
     width: 100%; background: var(--panel-2); color: var(--text);
     border: 1px solid var(--edge); border-radius: 10px; padding: 11px 12px; font: inherit;
   }
@@ -167,6 +167,33 @@
       <div class="chips" id="chips"></div>
     </div>
 
+    <div class="card" style="grid-column:1;margin-top:20px">
+      <h2>Нарезать длинное видео</h2>
+      <label class="field">
+        <span>Ссылка на видео</span>
+        <input id="clipUrl" type="text" placeholder="https://www.youtube.com/watch?v=...">
+      </label>
+      <label class="field">
+        <span>…или путь к файлу на диске</span>
+        <input id="clipFile" type="text" placeholder="assets/video.mp4">
+      </label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <label class="field">
+          <span>Длина куска, мин</span>
+          <input id="clipLen" type="number" min="1" max="10" step="0.5" value="3">
+        </label>
+        <label class="field">
+          <span>Сколько кусков</span>
+          <input id="clipLimit" type="number" min="0" max="50" placeholder="все">
+        </label>
+      </div>
+      <p style="color:var(--dim);font-size:13px;margin:2px 0 14px">
+        Видео 16:9 встаёт по центру вертикального кадра, фоном — размытый геймплей.
+        Раз в минуту картинка замирает и играет баннер. Номера частей на экран не выводятся.
+      </p>
+      <button class="primary" id="clipRun">Нарезать</button>
+    </div>
+
     <div>
       <div class="card">
         <h2>Ход сборки</h2>
@@ -271,6 +298,23 @@ $('run').onclick = async () => {
       voice: $('voice').checked,
       bg: $('bg').checked,
       ad: $('ad').checked,
+    }),
+  });
+};
+
+$('clipRun').onclick = async () => {
+  const url = $('clipUrl').value.trim();
+  const file = $('clipFile').value.trim();
+  if (!url && !file) { alert('Дай ссылку или путь к файлу'); return; }
+  logEl.innerHTML = '';
+  setRunning(true);
+  await fetch('/api/clip', {
+    method: 'POST',
+    headers: {'content-type': 'application/json'},
+    body: JSON.stringify({
+      url, file,
+      length: Math.round((Number($('clipLen').value) || 3) * 60),
+      limit: Number($('clipLimit').value) || 0,
     }),
   });
 };

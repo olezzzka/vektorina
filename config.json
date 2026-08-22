@@ -88,5 +88,11 @@
     "saturation": 1.05,
     "blurHeight": 480,
     "minBrightness": 45
+  },
+  "clip": {
+    "length": 180,
+    "every": 60,
+    "offset": 30,
+    "minTail": 45
   }
 }
