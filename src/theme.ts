@@ -19,8 +19,14 @@ export type Item = {
 export type Round = {a: Item; b: Item; answer: 'a' | 'b'; ratio: number; trap: boolean};
 export type PriceRound = {item: Item; options: number[]; answer: number};
 export type OddRound = {items: Item[]; answer: number; ratio: number; dearer: boolean};
-export type AnyRound = Round | PriceRound | OddRound;
-export type QuizFormat = 'duel' | 'price' | 'odd';
+export type SpotRound = {
+  map: string; mapLabel: string; radar: string;
+  /** доли от размера радара: центр зоны и её габариты */
+  zone: {x: number; y: number; w: number; h: number};
+  options: string[]; answer: number; key: string;
+};
+export type AnyRound = Round | PriceRound | OddRound | SpotRound;
+export type QuizFormat = 'duel' | 'price' | 'odd' | 'spot';
 export type NarrationLine = {
   text: string; alts?: string[]; emotion?: 'hype' | 'neutral' | 'warm';
   frame: number; window: number;

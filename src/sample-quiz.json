@@ -1,7 +1,7 @@
 {
-  "id": "2026-08-22-01-v4ml",
+  "id": "2026-08-22-01-ngvr",
   "format": "duel",
-  "generatedAt": "2026-08-22T17:39:20.383Z",
+  "generatedAt": "2026-08-22T18:18:13.044Z",
   "priceMeta": {
     "source": "steam-snapshot",
     "updatedAt": "2026-08-08T06:46:27.146Z"
@@ -43,267 +43,267 @@
   "rounds": [
     {
       "a": {
-        "hash": "MP9 | Bulldozer (Field-Tested)",
-        "name": "MP9 | Bulldozer",
-        "weapon": "MP9",
-        "pattern": "Bulldozer",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
-        "rarity": "Restricted",
-        "color": "#8847ff",
-        "knife": false,
-        "hype": false,
-        "price": 142.57,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8js_f7i1k9veiZKt6H_yaCW-Ej-tztbQ5Hy2wxklw5TiDnt_4eC_GOFR1XJdzQ-AMskXswNbvNuvq4wPAy9USwXKj73o",
-        "imageLocal": "images/15bcf4d2c723e6e0.png"
-      },
-      "b": {
-        "hash": "Galil AR | Winter Forest (Field-Tested)",
-        "name": "Galil AR | Winter Forest",
-        "weapon": "Galil AR",
-        "pattern": "Winter Forest",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
-        "rarity": "Industrial Grade",
-        "color": "#5e98d9",
-        "knife": false,
-        "hype": false,
-        "price": 21.86,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0Pq3V6JiMvWAGliHyOBitfNWQyC0nQlp4m7Wy96geHvCPVQjA5d2ROYDtRC4lIGzYeLrtADejt0TzC6tj3tO7DErvbiqpszlmA",
-        "imageLocal": "images/da5ad8147375800c.png"
-      },
-      "answer": "a",
-      "ratio": 6.52,
-      "trap": false
-    },
-    {
-      "a": {
-        "hash": "P250 | See Ya Later (Field-Tested)",
-        "name": "P250 | See Ya Later",
-        "weapon": "P250",
-        "pattern": "See Ya Later",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": false,
-        "price": 140,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSI-mRC3WT0-F1j-1gSCGn2x9ytmzWnN6pInjGOwMlDZp0EORe5BHsx93lP7zr5wzbiI5AyXr_jS9XrnE8gQrIgng",
-        "imageLocal": "images/91b42aac5f8c9157.png"
-      },
-      "b": {
-        "hash": "P250 | Kintsugi (Factory New)",
-        "name": "P250 | Kintsugi",
-        "weapon": "P250",
-        "pattern": "Kintsugi",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Classified",
-        "color": "#d32ce6",
-        "knife": false,
-        "hype": false,
-        "price": 27.62,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwjIJuqKRY61jNOOGCW6vzedxuPUnHXrikBkh4jjXzd76I36VPQF2CJV2FOYLthC5k9DiNuOwswKLj4JHxTK-0H3jhNNozg",
-        "imageLocal": "images/d10c2bff0bc1391b.png"
-      },
-      "answer": "a",
-      "ratio": 5.07,
-      "trap": false
-    },
-    {
-      "a": {
-        "hash": "AWP | Mortis (Factory New)",
-        "name": "AWP | Mortis",
-        "weapon": "AWP",
-        "pattern": "Mortis",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Classified",
-        "color": "#d32ce6",
-        "knife": false,
-        "hype": false,
-        "price": 27.22,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf-jFk7uW-V6BoIeSbMWuZxuZi_rNtHiuwwRwismWEnNn8JymSZgUiDpd3Ru9ZsxG-xNy2NLzn41DWg41bjXKp5oOAt0A",
-        "imageLocal": "images/916b73881b01f289.png"
-      },
-      "b": {
-        "hash": "AWP | Exoskeleton (Factory New)",
-        "name": "AWP | Exoskeleton",
-        "weapon": "AWP",
-        "pattern": "Exoskeleton",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Restricted",
-        "color": "#8847ff",
-        "knife": false,
-        "hype": false,
-        "price": 98.96,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf-jFk7uW-V6F1L-OYC2uV1eF4j-1gSCGn20km5zyEmd2qc3uWZwcnA5MiELIJtxa_w9OyN-nh5wKKj4kTyn78hyNXrnE83OTew2I",
-        "imageLocal": "images/a4e7b7107148c355.png"
-      },
-      "answer": "b",
-      "ratio": 3.64,
-      "trap": true
-    },
-    {
-      "a": {
-        "hash": "FAMAS | Mecha Industries (Well-Worn)",
-        "name": "FAMAS | Mecha Industries",
-        "weapon": "FAMAS",
-        "pattern": "Mecha Industries",
-        "wear": "Well-Worn",
-        "wearShort": "WW",
-        "rarity": "Classified",
-        "color": "#d32ce6",
-        "knife": false,
-        "hype": true,
-        "price": 42.6,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1c_M2oaalsM8-eC2SYwNF6ueZhW2ewwx4hsm3dz46heSjCPVUjC8chEOYMtxOwkNHiYb63swXY3Y9Nn32skGoXuc3DGOrc",
-        "imageLocal": "images/e8252b17beb415f9.png"
-      },
-      "b": {
-        "hash": "FAMAS | Sundown (Factory New)",
-        "name": "FAMAS | Sundown",
-        "weapon": "FAMAS",
-        "pattern": "Sundown",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Mil-Spec Grade",
-        "color": "#4b69ff",
-        "knife": false,
-        "hype": false,
-        "price": 187.86,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1I_82-aahgH-OGAHSV1dF6ueZhW2frzEQhsWrRzNqoIHjCbgR1C5ZxRuIPsUO9l9XiYrnh7lPdj90Uni__kGoXuWBgr_h1",
-        "imageLocal": "images/08c9e40f2a005a89.png"
-      },
-      "answer": "b",
-      "ratio": 4.41,
-      "trap": true
-    },
-    {
-      "a": {
-        "hash": "★ Bayonet | Slaughter (Factory New)",
-        "name": "Bayonet | Slaughter",
-        "weapon": "Bayonet",
-        "pattern": "Slaughter",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": true,
-        "hype": true,
-        "price": 580.66,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLzn4_v8ydP0POjV75oIuKSMWuZxuZi_uU7HyjhwUh-tm_Xydmuc3nGbwN2ApAmQeNfsUXtktOzYuLm5FPajN9bjXKpLQ8HVlE",
-        "imageLocal": "images/7b7b33821b5d2df3.png"
-      },
-      "b": {
-        "hash": "★ Butterfly Knife | Case Hardened (Minimal Wear)",
-        "name": "Butterfly Knife | Case Hardened",
-        "weapon": "Butterfly Knife",
-        "pattern": "Case Hardened",
-        "wear": "Minimal Wear",
-        "wearShort": "MW",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": true,
-        "hype": true,
-        "price": 1406.97,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Z-ua6bbZrLOmsD3avzud6teVWQyC0nQlp5z6AyN_7I3mfOFQnApUlFrMN5BbpwdbhP-vgs1Pd3dpBmXr9jnwf6DErvbim1G57Bg",
-        "imageLocal": "images/ab32d68e09699119.png"
-      },
-      "answer": "b",
-      "ratio": 2.42,
-      "trap": false
-    },
-    {
-      "a": {
-        "hash": "Five-SeveN | Fairy Tale (Well-Worn)",
-        "name": "Five-SeveN | Fairy Tale",
+        "hash": "Five-SeveN | Nitro (Factory New)",
+        "name": "Five-SeveN | Nitro",
         "weapon": "Five-SeveN",
-        "pattern": "Fairy Tale",
-        "wear": "Well-Worn",
-        "wearShort": "WW",
-        "rarity": "Classified",
-        "color": "#d32ce6",
-        "knife": false,
-        "hype": false,
-        "price": 36.64,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC1iDxPhzvt5tRiihjCIrujqNjsGtdi-UbVUgXJAlRrFfuxi-lNbuPr7ltA3cjtkRzyit2H8c7H1t4O9TT-N7rZbBTJfn",
-        "imageLocal": "images/790fed199b6f1cbf.png"
-      },
-      "b": {
-        "hash": "MAG-7 | Hard Water (Factory New)",
-        "name": "MAG-7 | Hard Water",
-        "weapon": "MAG-7",
-        "pattern": "Hard Water",
+        "pattern": "Nitro",
         "wear": "Factory New",
         "wearShort": "FN",
         "rarity": "Mil-Spec Grade",
         "color": "#4b69ff",
         "knife": false,
         "hype": false,
-        "price": 15.81,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5G3wiNW0P-vb_NSI_GGHXOZwtF6ueZhW2eykx534j_VydygIi6fPQJ0DJcmQrIMukK7k9HvZO224FbajI8WnC-tkGoXudK2z8cj",
-        "imageLocal": "images/cf1ef1fb27c83329.png"
+        "price": 80.76,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRe6tSL-KSAGCV_u91s-RnWzqMmRQguynLy9ugci3EZlUpDMYjTOID4EPrxNTvZO224QWM3o9NniWs23lP5nw9tfFCD_Qs49oXvw",
+        "imageLocal": "images/a5925d6516b43991.png"
+      },
+      "b": {
+        "hash": "Five-SeveN | Case Hardened (Well-Worn)",
+        "name": "Five-SeveN | Case Hardened",
+        "weapon": "Five-SeveN",
+        "pattern": "Case Hardened",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Restricted",
+        "color": "#8847ff",
+        "knife": false,
+        "hype": true,
+        "price": 15.75,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRabVSL_mfC2OvzedxuPUnH3C1kRsi4jiAw4qtdXjCO1V2WcZxF-EO5xLsxtHmMeKw5g3fit4TnDK-0H1W4XC76Q",
+        "imageLocal": "images/4c1451ba490f7108.png"
       },
       "answer": "a",
-      "ratio": 2.32,
+      "ratio": 5.13,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "AK-47 | Cartel (Field-Tested)",
+        "name": "AK-47 | Cartel",
+        "weapon": "AK-47",
+        "pattern": "Cartel",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 22.34,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiNK0POlPPNSI_GBGmKc_uJ_t-l9ASuywktwtW3dwt79eX6fZlUiCJJ1RbUPtkW8w4LiZe_i4ATYjN8WmH7gznQeZkk4ehM",
+        "imageLocal": "images/42259c2e4a72c08d.png"
+      },
+      "b": {
+        "hash": "★ Kukri Knife | Scorched (Battle-Scarred)",
+        "name": "Kukri Knife | Scorched",
+        "weapon": "Kukri Knife",
+        "pattern": "Scorched",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": true,
+        "hype": false,
+        "price": 72.58,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q-vm8YZt-MM-XD3eAzetJvOhuRz39kUpw42zRnoz7InOeOAd2XpQiQ7Ve5xixm9HhMe3l5wCI2YxHxS_2iDQJsHhKp4l7vg",
+        "imageLocal": "images/a570a3a4dd9eac9c.png"
+      },
+      "answer": "b",
+      "ratio": 3.25,
       "trap": false
     },
     {
       "a": {
-        "hash": "M4A1-S | Decimator (Battle-Scarred)",
+        "hash": "FAMAS | Commemoration (Factory New)",
+        "name": "FAMAS | Commemoration",
+        "weapon": "FAMAS",
+        "pattern": "Commemoration",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 104.48,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1c_M2oaalsM8-fC2CRwvdJt-5lSxa_nBovp3PUztn4d3qSPQ8kDMR5ROVb4xCxw9a0NLni4lCIio4QzXn32yMb6Sds_a9cBr1TwPEt",
+        "imageLocal": "images/b23acfa84bbd07db.png"
+      },
+      "b": {
+        "hash": "AK-47 | First Class (Factory New)",
+        "name": "AK-47 | First Class",
+        "weapon": "AK-47",
+        "pattern": "First Class",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Restricted",
+        "color": "#8847ff",
+        "knife": false,
+        "hype": false,
+        "price": 312,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0PW8baFjH_yWD3OYxPxJseo9GBa_nBovp3PXmNmpdymUZwMnX8EhEeBbtBnrk4LjZLzi7wbe3opNmCn8iH8YvX5i_a9cBikeWj5H",
+        "imageLocal": "images/48c2b5e8046b96c2.png"
+      },
+      "answer": "b",
+      "ratio": 2.99,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "M4A1-S | Cyrex (Well-Worn)",
+        "name": "M4A1-S | Cyrex",
+        "weapon": "M4A1-S",
+        "pattern": "Cyrex",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 265.23,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGMWrEwL9lj-JwXSyrqhEutDWR1N77cimSbQQgC8F5QLYCsELpltTnZuvk7wbcjdhDzy_43yMb6ilvt7kcEf1yDWu2yf8",
+        "imageLocal": "images/cd302161b934e740.png"
+      },
+      "b": {
+        "hash": "M4A1-S | Blue Phosphor (Factory New)",
+        "name": "M4A1-S | Blue Phosphor",
+        "weapon": "M4A1-S",
+        "pattern": "Blue Phosphor",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 1250,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_GeMWrEwL9lj-NlWiygmBIstgKJk4jxNWWeOg5xDJR2Q-5b5BGwxIDuP7uw4ALa3ohMz3n3iypLvyc55-pQUKct5OSJ2OKlF5Nn",
+        "imageLocal": "images/c5e0d01b9d430d8e.png"
+      },
+      "answer": "b",
+      "ratio": 4.71,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "★ Huntsman Knife | Crimson Web (Battle-Scarred)",
+        "name": "Huntsman Knife | Crimson Web",
+        "weapon": "Huntsman Knife",
+        "pattern": "Crimson Web",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": true,
+        "hype": true,
+        "price": 176,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1P7vG6YadsLM-bF1iHxOxlj-1gSCGn20V24znRw4v7JXPEaVUnW8AkQbUP5xW4wYKzMeu3sgPbio4WzXr_3HxXrnE84qvZFNo",
+        "imageLocal": "images/50b96fd7d2be0fbb.png"
+      },
+      "b": {
+        "hash": "★ Huntsman Knife | Doppler (Factory New)",
+        "name": "Huntsman Knife | Doppler",
+        "weapon": "Huntsman Knife",
+        "pattern": "Doppler",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": true,
+        "hype": true,
+        "price": 426.81,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1P7vG6YadsLM-SA1iUzv5mvOR7cDm7lA4i4QKJk4jxNWXBag91D5JxRu8N5hC_mtflP-6x7gSMio5Nnius2i1Avypisr0CVadx5OSJ2A8DtsQk",
+        "imageLocal": "images/bc794fe047ace75a.png"
+      },
+      "answer": "b",
+      "ratio": 2.43,
+      "trap": false
+    },
+    {
+      "a": {
+        "hash": "M4A1-S | Atomic Alloy (Battle-Scarred)",
+        "name": "M4A1-S | Atomic Alloy",
+        "weapon": "M4A1-S",
+        "pattern": "Atomic Alloy",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 47.64,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_GeMWrEwL87o95oQyW8jCIooTyLnYrGLSLANkI-D5d2FrENtRG7wNDvZe-3slfci9pFmHj8jSof6yZjtugEB6QtrKTXhxaBb-PhITXxPA",
+        "imageLocal": "images/1bb4573bddfc2616.png"
+      },
+      "b": {
+        "hash": "M4A1-S | Decimator (Well-Worn)",
         "name": "M4A1-S | Decimator",
         "weapon": "M4A1-S",
         "pattern": "Decimator",
-        "wear": "Battle-Scarred",
-        "wearShort": "BS",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
         "rarity": "Classified",
         "color": "#d32ce6",
         "knife": false,
         "hype": true,
-        "price": 19.98,
+        "price": 18.76,
         "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9JtORqRiSygRI1jDGMnYftb3iUb1dxW5ImFLNftxCxktflZLm2tgaP2otGyn_-hytOvy9q5elQV_A7uvqA6CRSoZY",
-        "imageLocal": "images/3e3a98d837528666.png"
+        "imageLocal": "images/c192a592c6d295f8.png"
       },
-      "b": {
-        "hash": "P90 | Schematic (Battle-Scarred)",
-        "name": "P90 | Schematic",
-        "weapon": "P90",
-        "pattern": "Schematic",
+      "answer": "a",
+      "ratio": 2.54,
+      "trap": false
+    },
+    {
+      "a": {
+        "hash": "Five-SeveN | Crimson Blossom (Battle-Scarred)",
+        "name": "Five-SeveN | Crimson Blossom",
+        "weapon": "Five-SeveN",
+        "pattern": "Crimson Blossom",
         "wear": "Battle-Scarred",
         "wearShort": "BS",
         "rarity": "Mil-Spec Grade",
         "color": "#4b69ff",
         "knife": false,
         "hype": false,
-        "price": 31.55,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf9Ttk-fe8fK1qL_eWAVicyOl-pK89HXrjwhh_sGWDz4yrcn-eZlR1XMAkFOYIshTqlIXlMbnk7lHWiIlE02yg2XF_CACM",
-        "imageLocal": "images/cf477742449b6424.png"
+        "price": 254.76,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRYL1SIuWXMXWVxdF6ueZhW2ewkE5162rRnNerIy6WagApDptyRuVZshbql9DuMOPj71CI2YoRzyqokGoXufqVyZvA",
+        "imageLocal": "images/52f4be90564f2945.png"
       },
-      "answer": "b",
-      "ratio": 1.58,
-      "trap": true
+      "b": {
+        "hash": "SCAR-20 | Brass (Minimal Wear)",
+        "name": "SCAR-20 | Brass",
+        "weapon": "SCAR-20",
+        "pattern": "Brass",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Mil-Spec Grade",
+        "color": "#4b69ff",
+        "knife": false,
+        "hype": false,
+        "price": 151,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLinZfyr3Jk7uORarZsM-OsAm6Xyfo457MwH3zlzEwh6mXWw9qpdniQO1MmCJZ5QeBe5xa5wdfvZO234lOI3pUFk3uBClMh1w",
+        "imageLocal": "images/fa1dbf98c6a7a883.png"
+      },
+      "answer": "a",
+      "ratio": 1.69,
+      "trap": false
     }
   ],
-  "caption": "Угадаешь хотя бы 3 из 5?\nСамый сложный раунд: M4A1-S | Decimator против P90 | Schematic 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
+  "caption": "Какой скин дороже? Проверь себя\nСамый сложный раунд: Five-SeveN | Crimson Blossom против SCAR-20 | Brass 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
   "narration": [
     {
-      "text": "Ты вообще не играл в кэ-эс, если ответишь неправильно.",
+      "text": "Половина зрителей ошибётся уже на первом.",
       "emotion": "hype",
       "alts": [
-        "Ответишь неверно — ты не играл в кэ-эс!"
+        "Половина ошибётся на первом!"
       ],
       "frame": 4,
       "window": 104
     },
     {
-      "text": "Нихуя себе разрыв!",
+      "text": "Ебать, попался?",
       "emotion": "hype",
       "nsfw": true,
       "alts": [
-        "Вот это разрыв!"
+        "Попался?"
       ],
       "frame": 215,
       "window": 61
@@ -315,26 +315,26 @@
       "window": 92
     },
     {
-      "text": "Разрыв в пять раз, ебать.",
-      "emotion": "hype",
-      "nsfw": true,
+      "text": "В три раза. Норм разница.",
+      "emotion": "neutral",
       "alts": [
-        "В пять раз!"
+        "Разница в три раза."
       ],
       "frame": 383,
       "window": 61
     },
     {
-      "text": "Дальше.",
+      "text": "Ладно, вот этот.",
       "emotion": "neutral",
       "frame": 450,
       "window": 92
     },
     {
-      "text": "Тут половина уже слилась.",
+      "text": "Классика, блядь.",
       "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Половина слилась!"
+        "Классика!"
       ],
       "frame": 551,
       "window": 61
@@ -355,16 +355,16 @@
       "window": 61
     },
     {
-      "text": "Го дальше.",
-      "emotion": "hype",
+      "text": "Следующий.",
+      "emotion": "neutral",
       "frame": 786,
       "window": 92
     },
     {
-      "text": "В два раза. Норм разница.",
-      "emotion": "neutral",
+      "text": "Разница в два раза, чуешь?",
+      "emotion": "hype",
       "alts": [
-        "Разница в два раза."
+        "Разница в два раза!"
       ],
       "frame": 887,
       "window": 61
@@ -379,19 +379,19 @@
       "window": 61
     },
     {
-      "text": "Последний. Не слейся.",
+      "text": "Финалка. Тут все и палятся.",
       "emotion": "hype",
       "alts": [
-        "Последний!"
+        "Финалка!"
       ],
       "frame": 1122,
       "window": 92
     },
     {
-      "text": "Красивый — не значит дорогой, запомни.",
+      "text": "В два раза. Норм разница.",
       "emotion": "neutral",
       "alts": [
-        "Красивый — не дорогой!"
+        "Разница в два раза."
       ],
       "frame": 1223,
       "window": 61

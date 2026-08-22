@@ -48,6 +48,11 @@ const HOOKS = {
     {text: 'Найдёшь лишний — реально шаришь за цены.', emotion: 'hype', alts: ['Найдёшь лишний — шаришь!']},
     {text: 'Один тут вообще не из той лиги. Видишь его?', emotion: 'hype', alts: ['Один тут не из той лиги!']},
   ],
+  spot: [
+    {text: 'Не назовёшь калауты — ты в кэ-эс турист.', emotion: 'hype', nsfw: false, alts: ['Не назовёшь калауты — ты турист!']},
+    {text: 'Знаешь карты наизусть? Сейчас проверим.', emotion: 'hype', alts: ['Знаешь карты наизусть?']},
+    {text: 'Смотри на подсвеченную зону и называй место.', emotion: 'hype', alts: ['Называй подсвеченное место!']},
+  ],
 };
 /**
  * Переход к следующему раунду. Номер раунда уже висит на экране («РАУНД 3/7»),
@@ -95,6 +100,16 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
 /** Реакция на реврил: комментируем факт, а не зачитываем букву с экрана. */
 function revealLine(round, format, used) {
+  if (format === 'spot') {
+    return pickFresh([
+      {text: 'Ну это же элементарно.', emotion: 'hype', alts: ['Элементарно!']},
+      {text: 'Не угадал? Мало катал.', emotion: 'hype', alts: ['Мало катал!']},
+      {text: 'Тут половина зала мимо.', emotion: 'hype', alts: ['Половина мимо!']},
+      {text: 'Кто играл — тот знает.', emotion: 'neutral', alts: ['Кто играл, тот знает.']},
+      {text: 'Вот оно, это место.', emotion: 'neutral', alts: ['Вот оно!']},
+      {text: 'Ебать, ты вообще карты видел?', emotion: 'hype', nsfw: true, alts: ['Карты вообще видел?']},
+    ], used);
+  }
   if (format === 'price') {
     const price = round.options[round.answer];
     if (price >= 500) return pickFresh([

@@ -17,7 +17,7 @@ const cfg = config();
 const ROUNDS = Number(arg('rounds', cfg.roundsPerVideo));
 const COUNT = Number(arg('count', 1));
 const FORMAT_ARG = arg('format', cfg.format ?? 'duel');
-const FORMATS = ['duel', 'price', 'odd'];
+const FORMATS = ['duel', 'price', 'odd', 'spot'];
 
 const catalog = readJson(p('data', 'catalog.json'));
 if (!catalog) { console.error('нет data/catalog.json — сначала `npm run data`'); process.exit(1); }
@@ -195,7 +195,59 @@ function buildOddRound(pool, roundIdx, taken) {
 }
 
 /** Все скины раунда — для учёта повторов и скачивания картинок. */
-const roundItems = (round) => round.items ?? (round.item ? [round.item] : [round.a, round.b]);
+const roundItems = (round) => round.items ?? (round.item ? [round.item] : (round.a ? [round.a, round.b] : []));
+
+/** Человеческое имя позиции: BombsiteA → «Bombsite A», CTSpawn → «CT Spawn». */
+const spotLabel = (n) => n
+  .replace(/([a-z])of([A-Z])/g, '$1 of $2')        // TopofMid → Top of Mid
+  .replace(/([a-z0-9])([A-Z])/g, '$1 $2')          // BombsiteA → Bombsite A
+  .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')       // CTSpawn → CT Spawn
+  .replace(/\s+/g, ' ')
+  .trim();
+
+/**
+ * «Где это?»: на радаре подсвечена зона, надо назвать позицию.
+ * Названия и границы зон берутся из файлов самой CS2 (fetch-callouts.mjs),
+ * поэтому ответ совпадает с тем, что игра пишет в киллфиде.
+ */
+function buildSpotRound(_pool, roundIdx, taken) {
+  const db = readJson(p('data', 'callouts.json'));
+  if (!db?.maps || !Object.keys(db.maps).length) return null;
+  const maps = Object.entries(db.maps);
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const [mapName, map] = maps[Math.floor(Math.random() * maps.length)];
+    const usable = map.spots.filter((s) => !taken.has(`${mapName}:${s.name}`));
+    if (usable.length < 3) continue;
+
+    // к концу ролика берём зоны поменьше: их знают только те, кто реально играет
+    const t = ROUNDS === 1 ? 0 : roundIdx / (ROUNDS - 1);
+    const bySize = [...usable].sort((x, y) => y.w * y.h - x.w * x.h);
+    const from = Math.floor(t * (bySize.length - 3));
+    const answer = bySize[from + Math.floor(Math.random() * Math.min(4, bySize.length - from))];
+
+    const others = shuffle(usable.filter((s) => s.name !== answer.name)).slice(0, 2);
+    if (others.length < 2) continue;
+
+    const options = shuffle([answer, ...others]);
+    return {
+      map: mapName,
+      mapLabel: mapName.replace(/^de_|^cs_|^ar_/, '').replace(/^\w/, (c) => c.toUpperCase()),
+      radar: map.radar,
+      // доли от размера радара: сцена не знает про мировые координаты
+      zone: {
+        x: (answer.x - map.pos_x) / map.scale / 1024,
+        y: (map.pos_y - answer.y) / map.scale / 1024,
+        w: answer.w / map.scale / 1024,
+        h: answer.h / map.scale / 1024,
+      },
+      options: options.map((s) => spotLabel(s.name)),
+      answer: options.findIndex((s) => s.name === answer.name),
+      key: `${mapName}:${answer.name}`,
+    };
+  }
+  return null;
+}
 
 const HOOKS = {
   duel: [
@@ -214,6 +266,11 @@ const HOOKS = {
     'Найди лишний скин — это сложнее, чем кажется',
     'Один из трёх — из другой лиги. Какой?',
     'Что лишнее? Финал валит почти всех',
+  ],
+  spot: [
+    'Назовёшь все калауты? Проверим, сколько ты наиграл',
+    'Где это на карте? Реальные калауты из игры',
+    'Знаешь карты наизусть? Ну-ну',
   ],
 };
 const TAGS = ['#cs2','#кс2','#counterstrike2','#cs2skins','#скиныcs2','#викторина','#quiz','#кейсы','#csgo','#рек'];
@@ -239,7 +296,9 @@ function caption(quiz) {
       ? `Самый сложный раунд: ${[...quiz.rounds].sort((r1, r2) => r1.ratio - r2.ratio)[0].a.name} против ${[...quiz.rounds].sort((r1, r2) => r1.ratio - r2.ratio)[0].b.name} 👀`
       : quiz.format === 'price'
         ? `Самый жирный лот: ${[...quiz.rounds].sort((r1, r2) => r2.item.price - r1.item.price)[0].item.name} 👀`
-        : `Самый хитрый раунд — последний 👀`;
+        : quiz.format === 'spot'
+          ? `Карты в ролике: ${[...new Set(quiz.rounds.map((r) => r.mapLabel))].join(', ')} 👀`
+          : `Самый хитрый раунд — последний 👀`;
   return [
     hook,
     highlight,
@@ -254,15 +313,18 @@ function caption(quiz) {
 function makeOne(index) {
   const format = FORMAT_ARG === 'random' ? rnd(FORMATS) : FORMAT_ARG;
   if (!FORMATS.includes(format)) { console.error(`неизвестный формат «${format}» (есть: ${FORMATS.join(', ')}, random)`); process.exit(1); }
-  const build = format === 'price' ? buildPriceRound : format === 'odd' ? buildOddRound : buildRound;
+  const build = format === 'price' ? buildPriceRound
+    : format === 'odd' ? buildOddRound
+      : format === 'spot' ? buildSpotRound : buildRound;
 
   const pool = catalog.items.filter((i) => (used.items[i.hash] ?? 0) < cfg.pairing.maxUsesPerItem);
   const taken = new Set();
   const rounds = [];
   for (let r = 0; r < ROUNDS; r++) {
     const round = build(pool, r, taken);
-    if (!round) { warn(`раунд ${r + 1}: не нашёл подходящих скинов, пропускаю`); continue; }
+    if (!round) { warn(`раунд ${r + 1}: не нашёл подходящих вариантов, пропускаю`); continue; }
     for (const it of roundItems(round)) taken.add(it.name);
+    if (round.key) taken.add(round.key);              // формат spot: карта + позиция
     rounds.push(round);
   }
   if (rounds.length < ROUNDS) warn(`собрано ${rounds.length}/${ROUNDS} раундов`);
@@ -294,6 +356,8 @@ function makeOne(index) {
       log(`   ${n + 1}. ${r.a.name} ${r.a.wearShort} $${r.a.price}  vs  ${r.b.name} ${r.b.wearShort} $${r.b.price}  (x${r.ratio}${r.trap ? ', ловушка' : ''})`);
     } else if (format === 'price') {
       log(`   ${n + 1}. ${r.item.name} ${r.item.wearShort} $${r.item.price}  варианты: ${r.options.map((v, i) => `${'ABC'[i]}=$${v}${i === r.answer ? '✓' : ''}`).join(' ')}`);
+    } else if (format === 'spot') {
+      log(`   ${n + 1}. ${r.mapLabel.padEnd(9)} ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else {
       log(`   ${n + 1}. ${r.items.map((it, i) => `${'ABC'[i]}: ${it.name} $${it.price}${i === r.answer ? ' ←лишний' : ''}`).join('  ')}`);
     }
