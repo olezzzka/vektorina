@@ -9,7 +9,7 @@
  * CLI (добавить реплики в готовый JSON): node scripts/narration.mjs out/quizzes/<id>.json
  */
 import fs from 'node:fs';
-import {p, readJson, writeJson, log, rnd} from './lib.mjs';
+import {p, readJson, writeJson, config, log, rnd} from './lib.mjs';
 
 const INTRO = [
   'Что дороже? Погнали!',
@@ -32,8 +32,9 @@ const OUTRO = [
 /** «в 3 раза» / «в 7 раз» */
 const times = (n) => `в ${n} раз${n >= 2 && n <= 4 ? 'а' : ''}`;
 
+// буква в тексте совпадает с меткой карточки на экране, чтобы диктор читал то же самое
 function revealLine(round) {
-  const side = round.answer === 'a' ? 'верхний' : 'нижний';
+  const side = round.answer === 'a' ? 'A' : 'B';
   const n = Math.round(round.ratio);
   const text = round.trap
     ? `Ловушка! Дороже ${side}.`
@@ -70,6 +71,23 @@ export function buildNarration(quiz) {
   return lines;
 }
 
+/** Текст диктора с таймкодами — для ручной записи озвучки. */
+export function narrationScript(quiz, fps) {
+  const ts = (frames) => {
+    const s = frames / fps;
+    return `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+  };
+  const rows = quiz.narration.map((l) =>
+    `${ts(l.frame)}–${ts(l.frame + l.window)}  ${l.text}`);
+  return [
+    `Сценарий озвучки · ролик ${quiz.id}`,
+    `Каждая реплика должна уложиться в свой интервал (начало–конец).`,
+    '',
+    ...rows,
+    '',
+  ].join('\n');
+}
+
 // CLI: дописывает narration в существующий JSON викторины
 if (process.argv[1] && process.argv[1].endsWith('narration.mjs')) {
   const file = process.argv[2] ??
@@ -78,6 +96,9 @@ if (process.argv[1] && process.argv[1].endsWith('narration.mjs')) {
   if (!quiz) { console.error(`нет файла ${file}`); process.exit(1); }
   quiz.narration = buildNarration(quiz);
   writeJson(file, quiz);
-  log(`narration: ${quiz.narration.length} реплик → ${file}`);
+  const cfg = config();
+  fs.mkdirSync(p('out', 'scripts'), {recursive: true});
+  fs.writeFileSync(p('out', 'scripts', `${quiz.id}.txt`), narrationScript(quiz, cfg.video?.fps ?? 30));
+  log(`narration: ${quiz.narration.length} реплик → ${file} + out/scripts/${quiz.id}.txt`);
   for (const l of quiz.narration) log(`   кадр ${String(l.frame).padStart(4)}: ${l.text}`);
 }

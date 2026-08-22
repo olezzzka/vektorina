@@ -24,4 +24,4 @@ for (let i = 0; i < count; i++) {
   if (!argv.includes('--no-voice')) run('voice.mjs', [quizFile]);
   run('render.mjs', [quizFile]);
 }
-log('\nвсё готово → out/videos/, тексты постов → out/captions/');
+log('\nвсё готово → out/videos/, тексты постов → out/captions/, сценарии озвучки → out/scripts/');

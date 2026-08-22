@@ -6,7 +6,7 @@
  */
 import fs from 'node:fs';
 import {p, readJson, writeJson, config, log, warn, shuffle} from './lib.mjs';
-import {buildNarration} from './narration.mjs';
+import {buildNarration, narrationScript} from './narration.mjs';
 
 const argv = process.argv.slice(2);
 const arg = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : d; };
@@ -151,6 +151,8 @@ function makeOne(index) {
   writeJson(p('out', 'quizzes', `${id}.json`), quiz);
   fs.mkdirSync(p('out', 'captions'), {recursive: true});
   fs.writeFileSync(p('out', 'captions', `${id}.txt`), quiz.caption);
+  fs.mkdirSync(p('out', 'scripts'), {recursive: true});
+  fs.writeFileSync(p('out', 'scripts', `${id}.txt`), narrationScript(quiz, cfg.video?.fps ?? 30));
   log(`викторина ${id}:`);
   for (const [n, r] of rounds.entries()) {
     log(`   ${n + 1}. ${r.a.name} ${r.a.wearShort} $${r.a.price}  vs  ${r.b.name} ${r.b.wearShort} $${r.b.price}  (x${r.ratio}${r.trap ? ', ловушка' : ''})`);
