@@ -90,6 +90,19 @@ node scripts/voice-demo.mjs                                          # прос�
 и выше), `neutral`, `warm` (аутро). Движок получает это как SSML-разметку темпа
 и высоты, поэтому голос не бубнит одинаково весь ролик.
 
+**Если Silero звучит слишком роботом** — есть XTTS-v2, он заметно живее, но тяжелее
+(модель ~2 ГБ, синтез примерно в реальном времени вместо мгновенного):
+
+```bash
+pip install coqui-tts "transformers<5" torchaudio torchcodec
+node scripts/build.mjs --engine xtts
+```
+
+Голос — `voice.xttsSpeaker` в конфиге (58 встроенных, для русского лучше со
+славянскими референсами: `Lidiya Szekeres`, `Lilya Stainthorpe`, `Zofija Kendrick`,
+`Barbora MacLean`, `Tanja Adelina`, `Asya Anara`). SSML XTTS не понимает, эмоция
+передаётся темпом речи.
+
 Альтернатива без Python — Piper (интонаций нет, зато один exe):
 
 ```bash

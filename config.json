@@ -68,7 +68,8 @@
     "speaker": "baya",
     "piperVoice": "dmitri",
     "lengthScale": 1,
-    "maxTempo": 1.15
+    "maxTempo": 1.15,
+    "xttsSpeaker": "Lidiya Szekeres"
   },
   "narration": {
     "profanity": true

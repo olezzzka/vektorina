@@ -1,7 +1,7 @@
 {
-  "id": "v4-duel",
+  "id": "v5-duel",
   "format": "duel",
-  "generatedAt": "2026-08-22T16:41:39.301Z",
+  "generatedAt": "2026-08-22T16:59:56.306Z",
   "priceMeta": {
     "source": "steam-snapshot",
     "updatedAt": "2026-08-08T06:46:27.146Z"
@@ -43,194 +43,89 @@
   "rounds": [
     {
       "a": {
-        "hash": "AK-47 | Head Shot (Factory New)",
-        "name": "AK-47 | Head Shot",
-        "weapon": "AK-47",
-        "pattern": "Head Shot",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 214.41,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlV6xoIfSsHW-f1dF-v-1mcCW6khUz_TzRnNigd3-SOg4lAsF1QOQN4xS4wdHnMu-0swaMjIxExSSoiyof6ih1o7FVGHIdVhw",
-        "imageLocal": "images/ca834b193aa6a148.png"
-      },
-      "b": {
-        "hash": "CZ75-Auto | Chalice (Factory New)",
-        "name": "CZ75-Auto | Chalice",
-        "weapon": "CZ75-Auto",
-        "pattern": "Chalice",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Restricted",
-        "color": "#8847ff",
-        "knife": false,
-        "hype": false,
-        "price": 684.38,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLyhMG1_B1a4s28Z71sLM-fB2CY1aBzsrQ5HnyyzBh25jzcyI3_dyqXaFcmC8ByReBZuxi-lYXlMei05FSPlcsbmsOlfuvI",
-        "imageLocal": "images/4350b80a67acd308.png"
-      },
-      "answer": "b",
-      "ratio": 3.19,
-      "trap": true
-    },
-    {
-      "a": {
-        "hash": "AK-47 | Legion of Anubis (Battle-Scarred)",
-        "name": "AK-47 | Legion of Anubis",
-        "weapon": "AK-47",
-        "pattern": "Legion of Anubis",
-        "wear": "Battle-Scarred",
-        "wearShort": "BS",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 45.62,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSIf6GDG6D_uJ_t-l9AX_nzBhw4TvWwo6udC2QbgZyWcN2RuMP4xHrlYDnYezm7geP3d5FyH3gznQeY_Oe4QY",
-        "imageLocal": "images/f6d93bd823eeb3e1.png"
-      },
-      "b": {
-        "hash": "Nova | Blaze Orange (Battle-Scarred)",
-        "name": "Nova | Blaze Orange",
-        "weapon": "Nova",
-        "pattern": "Blaze Orange",
+        "hash": "M4A4 | Global Offensive (Battle-Scarred)",
+        "name": "M4A4 | Global Offensive",
+        "weapon": "M4A4",
+        "pattern": "Global Offensive",
         "wear": "Battle-Scarred",
         "wearShort": "BS",
         "rarity": "Mil-Spec Grade",
         "color": "#4b69ff",
         "knife": false,
         "hype": false,
-        "price": 230,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwipC0Pq7ZrBoMs-RAmaKxNF5ouBnSCyMmRQguynLz9v7In7CbFd2XpciRLUL4EHumoCyM-Lh5gXeiYtAzC-tiH8c6Ctu6_FCD_RtjAd6hA",
-        "imageLocal": "images/b931709531ef6581.png"
-      },
-      "answer": "b",
-      "ratio": 5.04,
-      "trap": true
-    },
-    {
-      "a": {
-        "hash": "★ Shadow Daggers | Stained (Factory New)",
-        "name": "Shadow Daggers | Stained",
-        "weapon": "Shadow Daggers",
-        "pattern": "Stained",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": true,
-        "hype": false,
-        "price": 392.3,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1L-uGmV6V8H_acHGSVxdF6ueZhW2fkx0t_4D_WntapICjCbgMkD8NzR7ZeskK4lNDvN7_k4wTZiotFzi35kGoXuV1xPlgw",
-        "imageLocal": "images/4357cd2eef06f16d.png"
+        "price": 23.15,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0PG9b6tSI_GeAVicyOl-pK89HijjkU534mTRw478IirEOgUhXpshQrMK4xW9x4biYrvnsgDd3ohA02yg2Z7zUK8D",
+        "imageLocal": "images/2d076ecf1de16087.png"
       },
       "b": {
-        "hash": "★ Shadow Daggers | Freehand (Minimal Wear)",
-        "name": "Shadow Daggers | Freehand",
-        "weapon": "Shadow Daggers",
-        "pattern": "Freehand",
+        "hash": "M4A4 | Neo-Noir (Minimal Wear)",
+        "name": "M4A4 | Neo-Noir",
+        "weapon": "M4A4",
+        "pattern": "Neo-Noir",
         "wear": "Minimal Wear",
         "wearShort": "MW",
         "rarity": "Covert",
         "color": "#eb4b4b",
-        "knife": true,
-        "hype": false,
-        "price": 72.95,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1L-uGmV6VgH_2SHGyVxdFjoN4wHxa_nBovp3OHzomhdC3BbwIiDZV2Ru9ZukK4ld2zYerg4AGNjItExCT52C0c7H0__a9cBh2VpMK4",
-        "imageLocal": "images/85c8ae93a97aba00.png"
+        "knife": false,
+        "hype": true,
+        "price": 73.6,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6afBSLvWcMWmfyPxJvOhuRz39wE1142vSztmvInvBOgV0W5R1FLYNuxW4wIbgNrmx4g2Kj4tMmCX93zQJsHgJr0dqFw",
+        "imageLocal": "images/0f5b6590ad8f8174.png"
       },
-      "answer": "a",
-      "ratio": 5.38,
+      "answer": "b",
+      "ratio": 3.18,
       "trap": false
     },
     {
       "a": {
-        "hash": "P90 | Astral Jörmungandr (Field-Tested)",
-        "name": "P90 | Astral Jörmungandr",
-        "weapon": "P90",
-        "pattern": "Astral Jörmungandr",
+        "hash": "MAC-10 | Case Hardened (Field-Tested)",
+        "name": "MAC-10 | Case Hardened",
+        "weapon": "MAC-10",
+        "pattern": "Case Hardened",
         "wear": "Field-Tested",
         "wearShort": "FT",
         "rarity": "Restricted",
         "color": "#8847ff",
         "knife": false,
-        "hype": false,
-        "price": 598.16,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf_C9k5f28ZZtvLOWWMWuZxuZi_rJtFiziwkom4GXTyNqrIC-TPVMgApAkE-EMtUS-xoCzNry35Fff3t5bjXKprRMe7_8",
-        "imageLocal": "images/f4bba3d02bbd953d.png"
+        "hype": true,
+        "price": 44.2,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1a_s2hYahoJM-fB2CY1aAituJtTnvjkUx3tziGmd6hJy-VZlAoWZtwFLRZ5EbpwNLvYb-zsgOKlcsbmn9_3b1O",
+        "imageLocal": "images/3e05640a2d434187.png"
       },
       "b": {
-        "hash": "AWP | Sovereign Flame (Field-Tested)",
-        "name": "AWP | Sovereign Flame",
-        "weapon": "AWP",
-        "pattern": "Sovereign Flame",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
+        "hash": "AK-47 | Point Disarray (Battle-Scarred)",
+        "name": "AK-47 | Point Disarray",
+        "weapon": "AK-47",
+        "pattern": "Point Disarray",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Classified",
+        "color": "#d32ce6",
         "knife": false,
-        "hype": false,
-        "price": 192,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DVL0OGhfqF_JfmUAFiWze97td5lRi67gVNz5zvRnN-qcHKfPFcjXpUmRuILukW9ldHlNOjn5Q2PitoWmSiv3C0a8G81tAj27FZA",
-        "imageLocal": "images/eef79e69607b661b.png"
+        "hype": true,
+        "price": 17.08,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSMP-aAHOvxedlsfN7TjCMmRQguynLnIz_dXnEbFcoDsNzQLMN40S7mte0Zuzl5gbY34JEnnr52ChA7ytisPFCD_Rw7udDlA",
+        "imageLocal": "images/26674e9b21fb4661.png"
       },
       "answer": "a",
-      "ratio": 3.12,
+      "ratio": 2.59,
       "trap": true
     },
     {
       "a": {
-        "hash": "★ Shadow Daggers | Lore (Battle-Scarred)",
-        "name": "Shadow Daggers | Lore",
-        "weapon": "Shadow Daggers",
-        "pattern": "Lore",
+        "hash": "AWP | Containment Breach (Battle-Scarred)",
+        "name": "AWP | Containment Breach",
+        "weapon": "AWP",
+        "pattern": "Containment Breach",
         "wear": "Battle-Scarred",
         "wearShort": "BS",
         "rarity": "Covert",
         "color": "#eb4b4b",
-        "knife": true,
+        "knife": false,
         "hype": true,
-        "price": 71.91,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1L-uGmV6d4H-CGHW-vzeFktd5lRi67gVMksWXQz96sIy2UP1B2D8dwRe5b4Be9moDkN7nl4QLYg94UmX-vjHhM8G81tMoT8OiD",
-        "imageLocal": "images/2af8089365665f00.png"
-      },
-      "b": {
-        "hash": "Glock-18 | Franklin (Minimal Wear)",
-        "name": "Glock-18 | Franklin",
-        "weapon": "Glock-18",
-        "pattern": "Franklin",
-        "wear": "Minimal Wear",
-        "wearShort": "MW",
-        "rarity": "Restricted",
-        "color": "#8847ff",
-        "knife": false,
-        "hype": false,
-        "price": 138,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2jZ6poOc-UAmiTytF6ueZhW2eww0wmtz6Hz92hd3iUPwIhWZtzQ7UP5ha7kd22N-7j4gTZ345BnH_5kGoXuXiKVoel",
-        "imageLocal": "images/4c7cfda0ed64230f.png"
-      },
-      "answer": "b",
-      "ratio": 1.92,
-      "trap": true
-    },
-    {
-      "a": {
-        "hash": "M4A4 | Zirka (Well-Worn)",
-        "name": "M4A4 | Zirka",
-        "weapon": "M4A4",
-        "pattern": "Zirka",
-        "wear": "Well-Worn",
-        "wearShort": "WW",
-        "rarity": "Restricted",
-        "color": "#8847ff",
-        "knife": false,
-        "hype": false,
-        "price": 42.58,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFL0OG6abZSIuKSGGivzedxuPUnSXnqkBwj62vTn9b8cyjBOlNxD8Z2Te8L5Ea8xtbkNe6z7lTajotCmDK-0H35HfkCFQ",
-        "imageLocal": "images/e5c554aba622b711.png"
+        "price": 79.36,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7JkMuWAMWuZxuZi_rQ6SXq1xURysj_Vw4uhJHOVPQ8oCZt4QrRbtRi6ldPlPu_g4FHaiYNbjXKpcPI_17A",
+        "imageLocal": "images/8fec73c739657dd8.png"
       },
       "b": {
         "hash": "AWP | Elite Build (Battle-Scarred)",
@@ -248,178 +143,250 @@
         "imageLocal": "images/950882fae83ef878.png"
       },
       "answer": "a",
-      "ratio": 1.81,
-      "trap": true
+      "ratio": 3.37,
+      "trap": false
     },
     {
       "a": {
-        "hash": "P90 | Asiimov (Well-Worn)",
-        "name": "P90 | Asiimov",
-        "weapon": "P90",
-        "pattern": "Asiimov",
+        "hash": "Glock-18 | Pink DDPAT (Minimal Wear)",
+        "name": "Glock-18 | Pink DDPAT",
+        "weapon": "Glock-18",
+        "pattern": "Pink DDPAT",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Restricted",
+        "color": "#8847ff",
+        "knife": false,
+        "hype": false,
+        "price": 130.42,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1T9s2qbLRsNM-DB2mb_uJ_t-l9ASi2lBgjsmjSm4ugeX6WO1AoCsElFuEIuhC6xta2Zbmw5gCMjtlAni3gznQeU26CORw",
+        "imageLocal": "images/e3b9c30ef363f2e7.png"
+      },
+      "b": {
+        "hash": "FAMAS | Commemoration (Well-Worn)",
+        "name": "FAMAS | Commemoration",
+        "weapon": "FAMAS",
+        "pattern": "Commemoration",
         "wear": "Well-Worn",
         "wearShort": "WW",
         "rarity": "Covert",
         "color": "#eb4b4b",
         "knife": false,
-        "hype": true,
-        "price": 234.68,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf_jdk_6v-JaV-KfmeAXGvzedxuPUnTSjikRgksjuBzoz4dXLFb1QoC8QlTLQD4EPqk4LvN-Pns1aMioNBzTK-0H3gQVv65g",
-        "imageLocal": "images/aa877ed6d4529058.png"
+        "hype": false,
+        "price": 48.49,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1c_M2oaalsM8-fC2CRwvdJt-5lSxa_nBovp3PUztn4d3qSPQ8kDMR5ROVb4xCxw9a0NLni4lCIio4QzXn32yMb6Sds_a9cBr1TwPEt",
+        "imageLocal": "images/0593e510005c7845.png"
+      },
+      "answer": "a",
+      "ratio": 2.69,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "AK-47 | Wasteland Rebel (Minimal Wear)",
+        "name": "AK-47 | Wasteland Rebel",
+        "weapon": "AK-47",
+        "pattern": "Wasteland Rebel",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 152.4,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0Oa8YaZ4NPWsD2zEltF6ueZhW2fgkEh35m3cmIusIn6TbwMpWJJxReMKtBHsw4HhM7nh4gTc3YJCxXr2kGoXudZyw1tq",
+        "imageLocal": "images/809dd4a3889648b6.png"
       },
       "b": {
-        "hash": "AWP | Asiimov (Battle-Scarred)",
-        "name": "AWP | Asiimov",
-        "weapon": "AWP",
-        "pattern": "Asiimov",
-        "wear": "Battle-Scarred",
-        "wearShort": "BS",
+        "hash": "Galil AR | Eco (Minimal Wear)",
+        "name": "Galil AR | Eco",
+        "weapon": "Galil AR",
+        "pattern": "Eco",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 278.6,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0PG7V6NsLPmfMWKTztF6ueZhW2exwExw4WrcyImrcHmTbQAlWcQkQudYt0O5lNfgP-nh5AOL3otAziz7kGoXua-HTb4P",
+        "imageLocal": "images/1d9de92e7b1dbce1.png"
+      },
+      "answer": "b",
+      "ratio": 1.83,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "USP-S | Monster Mashup (Factory New)",
+        "name": "USP-S | Monster Mashup",
+        "weapon": "USP-S",
+        "pattern": "Monster Mashup",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 145.36,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSI-WsG3SA_uVkv-pmXBa_nBovp3PQn46ueX3FbAB0WZMjTe9csEKwk9XvNbnl41Tcj48WzHqv3HhP5ydj_a9cBuLIfNg1",
+        "imageLocal": "images/c673ba76e6c78e74.png"
+      },
+      "b": {
+        "hash": "Desert Eagle | Code Red (Field-Tested)",
+        "name": "Desert Eagle | Code Red",
+        "weapon": "Desert Eagle",
+        "pattern": "Code Red",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
         "rarity": "Covert",
         "color": "#eb4b4b",
         "knife": false,
         "hype": true,
-        "price": 106.4,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6V-Kf2cGFidxOp_pewnF3nhxEt0sGnSzN76dH3GOg9xC8FyEORftRe-x9PuYurq71bW3d8UnjK-0H0YSTpMGQ",
-        "imageLocal": "images/c2adf25e0db8ace5.png"
+        "price": 62.48,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6OGRbKFsJ_yWMWaXxvxzo_JmXRa_nBovp3PRmNj4c3mTb1RxC5cjF-EItRnrlNzkYrnk5gaI3Y0UmyX52H9K7ixs_a9cBsGEcOCn",
+        "imageLocal": "images/5170b3e312fce861.png"
       },
       "answer": "a",
-      "ratio": 2.21,
+      "ratio": 2.33,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "P90 | Asiimov (Minimal Wear)",
+        "name": "P90 | Asiimov",
+        "weapon": "P90",
+        "pattern": "Asiimov",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 280.33,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf_jdk_6v-JaV-KfmeAXGvzedxuPUnTSjikRgksjuBzoz4dXLFb1QoC8QlTLQD4EPqk4LvN-Pns1aMioNBzTK-0H3gQVv65g",
+        "imageLocal": "images/5cafddd7a79a37d1.png"
+      },
+      "b": {
+        "hash": "P2000 | Ocean Foam (Minimal Wear)",
+        "name": "P2000 | Ocean Foam",
+        "weapon": "P2000",
+        "pattern": "Ocean Foam",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 200,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0POjV6t-M_mVF1iSzftzj_E7H3njqh81siuKpYPwJiPTcA91W5N0EOMNskGwkt3gP-vh41GNiNpDn3r83ShL6itj4bsKA6Im-_XJz1aWVAZrXOc",
+        "imageLocal": "images/736af620fde068ce.png"
+      },
+      "answer": "a",
+      "ratio": 1.4,
       "trap": false
     }
   ],
-  "caption": "Угадаешь хотя бы 3 из 5?\nСамый сложный раунд: M4A4 | Zirka против AWP | Elite Build 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
+  "caption": "Какой скин дороже? Проверь себя\nСамый сложный раунд: P90 | Asiimov против P2000 | Ocean Foam 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
   "narration": [
     {
-      "text": "Ты тупее своей собаки, если не угадаешь это.",
+      "text": "Ты настоящий лох, если не ответишь на это.",
       "emotion": "hype",
       "alts": [
-        "Не угадаешь — совсем плохо!"
+        "Не ответишь — ты лох!"
       ],
       "frame": 4,
       "window": 104
     },
     {
-      "text": "Раунд 1. Что дороже?",
-      "alts": [
-        "Раунд 1!"
-      ],
+      "text": "Ощутимо дороже.",
       "emotion": "neutral",
-      "frame": 114,
-      "window": 92
-    },
-    {
-      "text": "Редкость — ещё не цена!",
-      "emotion": "hype",
       "alts": [
-        "Редкость — не цена!"
+        "Ощутимо дороже."
       ],
       "frame": 215,
       "window": 61
     },
     {
-      "text": "Раунд 2. Что дороже?",
-      "alts": [
-        "Раунд 2!"
-      ],
-      "emotion": "neutral",
+      "text": "Го дальше.",
+      "emotion": "hype",
       "frame": 282,
       "window": 92
     },
     {
-      "text": "Ловушка сработала!",
+      "text": "Ну и как, повёлся?",
       "emotion": "hype",
       "alts": [
-        "Ловушка!"
+        "Повёлся?"
       ],
       "frame": 383,
       "window": 61
     },
     {
-      "text": "Раунд 3. Что дороже?",
-      "alts": [
-        "Раунд 3!"
-      ],
+      "text": "В три раза. Норм разница.",
       "emotion": "neutral",
-      "frame": 450,
-      "window": 92
-    },
-    {
-      "text": "Даже близко не стояли.",
-      "emotion": "hype",
       "alts": [
-        "Не стояли рядом!"
+        "Разница в три раза."
       ],
       "frame": 551,
       "window": 61
     },
     {
-      "text": "Раунд 4. Что дороже?",
-      "alts": [
-        "Раунд 4!"
-      ],
-      "emotion": "neutral",
-      "frame": 618,
-      "window": 92
-    },
-    {
-      "text": "Обманка! Классика жанра.",
+      "text": "Ебать, попался?",
       "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Обманка!"
+        "Попался?"
       ],
       "frame": 719,
       "window": 61
     },
     {
-      "text": "Раунд 5. Что дороже?",
-      "alts": [
-        "Раунд 5!"
-      ],
+      "text": "Дальше.",
       "emotion": "neutral",
       "frame": 786,
       "window": 92
     },
     {
-      "text": "Вот на этом и попадаются.",
-      "emotion": "neutral",
+      "text": "На это ведутся вообще все.",
+      "emotion": "hype",
       "alts": [
-        "Классика!"
+        "На это ведутся все!"
       ],
       "frame": 887,
       "window": 61
     },
     {
-      "text": "Раунд 6!",
-      "alts": [
-        "Раунд 6!"
-      ],
+      "text": "Следующий.",
       "emotion": "neutral",
       "frame": 954,
       "window": 92
     },
     {
-      "text": "Красивый — не значит дорогой.",
-      "emotion": "neutral",
+      "text": "Классика, блядь.",
+      "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Красивый — не дорогой!"
+        "Классика!"
       ],
       "frame": 1055,
       "window": 61
     },
     {
-      "text": "Последний раунд. Самый сложный!",
-      "alts": [
-        "Раунд 7!"
-      ],
+      "text": "Последний. Не слейся.",
       "emotion": "hype",
+      "alts": [
+        "Последний!"
+      ],
       "frame": 1122,
       "window": 92
     },
     {
-      "text": "Дороже в два раза. Чувствуется?",
-      "emotion": "neutral",
+      "text": "Впритык, сука.",
+      "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Дороже в два раза."
+        "Впритык!"
       ],
       "frame": 1223,
       "window": 61

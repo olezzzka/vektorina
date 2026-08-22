@@ -46,7 +46,11 @@ const piperModel = p('data', 'voices', `ru_RU-${piperVoice}-medium.onnx`);
 
 const SILERO_MODEL = p('data', 'voices', 'v4_ru.pt');
 const sileroSpeaker = vcfg.speaker ?? 'aidar';
+const xttsSpeaker = vcfg.xttsSpeaker ?? 'Lidiya Szekeres';
 const PYTHON = process.env.PYTHON ?? 'python';
+
+/** XTTS не понимает SSML — эмоция передаётся темпом речи. */
+const XTTS_SPEED = {hype: 1.08, warm: 0.95, neutral: 1.0};
 
 /**
  * Эмоция реплики → SSML-разметка Silero. hype заводит темп и поднимает тон
@@ -76,6 +80,8 @@ if (ENGINE === 'silero') {
     warn('поставить:  node scripts/setup-voice.mjs');
     process.exit(0);
   }
+} else if (ENGINE === 'xtts') {
+  // модель тянется сама при первом запуске в кэш coqui
 } else if (ENGINE === 'piper') {
   if (!fs.existsSync(PIPER_EXE) || !fs.existsSync(piperModel)) {
     warn(`не установлен движок piper или голос «${piperVoice}» — ролик соберётся без голоса`);
@@ -87,13 +93,15 @@ if (ENGINE === 'silero') {
     warn('нет ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID в .env — ролик соберётся без голоса');
     process.exit(0);
   }
-} else { console.error(`неизвестный движок «${ENGINE}» (есть: silero, piper, elevenlabs)`); process.exit(1); }
+} else { console.error(`неизвестный движок «${ENGINE}» (есть: silero, xtts, piper, elevenlabs)`); process.exit(1); }
 
 const tag = ENGINE === 'silero'
   ? `silero|v4_ru|${sileroSpeaker}`
-  : ENGINE === 'piper'
-    ? `piper|${piperVoice}|${vcfg.lengthScale ?? 1}`
-    : `11labs|${EL_MODEL}|${EL_VOICE}`;
+  : ENGINE === 'xtts'
+    ? `xtts2|${xttsSpeaker}`
+    : ENGINE === 'piper'
+      ? `piper|${piperVoice}|${vcfg.lengthScale ?? 1}`
+      : `11labs|${EL_MODEL}|${EL_VOICE}`;
 // эмоция меняет звучание — значит входит в ключ кэша
 const hash = (text, emotion) => crypto.createHash('sha1')
   .update(`${tag}|${emotion ?? 'neutral'} ${text}`).digest('hex').slice(0, 16);
@@ -159,10 +167,22 @@ function sileroBatch(items) {
   for (const it of items) trimSilence(it.out);
 }
 
+/** XTTS: модель тяжёлая (~2 ГБ), грузится минуту — тем более синтезируем скопом. */
+function xttsBatch(items) {
+  if (!items.length) return;
+  const job = p('data', 'tts-cache', 'job.json');
+  fs.writeFileSync(job, JSON.stringify({speaker: xttsSpeaker, language: 'ru', items}));
+  log(`синтезирую ${items.length} реплик (XTTS, первая загрузка модели ~минуту)…`);
+  execFileSync(PYTHON, [p('scripts', 'xtts_tts.py'), job], {stdio: ['ignore', 'ignore', 'inherit']});
+  fs.rmSync(job, {force: true});
+  for (const it of items) trimSilence(it.out);
+}
+
 async function tts(text, emotion) {
   const f = cachePath(text, emotion);
   if (isCached(f)) return {file: f, cached: true};
   if (ENGINE === 'silero') sileroBatch([{text, ssml: ssmlFor(text, emotion), out: f}]);
+  else if (ENGINE === 'xtts') xttsBatch([{text, speed: XTTS_SPEED[emotion ?? 'neutral'] ?? 1, out: f}]);
   else if (ENGINE === 'piper') { piperSay(text, f); trimSilence(f); }
   else { await elevenSay(text, f); trimSilence(f); }
   return {file: f, cached: false};
@@ -195,20 +215,24 @@ async function fitLine(line) {
 // --- подбор клипов ---
 log(`движок: ${ENGINE}${
   ENGINE === 'silero' ? ` (голос ${sileroSpeaker}, локально)` :
+  ENGINE === 'xtts' ? ` (голос ${xttsSpeaker}, локально)` :
   ENGINE === 'piper' ? ` (голос ${piperVoice}, локально)` : ''}`);
 
 // один заход синтеза на весь ролик: собираем всё, чего ещё нет в кэше
-if (ENGINE === 'silero') {
+if (ENGINE === 'silero' || ENGINE === 'xtts') {
   const need = new Map();
   for (const line of quiz.narration) {
     for (const text of [line.text, ...(line.alts ?? [])]) {
       const out = cachePath(text, line.emotion);
       if (!isCached(out) && !need.has(out)) {
-        need.set(out, {text, ssml: ssmlFor(text, line.emotion), out});
+        need.set(out, ENGINE === 'silero'
+          ? {text, ssml: ssmlFor(text, line.emotion), out}
+          : {text, speed: XTTS_SPEED[line.emotion ?? 'neutral'] ?? 1, out});
       }
     }
   }
-  sileroBatch([...need.values()]);
+  if (ENGINE === 'silero') sileroBatch([...need.values()]);
+  else xttsBatch([...need.values()]);
 }
 
 const clips = [];
