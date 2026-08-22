@@ -1,7 +1,7 @@
 /**
  * Полный цикл: данные → викторина → картинки → mp4.
  *   node scripts/build.mjs [--count 3] [--rounds 5] [--format price|odd|duel|random]
- *                          [--engine silero|piper] [--skip-data] [--no-voice]
+ *                          [--engine silero|piper] [--skip-data] [--no-voice] [--no-ad]
  */
 import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
@@ -29,5 +29,6 @@ for (let i = 0; i < count; i++) {
   run('download-images.mjs', [quizFile]);
   if (!argv.includes('--no-voice')) run('voice.mjs', [quizFile, ...(engine ? ['--engine', engine] : [])]);
   run('render.mjs', [quizFile]);
+  if (!argv.includes('--no-ad')) run('insert-ad.mjs', [p('out', 'videos', `${id}.mp4`)]);
 }
 log('\nвсё готово → out/videos/, тексты постов → out/captions/, сценарии озвучки → out/scripts/');

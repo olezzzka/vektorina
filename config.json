@@ -47,13 +47,13 @@
   },
   "audio": {
     "enabled": true,
-    "master": 1.0,
+    "master": 1,
     "whoosh": 0.4,
     "tick": 0.45,
     "reveal": 0.5,
     "riser": 0.4,
     "outro": 0.4,
-    "voice": 1.0,
+    "voice": 1,
     "music": {
       "file": null,
       "volume": 0.12,
@@ -67,7 +67,17 @@
     "engine": "silero",
     "speaker": "baya",
     "piperVoice": "dmitri",
-    "lengthScale": 1.0,
+    "lengthScale": 1,
     "maxTempo": 1.15
+  },
+  "narration": {
+    "profanity": true
+  },
+  "ad": {
+    "file": "ads/musordrop.mov",
+    "speed": 1,
+    "scale": 0.86,
+    "dim": 0.45,
+    "at": "middle"
   }
 }

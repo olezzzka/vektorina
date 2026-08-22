@@ -20,10 +20,17 @@ import {p, readJson, writeJson, config, log, rnd} from './lib.mjs';
  */
 const HOOKS = {
   any: [
+    {text: 'Ты тупее обезьяны, если этого не знаешь.', emotion: 'hype', alts: ['Тупее обезьяны, если не знаешь!']},
+    {text: 'Ты вообще не играл в кэ-эс, если ответишь неправильно.', emotion: 'hype', alts: ['Ответишь неверно — ты не играл в кэ-эс!']},
+    {text: 'Ты настоящий лох, если не ответишь на это.', emotion: 'hype', alts: ['Не ответишь — ты лох!']},
+    {text: 'Не угадаешь — значит скины видел только на картинках.', emotion: 'hype', alts: ['Видел скины только на картинках?']},
+    {text: 'Ответишь неправильно — ты фейковый кэ-эсер.', emotion: 'hype', alts: ['Ответишь неверно — ты фейк!']},
+    {text: 'Сольёшь это — тебе пора в шашки, а не в кэ-эс.', emotion: 'hype', alts: ['Сольёшь — иди в шашки!']},
+    {text: 'Только конченый нуб не угадает первый раунд.', emotion: 'hype', alts: ['Только нуб сольёт первый раунд!']},
     {text: 'Ты десятый лэвэл фейсита, если угадаешь всё.', emotion: 'hype', alts: ['Угадаешь всё — ты десятый лэвэл!']},
     {text: 'Твоя собака угадает лучше тебя. Проверим?', emotion: 'hype', alts: ['Собака угадает лучше тебя!']},
     {text: 'Девяносто процентов сливаются на последнем раунде.', emotion: 'hype', alts: ['Девяносто процентов сольются!']},
-    {text: 'Не угадаешь — удаляй кэ-эс, честное слово.', emotion: 'hype', alts: ['Не угадаешь — удаляй кэ-эс!']},
+    {text: 'Не угадаешь — удаляй кэ-эс, блядь, честное слово.', emotion: 'hype', nsfw: true, alts: ['Не угадаешь — удаляй кэ-эс!']},
     {text: 'Скинов на тысячу долларов, а цены не знаешь?', emotion: 'hype', alts: ['А цены-то знаешь?']},
     {text: 'Тут даже сильвер угадает. Или нет?', emotion: 'hype', alts: ['Даже сильвер угадает!']},
     {text: 'Семь из семи — и ты шаришь за скины сильнее меня.', emotion: 'hype', alts: ['Семь из семи — и ты шаришь!']},
@@ -42,14 +49,24 @@ const HOOKS = {
     {text: 'Один тут вообще не из той лиги. Видишь его?', emotion: 'hype', alts: ['Один тут не из той лиги!']},
   ],
 };
-const ROUND = {
-  duel: ['Раунд {n}. Что дороже?', 'Раунд {n}!'],
-  price: ['Раунд {n}. Сколько стоит?', 'Раунд {n}!'],
-  odd: ['Раунд {n}. Кто лишний по цене?', 'Раунд {n}!'],
-};
+/**
+ * Переход к следующему раунду. Номер раунда уже висит на экране («РАУНД 3/7»),
+ * поэтому проговаривать его вслух незачем — это звучит как объявление на вокзале.
+ * Часть раундов вообще идёт молча: пауза даёт музыке подняться и не утомляет.
+ */
+const NEXT = [
+  {text: 'Дальше.', emotion: 'neutral'},
+  {text: 'Погнали дальше.', emotion: 'hype'},
+  {text: 'Следующий.', emotion: 'neutral'},
+  {text: 'Едем дальше.', emotion: 'neutral'},
+  {text: 'Го дальше.', emotion: 'hype'},
+  {text: 'Так, а тут?', emotion: 'hype'},
+  {text: 'Ладно, вот этот.', emotion: 'neutral'},
+];
 const ROUND_LAST = [
-  'Последний раунд. Самый сложный!',
-  'Финальный раунд!',
+  {text: 'Последний. Не слейся.', emotion: 'hype', alts: ['Последний!']},
+  {text: 'Финалка. Тут все и палятся.', emotion: 'hype', alts: ['Финалка!']},
+  {text: 'Последний, самый жёсткий.', emotion: 'hype', alts: ['Последний!']},
 ];
 const OUTRO = [
   {text: 'Сколько угадал? Пиши в комменты и подпишись!', emotion: 'warm'},
@@ -62,10 +79,14 @@ const NUM = ['ноль', 'один', 'два', 'три', 'четыре', 'пят
   'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать', 'двадцать'];
 const times = (n) => `в ${NUM[n] ?? n} раз${n >= 2 && n <= 4 ? 'а' : ''}`;
 
+// мат включается флагом narration.profanity в config; фразы с ним помечены nsfw
+const allowNsfw = () => config()?.narration?.profanity !== false;
+
 /** Берёт неиспользованную реплику: в ролике 3–4 ловушки подряд, повтор режет ухо. */
 function pickFresh(pool, used) {
-  const fresh = pool.filter((o) => !used.has(o.text));
-  const choice = rnd(fresh.length ? fresh : pool);
+  const allowed = allowNsfw() ? pool : pool.filter((o) => !o.nsfw);
+  const fresh = allowed.filter((o) => !used.has(o.text));
+  const choice = rnd(fresh.length ? fresh : allowed);
   used.add(choice.text);
   return choice;
 }
@@ -77,20 +98,21 @@ function revealLine(round, format, used) {
   if (format === 'price') {
     const price = round.options[round.answer];
     if (price >= 500) return pickFresh([
-      {text: 'Ого, вот это ценник!', emotion: 'hype', alts: ['Вот это ценник!']},
-      {text: 'Столько и стоит. Неплохо, да?', emotion: 'hype', alts: ['Вот его цена!']},
-      {text: 'Дороже, чем весь твой инвентарь?', emotion: 'hype', alts: ['Дороже инвентаря!']},
+      {text: 'Ебать, вот это ценник!', emotion: 'hype', nsfw: true, alts: ['Вот это ценник!']},
+      {text: 'Столько за один скин, лол.', emotion: 'hype', alts: ['За один скин!']},
+      {text: 'Дороже твоего компа, сука.', emotion: 'hype', nsfw: true, alts: ['Дороже компа!']},
+      {text: 'Вот это ценник, я не шучу.', emotion: 'hype', alts: ['Вот это ценник!']},
     ], used);
     if (price <= 50) return pickFresh([
-      {text: 'Всего ничего!', emotion: 'hype', alts: ['Дешёвка!']},
-      {text: 'Дешевле, чем кажется.', emotion: 'neutral', alts: ['Дешевле, чем кажется.']},
-      {text: 'Копейки. А выглядит дорого.', emotion: 'neutral', alts: ['Копейки!']},
+      {text: 'Копейки, лол.', emotion: 'hype', alts: ['Копейки!']},
+      {text: 'Дешёвка, а выглядит дорого.', emotion: 'neutral', alts: ['Дешёвка!']},
+      {text: 'И это всё? Ну такое.', emotion: 'neutral', alts: ['И это всё?']},
     ], used);
     return pickFresh([
-      {text: 'Вот его настоящая цена.', emotion: 'neutral', alts: ['Вот его цена.']},
+      {text: 'Вот столько. Угадал?', emotion: 'hype', alts: ['Угадал?']},
+      {text: 'Мимо? Бывает, лол.', emotion: 'neutral', alts: ['Мимо?']},
       {text: 'Ни больше ни меньше.', emotion: 'neutral', alts: ['Вот столько.']},
-      {text: 'Угадал? Ставь плюс.', emotion: 'hype', alts: ['Угадал?']},
-      {text: 'Мимо? Бывает.', emotion: 'neutral', alts: ['Мимо?']},
+      {text: 'Ну как, близко было?', emotion: 'hype', alts: ['Близко было?']},
     ], used);
   }
 
@@ -100,34 +122,36 @@ function revealLine(round, format, used) {
   if (format === 'odd') {
     const dir = round.dearer ? 'дороже' : 'дешевле';
     return pickFresh([
-      {text: `Он ${dir} остальных ${gap}!`, emotion: 'hype', alts: [`${cap(dir)} ${gap}!`]},
-      {text: `Вот кто выбивается — ${dir} ${gap}.`, emotion: 'neutral', alts: ['Вот кто выбивается.']},
-      {text: 'Этот вообще из другой лиги!', emotion: 'hype', alts: ['Из другой лиги!']},
-      {text: `Разница ${gap}. Заметил?`, emotion: 'neutral', alts: [`Разница ${gap}.`]},
+      {text: `Он ${dir} остальных ${gap}, ебать.`, emotion: 'hype', nsfw: true, alts: [`${cap(dir)} ${gap}!`]},
+      {text: 'Этот вообще из другой лиги.', emotion: 'hype', alts: ['Из другой лиги!']},
+      {text: `Вот кто тут лишний — ${dir} ${gap}.`, emotion: 'neutral', alts: ['Вот кто лишний.']},
+      {text: `Разница ${gap}. Спалил его?`, emotion: 'hype', alts: [`Разница ${gap}!`]},
     ], used);
   }
 
   if (round.trap) return pickFresh([
-    {text: 'Ловушка сработала!', emotion: 'hype', alts: ['Ловушка!']},
-    {text: 'Редкость — ещё не цена!', emotion: 'hype', alts: ['Редкость — не цена!']},
-    {text: 'Вот на этом и попадаются.', emotion: 'neutral', alts: ['Классика!']},
-    {text: 'Красивый — не значит дорогой.', emotion: 'neutral', alts: ['Красивый — не дорогой!']},
-    {text: 'Обманка! Классика жанра.', emotion: 'hype', alts: ['Обманка!']},
+    {text: 'Ебать, попался?', emotion: 'hype', nsfw: true, alts: ['Попался?']},
+    {text: 'Классика, блядь.', emotion: 'hype', nsfw: true, alts: ['Классика!']},
+    {text: 'На это ведутся вообще все.', emotion: 'hype', alts: ['На это ведутся все!']},
+    {text: 'Красивый — не значит дорогой, запомни.', emotion: 'neutral', alts: ['Красивый — не дорогой!']},
+    {text: 'Ну и как, повёлся?', emotion: 'hype', alts: ['Повёлся?']},
+    {text: 'Тут половина уже слилась.', emotion: 'hype', alts: ['Половина слилась!']},
   ], used);
   if (n >= 5) return pickFresh([
-    {text: `Разрыв ${gap}!`, emotion: 'hype', alts: [`${cap(gap)}!`]},
-    {text: 'Вот это пропасть!', emotion: 'hype', alts: ['Пропасть!']},
-    {text: 'Даже близко не стояли.', emotion: 'hype', alts: ['Не стояли рядом!']},
+    {text: 'Нихуя себе разрыв!', emotion: 'hype', nsfw: true, alts: ['Вот это разрыв!']},
+    {text: `Разрыв ${gap}, ебать.`, emotion: 'hype', nsfw: true, alts: [`${cap(gap)}!`]},
+    {text: 'Это просто разъёб.', emotion: 'hype', nsfw: true, alts: ['Разъёб!']},
+    {text: 'Даже рядом не стояли.', emotion: 'hype', alts: ['Не стояли рядом!']},
   ], used);
   if (n >= 2) return pickFresh([
-    {text: `Разница ${gap}.`, emotion: 'neutral', alts: [`Разница ${gap}.`]},
-    {text: `Дороже ${gap}. Чувствуется?`, emotion: 'neutral', alts: [`Дороже ${gap}.`]},
-    {text: 'Разрыв заметный.', emotion: 'neutral', alts: ['Разрыв заметный.']},
+    {text: `${cap(gap)}. Норм разница.`, emotion: 'neutral', alts: [`Разница ${gap}.`]},
+    {text: `Разница ${gap}, чуешь?`, emotion: 'hype', alts: [`Разница ${gap}!`]},
+    {text: 'Ощутимо дороже.', emotion: 'neutral', alts: ['Ощутимо дороже.']},
   ], used);
   return pickFresh([
-    {text: 'Почти вровень — но нет!', emotion: 'hype', alts: ['Почти вровень!']},
-    {text: 'Разрыв совсем небольшой.', emotion: 'neutral', alts: ['Разрыв небольшой.']},
-    {text: 'Тут было сложно, признай.', emotion: 'neutral', alts: ['Тут было сложно!']},
+    {text: 'Впритык, сука.', emotion: 'hype', nsfw: true, alts: ['Впритык!']},
+    {text: 'Чуть-чуть не дотянул?', emotion: 'hype', alts: ['Чуть не дотянул?']},
+    {text: 'Тут реально сложно было.', emotion: 'neutral', alts: ['Тут было сложно!']},
   ], used);
 }
 
@@ -137,6 +161,7 @@ export function buildNarration(quiz) {
   const rl = t.roundIn + t.countdown + t.reveal;
   const lines = [];
   const usedReactions = new Set();
+  const usedNext = new Set();
 
   // опенинг: общий пул + пара крючков под конкретный формат
   lines.push({...rnd([...HOOKS.any, ...(HOOKS[format] ?? [])]), frame: 4, window: t.intro - 8});
@@ -144,14 +169,15 @@ export function buildNarration(quiz) {
   quiz.rounds.forEach((round, i) => {
     const start = t.intro + i * rl;
     const last = i === quiz.rounds.length - 1;
-    const roundText = (last ? rnd(ROUND_LAST) : rnd(ROUND[format] ?? ROUND.duel)).replace('{n}', String(i + 1));
-    lines.push({
-      text: roundText,
-      alts: [`Раунд ${i + 1}!`],
-      emotion: last ? 'hype' : 'neutral',
-      frame: start + 2,
-      window: t.roundIn + t.countdown - 10,
-    });
+    // первый раунд идёт сразу после крючка — там без слов; дальше короткий
+    // переход, и то не всегда: часть раундов молчит, чтобы не тараторить
+    if (last || (i > 0 && Math.random() < 0.55)) {
+      lines.push({
+        ...pickFresh(last ? ROUND_LAST : NEXT, usedNext),
+        frame: start + 2,
+        window: t.roundIn + t.countdown - 10,
+      });
+    }
     const rv = revealLine(round, format, usedReactions);
     lines.push({...rv, frame: start + t.roundIn + t.countdown + 1, window: t.reveal - 5});
   });

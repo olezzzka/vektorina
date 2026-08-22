@@ -9,3 +9,4 @@ config.local.json
 .env
 *.webm
 *.mkv
+ads/
