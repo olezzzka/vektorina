@@ -2,16 +2,18 @@
  * Озвучка: каждая реплика из quiz.narration синтезируется отдельно и кладётся
  * точно на свой кадр. Рассинхрон невозможен по построению.
  *
- *   node scripts/voice.mjs [out/quizzes/<id>.json] [--engine piper|elevenlabs]
+ *   node scripts/voice.mjs [out/quizzes/<id>.json] [--engine silero|piper|elevenlabs]
  *
- * Движок по умолчанию — piper: локально, офлайн, бесплатно, без лимитов.
- * Установка: node scripts/setup-voice.mjs
- * ElevenLabs остаётся как альтернатива (ключи в .env), включается --engine elevenlabs.
+ * По умолчанию — silero: живее piper и умеет интонации (поле emotion у реплики
+ * превращается в SSML-разметку темпа и высоты). Оба движка работают локально,
+ * офлайн и бесплатно. Установка: node scripts/setup-voice.mjs
+ * ElevenLabs остаётся как альтернатива (ключи в .env).
  *
  * Кэш по хэшу текста: data/tts-cache/ — повторяющиеся реплики синтезируются один раз.
  * Выход: public/voice/<id>.wav + поле quiz.voice в JSON.
  */
 import fs from 'node:fs';
+import os from 'node:os';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {p, readJson, writeJson, config, log, warn, loadEnv, sleep} from './lib.mjs';
@@ -23,7 +25,7 @@ const vcfg = cfg.voice ?? {};
 const argv = process.argv.slice(2);
 const arg = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : d; };
 
-const ENGINE = arg('engine', vcfg.engine ?? 'piper');
+const ENGINE = arg('engine', vcfg.engine ?? 'silero');
 const MAX_TEMPO = vcfg.maxTempo ?? 1.15;
 const fps = cfg.video?.fps ?? 30;
 
@@ -39,17 +41,45 @@ if (!quiz.narration?.length) {
 // --- движки ---
 
 const PIPER_EXE = p('tools', 'piper', 'piper.exe');
-const piperVoice = vcfg.voice ?? 'dmitri';
+const piperVoice = vcfg.piperVoice ?? 'dmitri';
 const piperModel = p('data', 'voices', `ru_RU-${piperVoice}-medium.onnx`);
+
+const SILERO_MODEL = p('data', 'voices', 'v4_ru.pt');
+const sileroSpeaker = vcfg.speaker ?? 'aidar';
+const PYTHON = process.env.PYTHON ?? 'python';
+
+/**
+ * Эмоция реплики → SSML-разметка Silero. hype заводит темп и поднимает тон
+ * (реврил, интро), warm — наоборот, спокойнее (аутро).
+ */
+const PROSODY = {
+  hype: {rate: 'fast', pitch: 'high'},
+  warm: {rate: 'medium', pitch: 'medium'},
+  neutral: null,
+};
+const escapeXml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function ssmlFor(text, emotion) {
+  const pr = PROSODY[emotion ?? 'neutral'];
+  const body = escapeXml(text);
+  return pr
+    ? `<speak><prosody rate="${pr.rate}" pitch="${pr.pitch}">${body}</prosody></speak>`
+    : `<speak>${body}</speak>`;
+}
 
 const EL_KEY = process.env.ELEVENLABS_API_KEY;
 const EL_VOICE = process.env.ELEVENLABS_VOICE_ID;
 const EL_MODEL = process.env.ELEVENLABS_MODEL ?? 'eleven_multilingual_v2';
 
-if (ENGINE === 'piper') {
-  if (!fs.existsSync(PIPER_EXE) || !fs.existsSync(piperModel)) {
-    warn(`не установлен локальный движок или голос «${piperVoice}» — ролик соберётся без голоса`);
+if (ENGINE === 'silero') {
+  if (!fs.existsSync(SILERO_MODEL)) {
+    warn('не установлена модель Silero — ролик соберётся без голоса');
     warn('поставить:  node scripts/setup-voice.mjs');
+    process.exit(0);
+  }
+} else if (ENGINE === 'piper') {
+  if (!fs.existsSync(PIPER_EXE) || !fs.existsSync(piperModel)) {
+    warn(`не установлен движок piper или голос «${piperVoice}» — ролик соберётся без голоса`);
+    warn('поставить:  node scripts/setup-voice.mjs --engine piper');
     process.exit(0);
   }
 } else if (ENGINE === 'elevenlabs') {
@@ -57,13 +87,17 @@ if (ENGINE === 'piper') {
     warn('нет ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID в .env — ролик соберётся без голоса');
     process.exit(0);
   }
-} else { console.error(`неизвестный движок «${ENGINE}» (есть: piper, elevenlabs)`); process.exit(1); }
+} else { console.error(`неизвестный движок «${ENGINE}» (есть: silero, piper, elevenlabs)`); process.exit(1); }
 
-const tag = ENGINE === 'piper'
-  ? `piper|${piperVoice}|${vcfg.lengthScale ?? 1}`
-  : `11labs|${EL_MODEL}|${EL_VOICE}`;
-const hash = (text) => crypto.createHash('sha1').update(`${tag} ${text}`).digest('hex').slice(0, 16);
-const ext = ENGINE === 'piper' ? 'wav' : 'mp3';
+const tag = ENGINE === 'silero'
+  ? `silero|v4_ru|${sileroSpeaker}`
+  : ENGINE === 'piper'
+    ? `piper|${piperVoice}|${vcfg.lengthScale ?? 1}`
+    : `11labs|${EL_MODEL}|${EL_VOICE}`;
+// эмоция меняет звучание — значит входит в ключ кэша
+const hash = (text, emotion) => crypto.createHash('sha1')
+  .update(`${tag}|${emotion ?? 'neutral'} ${text}`).digest('hex').slice(0, 16);
+const ext = ENGINE === 'elevenlabs' ? 'mp3' : 'wav';
 
 fs.mkdirSync(p('data', 'tts-cache'), {recursive: true});
 
@@ -104,11 +138,33 @@ function trimSilence(f) {
   fs.renameSync(tmp, f);
 }
 
-async function tts(text) {
-  const f = p('data', 'tts-cache', `${hash(text)}.${ext}`);
-  if (fs.existsSync(f) && fs.statSync(f).size > 0) return {file: f, cached: true};
-  if (ENGINE === 'piper') piperSay(text, f); else await elevenSay(text, f);
-  trimSilence(f);
+const cachePath = (text, emotion) => p('data', 'tts-cache', `${hash(text, emotion)}.${ext}`);
+const isCached = (f) => fs.existsSync(f) && fs.statSync(f).size > 0;
+
+/**
+ * Silero грузит модель ~1 секунду, поэтому все недостающие реплики ролика
+ * синтезируются одним запуском Python, а не по процессу на фразу.
+ */
+function sileroBatch(items) {
+  if (!items.length) return;
+  const job = p('data', 'tts-cache', 'job.json');
+  fs.writeFileSync(job, JSON.stringify({
+    model: SILERO_MODEL, speaker: sileroSpeaker, sampleRate: 48000,
+    threads: Math.max(2, Math.min(8, os.cpus().length)),
+    items,
+  }));
+  log(`синтезирую ${items.length} реплик…`);
+  execFileSync(PYTHON, [p('scripts', 'silero_tts.py'), job], {stdio: ['ignore', 'ignore', 'inherit']});
+  fs.rmSync(job, {force: true});
+  for (const it of items) trimSilence(it.out);
+}
+
+async function tts(text, emotion) {
+  const f = cachePath(text, emotion);
+  if (isCached(f)) return {file: f, cached: true};
+  if (ENGINE === 'silero') sileroBatch([{text, ssml: ssmlFor(text, emotion), out: f}]);
+  else if (ENGINE === 'piper') { piperSay(text, f); trimSilence(f); }
+  else { await elevenSay(text, f); trimSilence(f); }
   return {file: f, cached: false};
 }
 
@@ -124,7 +180,7 @@ async function fitLine(line) {
   const windowSec = line.window / fps;
   let best = null;
   for (const text of variants) {
-    const {file: clip, cached} = await tts(text);
+    const {file: clip, cached} = await tts(text, line.emotion);
     const d = dur(clip);
     if (!cached && ENGINE === 'elevenlabs') await sleep(350);   // щадим rate limit
     const tempo = d / windowSec;
@@ -137,7 +193,24 @@ async function fitLine(line) {
 }
 
 // --- подбор клипов ---
-log(`движок: ${ENGINE}${ENGINE === 'piper' ? ` (голос ${piperVoice}, локально)` : ''}`);
+log(`движок: ${ENGINE}${
+  ENGINE === 'silero' ? ` (голос ${sileroSpeaker}, локально)` :
+  ENGINE === 'piper' ? ` (голос ${piperVoice}, локально)` : ''}`);
+
+// один заход синтеза на весь ролик: собираем всё, чего ещё нет в кэше
+if (ENGINE === 'silero') {
+  const need = new Map();
+  for (const line of quiz.narration) {
+    for (const text of [line.text, ...(line.alts ?? [])]) {
+      const out = cachePath(text, line.emotion);
+      if (!isCached(out) && !need.has(out)) {
+        need.set(out, {text, ssml: ssmlFor(text, line.emotion), out});
+      }
+    }
+  }
+  sileroBatch([...need.values()]);
+}
+
 const clips = [];
 for (const line of quiz.narration) {
   const fit = await fitLine(line);

@@ -225,11 +225,11 @@ const FORMAT_TEXT = {
   odd: {introTitle: 'ЛИШНИЙ ПО ЦЕНЕ', introSubtitle: 'два скина стоят почти одинаково — найди третий'},
 };
 
-/** Поправки таймингов под формат: odd объясняет правило голосом, ему нужно интро подлиннее. */
+/** Поправки таймингов под формат (интро под опенинг задано в config → timing.intro). */
 const FORMAT_TIMING = {
   duel: {},
   price: {},
-  odd: {intro: 108},
+  odd: {},
 };
 
 function caption(quiz) {

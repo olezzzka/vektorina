@@ -1,6 +1,7 @@
 /**
  * Полный цикл: данные → викторина → картинки → mp4.
- *   node scripts/build.mjs [--count 3] [--rounds 5] [--format price|odd|duel|random] [--skip-data] [--no-voice]
+ *   node scripts/build.mjs [--count 3] [--rounds 5] [--format price|odd|duel|random]
+ *                          [--engine silero|piper] [--skip-data] [--no-voice]
  */
 import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
@@ -11,6 +12,7 @@ const arg = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i
 const count = Number(arg('count', 1));
 const rounds = arg('rounds', null);   // не задано — берём roundsPerVideo из config.json
 const format = arg('format', null);   // не задано — config.json → format (по умолчанию duel)
+const engine = arg('engine', null);   // движок озвучки: silero | piper | elevenlabs
 const run = (script, args = []) =>
   execFileSync(process.execPath, [p('scripts', script), ...args], {stdio: 'inherit'});
 
@@ -25,7 +27,7 @@ for (let i = 0; i < count; i++) {
   const id = fs.readFileSync(p('out', 'last-quiz-id.txt'), 'utf8').trim();
   const quizFile = p('out', 'quizzes', `${id}.json`);
   run('download-images.mjs', [quizFile]);
-  if (!argv.includes('--no-voice')) run('voice.mjs', [quizFile]);
+  if (!argv.includes('--no-voice')) run('voice.mjs', [quizFile, ...(engine ? ['--engine', engine] : [])]);
   run('render.mjs', [quizFile]);
 }
 log('\nвсё готово → out/videos/, тексты постов → out/captions/, сценарии озвучки → out/scripts/');

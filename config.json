@@ -32,7 +32,7 @@
     "hypeBias": 4
   },
   "timing": {
-    "intro": 66,
+    "intro": 112,
     "roundIn": 12,
     "countdown": 90,
     "reveal": 66,
@@ -59,8 +59,9 @@
     "enabled": true
   },
   "voice": {
-    "engine": "piper",
-    "voice": "dmitri",
+    "engine": "silero",
+    "speaker": "baya",
+    "piperVoice": "dmitri",
     "lengthScale": 1.0,
     "maxTempo": 1.15
   }

@@ -39,7 +39,8 @@ export const Captions: React.FC<{quiz: Quiz}> = ({quiz}) => {
   if (!quiz.narration?.length || quiz.captions?.enabled === false) return null;
   return (
     <>
-      {quiz.narration.map((l, i) => (
+      {/* реплику интро рисует сам Intro — крупно, поэтому здесь её пропускаем */}
+      {quiz.narration.filter((l) => l.frame >= quiz.timing.intro).map((l, i) => (
         <Sequence key={i} from={l.frame} durationInFrames={l.window}>
           <Line text={l.text} window={l.window} />
         </Sequence>
