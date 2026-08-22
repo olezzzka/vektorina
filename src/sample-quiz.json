@@ -1,7 +1,7 @@
 {
-  "id": "2026-08-22-01-9dz2",
-  "format": "sound",
-  "generatedAt": "2026-08-22T22:28:02.999Z",
+  "id": "2026-08-22-01-z6t0",
+  "format": "duel",
+  "generatedAt": "2026-08-22T23:24:12.372Z",
   "priceMeta": {
     "source": "steam-snapshot",
     "updatedAt": "2026-08-08T06:46:27.146Z"
@@ -16,8 +16,8 @@
     "outro": 96
   },
   "text": {
-    "introTitle": "ЧТО ЗА СТВОЛ?",
-    "introSubtitle": "{n} выстрелов · угадай на слух",
+    "introTitle": "ЧТО ДОРОЖЕ?",
+    "introSubtitle": "{n} раундов · сколько угадаешь?",
     "outroTitle": "СКОЛЬКО УГАДАЛ?",
     "outroSubtitle": "пиши в комменты",
     "outroCta": "подписка — новая викторина каждый день"
@@ -42,132 +42,302 @@
   },
   "rounds": [
     {
-      "weapon": "mac10",
-      "file": "weapon-sfx/mac10.wav",
-      "options": [
-        "PP-Bizon",
-        "MAC-10",
-        "MP9"
-      ],
-      "answer": 1,
-      "key": "mac10"
+      "a": {
+        "hash": "FAMAS | Mecha Industries (Minimal Wear)",
+        "name": "FAMAS | Mecha Industries",
+        "weapon": "FAMAS",
+        "pattern": "Mecha Industries",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": true,
+        "price": 47.73,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1c_M2oaalsM8-eC2SYwNF6ueZhW2ewwx4hsm3dz46heSjCPVUjC8chEOYMtxOwkNHiYb63swXY3Y9Nn32skGoXuc3DGOrc",
+        "imageLocal": "images/dd5a6aa6f019b6fd.png"
+      },
+      "b": {
+        "hash": "AWP | Snake Camo (Minimal Wear)",
+        "name": "AWP | Snake Camo",
+        "weapon": "AWP",
+        "pattern": "Snake Camo",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Mil-Spec Grade",
+        "color": "#4b69ff",
+        "knife": false,
+        "hype": false,
+        "price": 147.49,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf7jJk_PyvY6FSLPmUBnPexb10sbk8HXixk09-smqEyIytci7GPwFxCZt0RLMLtBG4xNHuPr-3tRue1dy_ONei3w",
+        "imageLocal": "images/fc392dc9fa7c4387.png"
+      },
+      "answer": "b",
+      "ratio": 3.09,
+      "trap": true
     },
     {
-      "weapon": "deagle",
-      "file": "weapon-sfx/deagle.wav",
-      "options": [
-        "Desert Eagle",
-        "Five-SeveN",
-        "Glock-18"
-      ],
-      "answer": 0,
-      "key": "deagle"
+      "a": {
+        "hash": "AK-47 | Consequence of the Jinn (Factory New)",
+        "name": "AK-47 | Consequence of the Jinn",
+        "weapon": "AK-47",
+        "pattern": "Consequence of the Jinn",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 925.2,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiNQu6WRYq1jLs-QAWmDxP9jte9qSha_nBovp3OHm9v6IHuTOgYiA5ZzE-Bb40O6loK2MeLnswff2ogRyS732ywduyc4_a9cBtOamUv2",
+        "imageLocal": "images/1661ddc71be02a52.png"
+      },
+      "b": {
+        "hash": "P90 | Asiimov (Field-Tested)",
+        "name": "P90 | Asiimov",
+        "weapon": "P90",
+        "pattern": "Asiimov",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 265,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf_jdk_6v-JaV-KfmeAXGvzedxuPUnTSjikRgksjuBzoz4dXLFb1QoC8QlTLQD4EPqk4LvN-Pns1aMioNBzTK-0H3gQVv65g",
+        "imageLocal": "images/6cd87e4fa003fec5.png"
+      },
+      "answer": "a",
+      "ratio": 3.49,
+      "trap": false
     },
     {
-      "weapon": "elite",
-      "file": "weapon-sfx/elite.wav",
-      "options": [
-        "Dual Berettas",
-        "Desert Eagle",
-        "Five-SeveN"
-      ],
-      "answer": 0,
-      "key": "elite"
+      "a": {
+        "hash": "USP-S | Monster Mashup (Minimal Wear)",
+        "name": "USP-S | Monster Mashup",
+        "weapon": "USP-S",
+        "pattern": "Monster Mashup",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 46.29,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSI-WsG3SA_uVkv-pmXBa_nBovp3PQn46ueX3FbAB0WZMjTe9csEKwk9XvNbnl41Tcj48WzHqv3HhP5ydj_a9cBuLIfNg1",
+        "imageLocal": "images/67e6c72b2189a0de.png"
+      },
+      "b": {
+        "hash": "USP-S | Purple DDPAT (Factory New)",
+        "name": "USP-S | Purple DDPAT",
+        "weapon": "USP-S",
+        "pattern": "Purple DDPAT",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Mil-Spec Grade",
+        "color": "#4b69ff",
+        "knife": false,
+        "hype": false,
+        "price": 174,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSIf2sCmOAwPpJoPR7XyW2qhEutDWR1N-rcHPBPFMiDZUkF-9Z4ETtxtDkYu3js1ffg94Tnn2o3yMavH0957ocEf1yWMwziKM",
+        "imageLocal": "images/cb8fcc51a0dafadc.png"
+      },
+      "answer": "b",
+      "ratio": 3.76,
+      "trap": true
     },
     {
-      "weapon": "hkp2000",
-      "file": "weapon-sfx/hkp2000.wav",
-      "options": [
-        "P2000",
-        "Dual Berettas",
-        "Desert Eagle"
-      ],
-      "answer": 0,
-      "key": "hkp2000"
+      "a": {
+        "hash": "AWP | Redline (Field-Tested)",
+        "name": "AWP | Redline",
+        "weapon": "AWP",
+        "pattern": "Redline",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": true,
+        "price": 51.91,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6diIuKSMWuZxuZi_rUxHS3lzUwm5DjWy976dSiRagd1WJB1RLQP4RK-mtazM-3itQeL2INbjXKpw2eVIZ0",
+        "imageLocal": "images/336b58c112b22516.png"
+      },
+      "b": {
+        "hash": "AK-47 | Aphrodite (Well-Worn)",
+        "name": "AK-47 | Aphrodite",
+        "weapon": "AK-47",
+        "pattern": "Aphrodite",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 16.45,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI7PqRaa9SJPqaB2mvzedxuPUnGCi3wktzt2rRn92pdXuXbA4iDcdxQOIMsBK4k9S2Zeiw4lTdjdhNyTK-0H1wmrL4zA",
+        "imageLocal": "images/b6e9187533902cad.png"
+      },
+      "answer": "a",
+      "ratio": 3.16,
+      "trap": true
     },
     {
-      "weapon": "aug",
-      "file": "weapon-sfx/aug.wav",
-      "options": [
-        "Galil AR",
-        "AK-47",
-        "AUG"
-      ],
-      "answer": 2,
-      "key": "aug"
+      "a": {
+        "hash": "AK-47 | Head Shot (Well-Worn)",
+        "name": "AK-47 | Head Shot",
+        "weapon": "AK-47",
+        "pattern": "Head Shot",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 43.27,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlV6xoIfSsHW-f1dF-v-1mcCW6khUz_TzRnNigd3-SOg4lAsF1QOQN4xS4wdHnMu-0swaMjIxExSSoiyof6ih1o7FVGHIdVhw",
+        "imageLocal": "images/14cc69ca6012b243.png"
+      },
+      "b": {
+        "hash": "Glock-18 | Bullet Queen (Well-Worn)",
+        "name": "Glock-18 | Bullet Queen",
+        "weapon": "Glock-18",
+        "pattern": "Bullet Queen",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 76.2,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK6HLMXCR0-N3ueVsQRa_nBovp3PQydf4dXuSalUgCJZwRrILthi9kYDlMe_m4g2Ij90Um3moiXkc6SZj_a9cBgLxwlYC",
+        "imageLocal": "images/9729d80933bc5259.png"
+      },
+      "answer": "b",
+      "ratio": 1.76,
+      "trap": false
     },
     {
-      "weapon": "xm1014",
-      "file": "weapon-sfx/xm1014.wav",
-      "options": [
-        "XM1014",
-        "MAG-7",
-        "Sawed-Off"
-      ],
-      "answer": 0,
-      "key": "xm1014"
+      "a": {
+        "hash": "UMP-45 | Day Lily (Battle-Scarred)",
+        "name": "UMP-45 | Day Lily",
+        "weapon": "UMP-45",
+        "pattern": "Day Lily",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Mil-Spec Grade",
+        "color": "#4b69ff",
+        "knife": false,
+        "hype": false,
+        "price": 141.45,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1T9s2sZKtiLc-BC2OvzedxuPUnGHDmxEl-5mWGzYysdiifP1dzDZMmQe9ZsBnrl9yzZOPrtQTaj9lAxDK-0H1hFDwwPA",
+        "imageLocal": "images/66e8aec2fc93fd6c.png"
+      },
+      "b": {
+        "hash": "AK-47 | Neon Rider (Well-Worn)",
+        "name": "AK-47 | Neon Rider",
+        "weapon": "AK-47",
+        "pattern": "Neon Rider",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 72.27,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlV6poL_6sHG6UxPxJvOhuRz39xkQhsTnVzoygdy7Ea1UoCZQkRe9bs0brl9TvN-m0tVHYjY5CyS35jjQJsHhk4o5zcA",
+        "imageLocal": "images/0e048bc00fe63e6e.png"
+      },
+      "answer": "a",
+      "ratio": 1.96,
+      "trap": true
     },
     {
-      "weapon": "mp9",
-      "file": "weapon-sfx/mp9.wav",
-      "options": [
-        "MP9",
-        "P90",
-        "MP7"
-      ],
-      "answer": 0,
-      "key": "mp9"
+      "a": {
+        "hash": "M4A1-S | Stratosphere (Factory New)",
+        "name": "M4A1-S | Stratosphere",
+        "weapon": "M4A1-S",
+        "pattern": "Stratosphere",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 58.88,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGC1iD1fx3pO56XyG2hxgYvzSCkpu3eSjEOgUkDsRxR7RYsRexwNe0Y-O05VeNg90UmX2q33lJ7itvt-cKB71lpPNheQHx2Q",
+        "imageLocal": "images/aca734322638a12f.png"
+      },
+      "b": {
+        "hash": "M4A1-S | Golden Coil (Field-Tested)",
+        "name": "M4A1-S | Golden Coil",
+        "weapon": "M4A1-S",
+        "pattern": "Golden Coil",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 100.05,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9lj_JnTiK2lxQztgKClYP9HifOOV5kFJclQ-Jb5xW-m9CxPuLq4QTfjd0XzyX6jCpL6X5o5OgDVfYn_a2Ci1rfcepqgV49FrE",
+        "imageLocal": "images/37455ebd7ffecaff.png"
+      },
+      "answer": "b",
+      "ratio": 1.7,
+      "trap": false
     }
   ],
-  "caption": "90% ошибаются на последнем раунде\nСамый хитрый раунд — последний 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
+  "caption": "Угадаешь хотя бы 3 из 5?\nСамый сложный раунд: M4A1-S | Stratosphere против M4A1-S | Golden Coil 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
   "narration": [
     {
-      "text": "Ты вообще не играл в CS, если ответишь неправильно.",
-      "emotion": "hype",
-      "alts": [
-        "Ответишь неверно — ты не играл в CS!"
-      ],
-      "frame": 4,
-      "window": 104,
-      "display": "Ты вообще не играл в CS, если ответишь неправильно."
-    },
-    {
-      "text": "Слышно же, да?",
-      "emotion": "hype",
-      "alts": [
-        "Слышно же!"
-      ],
-      "frame": 215,
-      "window": 61,
-      "display": "Слышно же, да?"
-    },
-    {
-      "text": "Так, а тут?",
-      "emotion": "hype",
-      "frame": 282,
-      "window": 92,
-      "display": "Так, а тут?"
-    },
-    {
-      "text": "Спутал? Они реально похожи.",
-      "emotion": "neutral",
-      "alts": [
-        "Они похожи, бывает."
-      ],
-      "frame": 383,
-      "window": 61,
-      "display": "Спутал? Они реально похожи."
-    },
-    {
-      "text": "Сука, по звуку сложнее всего.",
+      "text": "Не угадаешь — удаляй CS, блядь, честное слово.",
       "emotion": "hype",
       "nsfw": true,
       "alts": [
-        "По звуку сложнее всего!"
+        "Не угадаешь — удаляй CS!"
+      ],
+      "frame": 4,
+      "window": 104,
+      "display": "Не угадаешь — удаляй CS, блядь, честное слово."
+    },
+    {
+      "text": "Тут половина уже слилась.",
+      "emotion": "hype",
+      "alts": [
+        "Половина слилась!"
+      ],
+      "frame": 215,
+      "window": 61,
+      "display": "Тут половина уже слилась."
+    },
+    {
+      "text": "Ладно, вот этот.",
+      "emotion": "neutral",
+      "frame": 282,
+      "window": 92,
+      "display": "Ладно, вот этот."
+    },
+    {
+      "text": "Разрыв заметный, блядь.",
+      "emotion": "hype",
+      "nsfw": true,
+      "alts": [
+        "Разрыв заметный!"
+      ],
+      "frame": 383,
+      "window": 61,
+      "display": "Разрыв заметный, блядь."
+    },
+    {
+      "text": "Сука, как всегда обманка.",
+      "emotion": "hype",
+      "nsfw": true,
+      "alts": [
+        "Как всегда обманка!"
       ],
       "frame": 551,
       "window": 61,
-      "display": "Сука, по звуку сложнее всего."
+      "display": "Сука, как всегда обманка."
     },
     {
       "text": "Следующий.",
@@ -177,64 +347,78 @@
       "display": "Следующий."
     },
     {
-      "text": "Не угадал — играй с наушниками.",
-      "emotion": "hype",
+      "text": "Красивый — не значит дорогой, запомни.",
+      "emotion": "neutral",
       "alts": [
-        "Играй с наушниками!"
+        "Красивый — не дорогой!"
       ],
       "frame": 719,
       "window": 61,
-      "display": "Не угадал — играй с наушниками."
+      "display": "Красивый — не значит дорогой, запомни."
     },
     {
-      "text": "Ветераны такое с полвыстрела ловят.",
+      "text": "Погнали дальше.",
       "emotion": "hype",
+      "frame": 786,
+      "window": 92,
+      "display": "Погнали дальше."
+    },
+    {
+      "text": "Ощутимо дороже.",
+      "emotion": "neutral",
       "alts": [
-        "Ветераны ловят сразу!"
+        "Ощутимо дороже."
       ],
       "frame": 887,
       "window": 61,
-      "display": "Ветераны такое с полвыстрела ловят."
+      "display": "Ощутимо дороже."
     },
     {
-      "text": "На слух это отдельный скилл.",
+      "text": "Дальше.",
       "emotion": "neutral",
+      "frame": 954,
+      "window": 92,
+      "display": "Дальше."
+    },
+    {
+      "text": "Развели тебя, признай.",
+      "emotion": "hype",
       "alts": [
-        "Это отдельный скилл."
+        "Развели тебя!"
       ],
       "frame": 1055,
       "window": 61,
-      "display": "На слух это отдельный скилл."
+      "display": "Развели тебя, признай."
     },
     {
-      "text": "Последний. Не слейся.",
+      "text": "Последний, самый жёсткий.",
       "emotion": "hype",
       "alts": [
         "Последний!"
       ],
       "frame": 1122,
       "window": 92,
-      "display": "Последний. Не слейся."
+      "display": "Последний, самый жёсткий."
     },
     {
-      "text": "Уши не обманешь.",
+      "text": "Разница есть, и немаленькая.",
       "emotion": "neutral",
       "alts": [
-        "Уши не обманешь."
+        "Разница немаленькая."
       ],
       "frame": 1223,
       "window": 61,
-      "display": "Уши не обманешь."
+      "display": "Разница есть, и немаленькая."
     },
     {
       "alts": [
         "Пиши в комменты!"
       ],
-      "text": "Сколько угадал? Пиши в комменты и подпишись!",
+      "text": "Пиши в комменты, сколько угадал!",
       "emotion": "warm",
       "frame": 1292,
       "window": 86,
-      "display": "Сколько угадал? Пиши в комменты и подпишись!"
+      "display": "Пиши в комменты, сколько угадал!"
     }
   ]
 }

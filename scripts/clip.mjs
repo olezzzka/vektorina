@@ -5,6 +5,7 @@
  *   node scripts/clip.mjs --file video.mp4            # нарежет локальный файл
  *   node scripts/clip.mjs --file v.mp4 --length 90    # куски по полторы минуты
  *   node scripts/clip.mjs --file v.mp4 --limit 1      # только первый кусок (проверить)
+ *   node scripts/clip.mjs --url ... --skip 4:07-4:30  # выкинуть рекламу автора
  *
  * Что делает с каждым куском:
  *   исходник 16:9 ставится по центру вертикального кадра 1080x1920,
@@ -27,6 +28,57 @@ const EVERY = Number(arg('every', cfg.clip?.every ?? 60));           // как �
 const OFFSET = Number(arg('offset', cfg.clip?.offset ?? 30));        // где внутри минуты
 const LIMIT = Number(arg('limit', 0));                               // 0 — все куски
 const MIN_TAIL = Number(arg('minTail', cfg.clip?.minTail ?? 45));    // хвост короче — приклеиваем к прошлому
+const SKIP = arg('skip', '');                                        // «4:07-4:30» — вырезать из исходника
+
+/** Путь для списка concat: ffmpeg хочет прямые слэши. */
+const toPosix = (f) => f.split('\\').join('/');
+
+/** «4:07» → 247, «1:02:30» → 3750, «95» → 95 */
+function seconds(t) {
+  const parts = String(t).trim().split(':').map(Number);
+  return parts.reduce((acc, v) => acc * 60 + v, 0);
+}
+
+/**
+ * Вырезает из исходника заданные отрезки (реклама автора, заставки).
+ * Делается один раз до нарезки: так куски считаются по чистому таймлайну
+ * и ни один не разрывается на месте выреза.
+ */
+function cutOut(src, ranges) {
+  const dur = Number(probe(src, 'format=duration'));
+  const cuts = ranges.split(',').map((r) => {
+    const [a, b] = r.split('-').map(seconds);
+    return {from: a, to: b};
+  }).filter((r) => r.to > r.from).sort((x, y) => x.from - y.from);
+  if (!cuts.length) return src;
+
+  const keep = [];
+  let cursor = 0;
+  for (const c of cuts) {
+    if (c.from > cursor) keep.push({from: cursor, to: Math.min(c.from, dur)});
+    cursor = Math.max(cursor, c.to);
+  }
+  if (cursor < dur) keep.push({from: cursor, to: dur});
+
+  const tmp = p('out', '.cut-tmp');
+  fs.rmSync(tmp, {recursive: true, force: true});
+  fs.mkdirSync(tmp, {recursive: true});
+  const parts = keep.map((k, i) => {
+    const f = `${tmp}/keep${i}.mp4`;
+    log(`   оставляю ${Math.floor(k.from / 60)}:${String(Math.round(k.from % 60)).padStart(2, '0')}` +
+      `–${Math.floor(k.to / 60)}:${String(Math.round(k.to % 60)).padStart(2, '0')}`);
+    ff(['-ss', String(k.from), '-t', String(k.to - k.from), '-i', src, ...ENC, f]);
+    return f;
+  });
+  const list = `${tmp}/list.txt`;
+  fs.writeFileSync(list, parts.map((f) => `file '${toPosix(f)}'`).join('\n'));
+  const out = p('assets', 'source', path.basename(src).replace(/\.[^.]+$/, '') + '-clean.mp4');
+  fs.mkdirSync(path.dirname(out), {recursive: true});
+  ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', out]);
+  fs.rmSync(tmp, {recursive: true, force: true});
+  log(`   вырезано ${cuts.length} отрезк(ов) → ${(Number(probe(out, 'format=duration')) / 60).toFixed(1)} мин`);
+  return out;
+}
 
 const W = cfg.video?.width ?? 1080;
 const H = cfg.video?.height ?? 1920;
@@ -50,20 +102,32 @@ function source() {
   const url = arg('url', null);
   if (!url) { console.error('нужен --url ссылка или --file путь'); process.exit(1); }
 
-  fs.mkdirSync(p('assets', 'source'), {recursive: true});
-  const out = p('assets', 'source', '%(title).80B [%(id)s].%(ext)s');
+  const dir = p('assets', 'source');
+  fs.mkdirSync(dir, {recursive: true});
+
+  // Имя файла делаем из id ролика, а не из названия: кириллица в заголовке
+  // ломается в кодировке консоли Windows, и путь потом не находится.
+  const idRun = spawnSync('yt-dlp', ['--simulate', '--no-playlist', '--print', 'id', url], {encoding: 'utf8'});
+  const id = (idRun.stdout || '').trim().split('\n').pop();
+  if (!id) { console.error(idRun.stderr || 'не удалось получить id видео'); process.exit(1); }
+
+  const existing = fs.readdirSync(dir).find((f) => f.startsWith(id + '.'));
+  if (existing) { log(`исходник уже скачан: ${existing}`); return path.join(dir, existing); }
+
   log('скачиваю исходник…');
   const r = spawnSync('yt-dlp', [
     '-f', 'bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[height<=1080]/b',
     '--merge-output-format', 'mp4',
-    '--no-playlist', '--print', 'after_move:filepath',
-    '-o', out, url,
-  ], {encoding: 'utf8'});
-  if (r.status !== 0) { console.error(r.stderr || 'yt-dlp не смог скачать'); process.exit(1); }
-  const got = (r.stdout || '').trim().split('\n').pop();
-  if (!got || !fs.existsSync(got)) { console.error('не понял, куда скачался файл'); process.exit(1); }
-  log(`скачано: ${path.basename(got)}`);
-  return got;
+    '--no-playlist',
+    '-o', path.join(dir, id + '.%(ext)s'),
+    url,
+  ], {encoding: 'utf8', stdio: ['ignore', 'inherit', 'inherit']});
+  if (r.status !== 0) { console.error('yt-dlp не смог скачать'); process.exit(1); }
+
+  const got = fs.readdirSync(dir).find((f) => f.startsWith(id + '.'));
+  if (!got) { console.error('файл не появился в assets/source'); process.exit(1); }
+  log(`скачано: ${got}`);
+  return path.join(dir, got);
 }
 
 // --- фон: случайный кусок размытого геймплея, как в викторинах ---
@@ -161,7 +225,7 @@ function insertBanners(file, tmp) {
   parts.push(tail);
 
   const list = `${tmp}/list.txt`;
-  fs.writeFileSync(list, parts.map((f) => `file '${f.replace(/\\/g, '/')}'`).join('\n'));
+  fs.writeFileSync(list, parts.map((f) => `file '${toPosix(f)}'`).join('\n'));
   const out = `${tmp}/joined.mp4`;
   ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', out]);
   log(`   баннер вставлен ${points.length} раз: ${points.map((t) => `${Math.floor(t / 60)}:${String(Math.round(t % 60)).padStart(2, '0')}`).join(', ')}`);
@@ -169,7 +233,11 @@ function insertBanners(file, tmp) {
 }
 
 // --- нарезка ---
-const src = source();
+let src = source();
+if (SKIP) {
+  log('убираю лишние отрезки из исходника…');
+  src = cutOut(src, SKIP);
+}
 const total = Number(probe(src, 'format=duration'));
 const outDir = p('out', 'clips');
 fs.mkdirSync(outDir, {recursive: true});
