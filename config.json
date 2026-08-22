@@ -64,12 +64,12 @@
     "enabled": true
   },
   "voice": {
-    "engine": "silero",
+    "engine": "xtts",
     "speaker": "baya",
     "piperVoice": "dmitri",
     "lengthScale": 1,
     "maxTempo": 1.15,
-    "xttsSpeaker": "Lidiya Szekeres"
+    "xttsSpeaker": "Tanja Adelina"
   },
   "narration": {
     "profanity": true
