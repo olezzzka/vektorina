@@ -198,6 +198,26 @@ const server = http.createServer(async (req, res) => {
   res.end('нет такой страницы');
 });
 
-server.listen(PORT, () => {
-  console.log('\n  панель управления: http://localhost:' + PORT + '\n');
-});
+/**
+ * Если порт занят — берём следующий, а не падаем стеком: панель часто уже
+ * запущена в соседнем окне, и человеку нужен адрес, а не трассировка.
+ */
+function listen(port, attempt = 0) {
+  server.once('error', (err) => {
+    if (err.code !== 'EADDRINUSE') throw err;
+    if (attempt === 0) {
+      console.log('\n  порт ' + port + ' занят — возможно, панель уже запущена в другом окне.');
+      console.log('  сначала проверь http://localhost:' + port + ', иначе беру следующий…');
+    }
+    if (attempt >= 10) {
+      console.error('  свободный порт не нашёлся — закрой лишние окна');
+      process.exit(1);
+    }
+    listen(port + 1, attempt + 1);
+  });
+  server.listen(port, () => {
+    console.log('\n  панель управления: http://localhost:' + port + '\n');
+  });
+}
+
+listen(PORT);

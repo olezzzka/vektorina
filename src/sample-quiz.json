@@ -1,7 +1,7 @@
 {
-  "id": "nf-rarity",
+  "id": "2026-08-22-01-uaok",
   "format": "rarity",
-  "generatedAt": "2026-08-22T20:39:49.253Z",
+  "generatedAt": "2026-08-22T21:09:55.103Z",
   "priceMeta": {
     "source": "steam-snapshot",
     "updatedAt": "2026-08-08T06:46:27.146Z"
@@ -43,159 +43,103 @@
   "rounds": [
     {
       "item": {
-        "hash": "Desert Eagle | Code Red (Well-Worn)",
-        "name": "Desert Eagle | Code Red",
-        "weapon": "Desert Eagle",
-        "pattern": "Code Red",
-        "wear": "Well-Worn",
-        "wearShort": "WW",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 62.87,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6OGRbKFsJ_yWMWaXxvxzo_JmXRa_nBovp3PRmNj4c3mTb1RxC5cjF-EItRnrlNzkYrnk5gaI3Y0UmyX52H9K7ixs_a9cBsGEcOCn",
-        "imageLocal": "images/43dd57fc9c265866.png"
-      },
-      "options": [
-        "Тайное",
-        "Запрещённое",
-        "Засекреченное"
-      ],
-      "optionsSub": [
-        "Covert",
-        "Restricted",
-        "Classified"
-      ],
-      "answer": 0
-    },
-    {
-      "item": {
-        "hash": "P2000 | Silver (Factory New)",
-        "name": "P2000 | Silver",
-        "weapon": "P2000",
-        "pattern": "Silver",
-        "wear": "Factory New",
-        "wearShort": "FN",
+        "hash": "SSG 08 | Threat Detected (Minimal Wear)",
+        "name": "SSG 08 | Threat Detected",
+        "weapon": "SSG 08",
+        "pattern": "Threat Detected",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
         "rarity": "Mil-Spec Grade",
         "color": "#4b69ff",
         "knife": false,
         "hype": false,
-        "price": 275,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0POgV7dkLOaWHFicyOl-pK8_Tn_nx00i6jjXnt-vJyqSaQdzDsYlFrED40W-x9bgYb6z41PY3Y9A02yg2X8l3LyC",
-        "imageLocal": "images/774fe1461278fa93.png"
+        "price": 27.51,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1a4s2nZrBoLPyaCWKewutJv_NoQS62qhEutDWR1ImuJy_BagUgDMR1ROVbthK6xofvNrnk5lHditpByCz3iC9M7Cdv4ekcEf1ytraGvsY",
+        "imageLocal": "images/d8accdd574f49171.png"
       },
       "options": [
         "Ширпотреб",
-        "Засекреченное",
-        "Армейское качество"
-      ],
-      "optionsSub": [
-        "Consumer Grade",
-        "Classified",
-        "Mil-Spec Grade"
-      ],
-      "answer": 2
-    },
-    {
-      "item": {
-        "hash": "R8 Revolver | Fade (Minimal Wear)",
-        "name": "R8 Revolver | Fade",
-        "weapon": "R8 Revolver",
-        "pattern": "Fade",
-        "wear": "Minimal Wear",
-        "wearShort": "MW",
-        "rarity": "Covert",
-        "color": "#eb4b4b",
-        "knife": false,
-        "hype": true,
-        "price": 121.99,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLjm4Dv8TRe_c2vaZtrIfSWMXWV1-F6puR7cCW6khUz_W2EnIuheSiVZgIgX8F3Ee9YthLuw9LjMePqswCL34kQzHj6iypPu351o7FV6jjqgC8",
-        "imageLocal": "images/42d1f791762c8aaa.png"
-      },
-      "options": [
-        "Запрещённое",
-        "Тайное",
+        "Армейское качество",
         "Засекреченное"
       ],
       "optionsSub": [
-        "Restricted",
-        "Covert",
+        "Consumer Grade",
+        "Mil-Spec Grade",
         "Classified"
       ],
       "answer": 1
     },
     {
       "item": {
-        "hash": "Desert Eagle | Night (Well-Worn)",
-        "name": "Desert Eagle | Night",
-        "weapon": "Desert Eagle",
-        "pattern": "Night",
+        "hash": "USP-S | Orion (Well-Worn)",
+        "name": "USP-S | Orion",
+        "weapon": "USP-S",
+        "pattern": "Orion",
         "wear": "Well-Worn",
         "wearShort": "WW",
-        "rarity": "Industrial Grade",
-        "color": "#5e98d9",
-        "knife": false,
-        "hype": false,
-        "price": 16.72,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk_P2RZq1qKOSsAm6Xyfo4seVrHHjmzRhz42XUm4mgIC6TaQYkXpMjTLIIsRawl9HhYbzktFPfgpUFk3u310nzMg",
-        "imageLocal": "images/e1632062beda4b08.png"
-      },
-      "options": [
-        "Промышленное качество",
-        "Армейское качество",
-        "Запрещённое"
-      ],
-      "optionsSub": [
-        "Industrial Grade",
-        "Mil-Spec Grade",
-        "Restricted"
-      ],
-      "answer": 0
-    },
-    {
-      "item": {
-        "hash": "USP-S | Ancient Visions (Factory New)",
-        "name": "USP-S | Ancient Visions",
-        "weapon": "USP-S",
-        "pattern": "Ancient Visions",
-        "wear": "Factory New",
-        "wearShort": "FN",
-        "rarity": "Restricted",
-        "color": "#8847ff",
+        "rarity": "Classified",
+        "color": "#d32ce6",
         "knife": false,
         "hype": true,
-        "price": 92.29,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSM-CsD2mTyOt4pN5rXSC0nQkYvzSCkpu3eHiSOAB0DsMkTOcJtRjtwNG1ZOvq4wDe2t1AzCuojy1JvSpp4ewKVr1lpPOm90TY1A",
-        "imageLocal": "images/9fd2b2334ee364d4.png"
+        "price": 88.74,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGJKz2lu_XuWbwcuyMESA4Fdl-4nnpU7iQA3-kKn17jJk_PuibapuJeLdWGLFwL8i4eVsFiqxxUt34jmHnoysJ3qVOAYgCJZwQrRb5EPul4XlYvSiuVIHgy4Xvg",
+        "imageLocal": "images/93cbf8ef4be7e9d8.png"
       },
       "options": [
         "Тайное",
-        "Засекреченное",
-        "Запрещённое"
+        "Армейское качество",
+        "Засекреченное"
       ],
       "optionsSub": [
         "Covert",
-        "Classified",
-        "Restricted"
+        "Mil-Spec Grade",
+        "Classified"
       ],
       "answer": 2
     },
     {
       "item": {
-        "hash": "AK-47 | Fuel Injector (Field-Tested)",
-        "name": "AK-47 | Fuel Injector",
-        "weapon": "AK-47",
-        "pattern": "Fuel Injector",
-        "wear": "Field-Tested",
-        "wearShort": "FT",
+        "hash": "AWP | Fever Dream (Factory New)",
+        "name": "AWP | Fever Dream",
+        "weapon": "AWP",
+        "pattern": "Fever Dream",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": true,
+        "price": 50,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7R-OfObAXeR1eZJvOhuRz39kE1w4jiAzNiod3qTOgcgXpAlQ-ML5hjqxtHjZOrrtlHWit9EyCj9iDQJsHhCZP-wUg",
+        "imageLocal": "images/1c2e0e4e126b9843.png"
+      },
+      "options": [
+        "Тайное",
+        "Засекреченное",
+        "Армейское качество"
+      ],
+      "optionsSub": [
+        "Covert",
+        "Classified",
+        "Mil-Spec Grade"
+      ],
+      "answer": 1
+    },
+    {
+      "item": {
+        "hash": "M4A1-S | Chantico's Fire (Battle-Scarred)",
+        "name": "M4A1-S | Chantico's Fire",
+        "weapon": "M4A1-S",
+        "pattern": "Chantico's Fire",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
         "rarity": "Covert",
         "color": "#eb4b4b",
         "knife": false,
         "hype": true,
-        "price": 264.17,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI0POlPPNSM-WDC3WTye9kt-RtcCW6khUz_WuGy9_8dHuRbg5xW5IjQ-BYshK9mta0NLmw4lDa2o0Wni_3iy4f6np1o7FVB0pWHHg",
-        "imageLocal": "images/132036253ff81f72.png"
+        "price": 172.57,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGMWrEwL9lj_JmWiWnlBYioQKJk4jxNWXFZ1IgC5MiQuZeuhK4wIXnMuPhslCM2oMTxH75hnxK6Htjse4BVqd25OSJ2DU2Q_CD",
+        "imageLocal": "images/83095f7205dd80b9.png"
       },
       "options": [
         "Тайное",
@@ -211,29 +155,85 @@
     },
     {
       "item": {
-        "hash": "AWP | Graphite (Factory New)",
-        "name": "AWP | Graphite",
-        "weapon": "AWP",
-        "pattern": "Graphite",
-        "wear": "Factory New",
-        "wearShort": "FN",
+        "hash": "AK-47 | Neon Revolution (Battle-Scarred)",
+        "name": "AK-47 | Neon Revolution",
+        "weapon": "AK-47",
+        "pattern": "Neon Revolution",
+        "wear": "Battle-Scarred",
+        "wearShort": "BS",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 163.96,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSIf6SHGSY2NF6ueZhW2e3w0524mjQzomreXqVbAAhWJF3RuZfuxC5x920Yurh7gONjY0RxHr4kGoXuT5bpI-V",
+        "imageLocal": "images/f40e2b747ce9839c.png"
+      },
+      "options": [
+        "Засекреченное",
+        "Тайное",
+        "Запрещённое"
+      ],
+      "optionsSub": [
+        "Classified",
+        "Covert",
+        "Restricted"
+      ],
+      "answer": 1
+    },
+    {
+      "item": {
+        "hash": "SCAR-20 | Bloodsport (Field-Tested)",
+        "name": "SCAR-20 | Bloodsport",
+        "weapon": "SCAR-20",
+        "pattern": "Bloodsport",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
         "rarity": "Classified",
         "color": "#d32ce6",
         "knife": false,
-        "hype": false,
-        "price": 217.84,
-        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_C9k7OC7ZbRhJc-RHGaGztF6ueZhW2e2k0l2sW_WzN7_cS6SbgV1CsF3TOEI4EOwloGzNLzg5g3fiIpHxC78kGoXuTqeOjwH",
-        "imageLocal": "images/99304d90f3d48404.png"
+        "hype": true,
+        "price": 17.27,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLinZfyr3Jk6OGRe6dsMqLDMWWczuFyo_FmXT2MmRQguynLnoqrcHPCaFdzDMF5F-8P4Bbum9fkYuvrsVffjI5AyS75inlL5ixjsvFCD_R20nqesQ",
+        "imageLocal": "images/b50e27a9ebcaa31d.png"
       },
       "options": [
-        "Запрещённое",
         "Засекреченное",
+        "Запрещённое",
         "Армейское качество"
       ],
       "optionsSub": [
-        "Restricted",
         "Classified",
+        "Restricted",
         "Mil-Spec Grade"
+      ],
+      "answer": 0
+    },
+    {
+      "item": {
+        "hash": "Desert Eagle | Crimson Web (Field-Tested)",
+        "name": "Desert Eagle | Crimson Web",
+        "weapon": "Desert Eagle",
+        "pattern": "Crimson Web",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Restricted",
+        "color": "#8847ff",
+        "knife": false,
+        "hype": true,
+        "price": 15.98,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk5-uRf6FvM8-XD3WbxPxJvOhuRz39wEUh5W3Rytyscy7FPAYgWJJzRe4MtUW8loKyZOm3sQzb34lEzyX32zQJsHig-EWd2A",
+        "imageLocal": "images/a3b8a90e535a1a58.png"
+      },
+      "options": [
+        "Тайное",
+        "Запрещённое",
+        "Промышленное качество"
+      ],
+      "optionsSub": [
+        "Covert",
+        "Restricted",
+        "Industrial Grade"
       ],
       "answer": 1
     }
@@ -241,24 +241,25 @@
   "caption": "Какой скин дороже? Проверь себя\nСамый хитрый раунд — последний 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек",
   "narration": [
     {
-      "text": "Отличишь ковёрт от рестрикта? Сомневаюсь.",
+      "text": "Ты десятый лвл фейсита, если угадаешь всё.",
       "emotion": "hype",
       "alts": [
-        "Отличишь ковёрт от рестрикта?"
+        "Угадаешь всё — ты десятый лвл!"
       ],
       "frame": 4,
       "window": 104,
-      "display": "Отличишь ковёрт от рестрикта? Сомневаюсь."
+      "display": "Ты десятый лвл фейсита, если угадаешь всё."
     },
     {
-      "text": "Вот и цвет. Угадал?",
+      "text": "Не угадал? Ну и хуй с ним.",
       "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Вот и цвет!"
+        "Не угадал? Бывает."
       ],
       "frame": 215,
       "window": 61,
-      "display": "Вот и цвет. Угадал?"
+      "display": "Не угадал? Ну и хуй с ним."
     },
     {
       "text": "Так, а тут?",
@@ -278,6 +279,13 @@
       "display": "По виду вообще не скажешь."
     },
     {
+      "text": "Погнали дальше.",
+      "emotion": "hype",
+      "frame": 450,
+      "window": 92,
+      "display": "Погнали дальше."
+    },
+    {
       "text": "Тут многие валятся.",
       "emotion": "hype",
       "alts": [
@@ -288,61 +296,63 @@
       "display": "Тут многие валятся."
     },
     {
+      "text": "Вот так вот, запоминай.",
+      "emotion": "neutral",
+      "alts": [
+        "Запоминай."
+      ],
+      "frame": 719,
+      "window": 61,
+      "display": "Вот так вот, запоминай."
+    },
+    {
       "text": "Ладно, вот этот.",
       "emotion": "neutral",
-      "frame": 618,
+      "frame": 786,
       "window": 92,
       "display": "Ладно, вот этот."
     },
     {
-      "text": "Красный — это ковёрт, запомни.",
-      "emotion": "neutral",
+      "text": "Сука, обманчивая штука.",
+      "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Запомни цвета!"
-      ],
-      "frame": 719,
-      "window": 61,
-      "display": "Красный — это ковёрт, запомни."
-    },
-    {
-      "text": "Красный — это ковёрт, запомни.",
-      "emotion": "neutral",
-      "alts": [
-        "Запомни цвета!"
+        "Обманчивая штука!"
       ],
       "frame": 887,
       "window": 61,
-      "display": "Красный — это ковёрт, запомни."
+      "display": "Сука, обманчивая штука."
     },
     {
-      "text": "Красный — это ковёрт, запомни.",
-      "emotion": "neutral",
+      "text": "Блядь, а я думал наоборот.",
+      "emotion": "hype",
+      "nsfw": true,
       "alts": [
-        "Запомни цвета!"
+        "А я думал наоборот!"
       ],
       "frame": 1055,
       "window": 61,
-      "display": "Красный — это ковёрт, запомни."
+      "display": "Блядь, а я думал наоборот."
     },
     {
-      "text": "Последний. Не слейся.",
+      "text": "Финалка. Тут все и палятся.",
       "emotion": "hype",
       "alts": [
-        "Последний!"
+        "Финалка!"
       ],
       "frame": 1122,
       "window": 92,
-      "display": "Последний. Не слейся."
+      "display": "Финалка. Тут все и палятся."
     },
     {
-      "text": "По виду вообще не скажешь.",
+      "text": "Тайное — это самый топ, если что.",
       "emotion": "neutral",
       "alts": [
-        "По виду не скажешь!"
+        "Тайное — это топ."
       ],
       "frame": 1223,
       "window": 61,
-      "display": "По виду вообще не скажешь."
+      "display": "Тайное — это самый топ, если что."
     },
     {
       "alts": [
