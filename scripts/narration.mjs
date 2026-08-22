@@ -11,15 +11,26 @@
 import fs from 'node:fs';
 import {p, readJson, writeJson, config, log, rnd} from './lib.mjs';
 
-const INTRO = [
-  'Что дороже? Погнали!',
-  'Угадай, что дороже!',
-  'Знаешь цены в CS2? Проверим!',
-];
-const ROUND = [
-  'Раунд {n}. Что дороже?',
-  'Раунд {n}!',
-];
+const INTRO = {
+  duel: [
+    'Что дороже? Погнали!',
+    'Угадай, что дороже!',
+    'Знаешь цены в CS2? Проверим!',
+  ],
+  price: [
+    'Угадай цену скина!',
+    'Сколько это стоит? Погнали!',
+  ],
+  odd: [
+    'Найди лишний скин!',
+    'Один из трёх — чужак. Погнали!',
+  ],
+};
+const ROUND = {
+  duel: ['Раунд {n}. Что дороже?', 'Раунд {n}!'],
+  price: ['Раунд {n}. Сколько стоит?', 'Раунд {n}!'],
+  odd: ['Раунд {n}. Что лишнее?', 'Раунд {n}!'],
+};
 const ROUND_LAST = [
   'Последний раунд. Самый сложный!',
   'Финальный раунд!',
@@ -32,8 +43,19 @@ const OUTRO = [
 /** «в 3 раза» / «в 7 раз» */
 const times = (n) => `в ${n} раз${n >= 2 && n <= 4 ? 'а' : ''}`;
 
-// буква в тексте совпадает с меткой карточки на экране, чтобы диктор читал то же самое
-function revealLine(round) {
+// буква в тексте совпадает с меткой на экране, чтобы диктор читал то же самое
+function revealLine(round, format) {
+  if (format === 'price') {
+    const letter = 'ABC'[round.answer];
+    return {text: `Ответ — ${letter}!`, alts: [`${letter}!`]};
+  }
+  if (format === 'odd') {
+    const letter = 'ABC'[round.answer];
+    const n = Math.round(round.ratio);
+    const dir = round.dearer ? 'дороже' : 'дешевле';
+    const text = n >= 2 ? `Лишний — ${letter}, ${dir} ${times(n)}!` : `Лишний — ${letter}!`;
+    return {text, alts: [`Лишний — ${letter}!`]};
+  }
   const side = round.answer === 'a' ? 'A' : 'B';
   const n = Math.round(round.ratio);
   const text = round.trap
@@ -45,23 +67,24 @@ function revealLine(round) {
 }
 
 export function buildNarration(quiz) {
+  const format = quiz.format ?? 'duel';
   const t = quiz.timing;
   const rl = t.roundIn + t.countdown + t.reveal;
   const lines = [];
 
-  lines.push({text: rnd(INTRO), alts: ['Что дороже?'], frame: 4, window: t.intro - 8});
+  lines.push({text: rnd(INTRO[format] ?? INTRO.duel), alts: ['Погнали!'], frame: 4, window: t.intro - 8});
 
   quiz.rounds.forEach((round, i) => {
     const start = t.intro + i * rl;
     const last = i === quiz.rounds.length - 1;
-    const roundText = (last ? rnd(ROUND_LAST) : rnd(ROUND)).replace('{n}', String(i + 1));
+    const roundText = (last ? rnd(ROUND_LAST) : rnd(ROUND[format] ?? ROUND.duel)).replace('{n}', String(i + 1));
     lines.push({
       text: roundText,
       alts: [`Раунд ${i + 1}!`],
       frame: start + 2,
       window: t.roundIn + t.countdown - 10,
     });
-    const rv = revealLine(round);
+    const rv = revealLine(round, format);
     lines.push({...rv, frame: start + t.roundIn + t.countdown + 1, window: t.reveal - 5});
   });
 

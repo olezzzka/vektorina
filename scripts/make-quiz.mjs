@@ -1,11 +1,14 @@
 /**
- * Собирает викторину: подбирает пары скинов так, чтобы вопрос был не очевидным,
- * но и не спорным. Пишет out/quizzes/<id>.json и out/captions/<id>.txt
+ * Собирает викторину. Форматы:
+ *   duel  — «что дороже»: два скина (по умолчанию)
+ *   price — «угадай цену»: один скин, три варианта цены A/B/C
+ *   odd   — «что лишнее»: три скина, один из другой ценовой лиги
+ * Пишет out/quizzes/<id>.json, out/captions/<id>.txt, out/scripts/<id>.txt
  *
- *   node scripts/make-quiz.mjs [--rounds 5] [--id my-video] [--count 3]
+ *   node scripts/make-quiz.mjs [--rounds 5] [--id my-video] [--count 3] [--format price|odd|duel|random]
  */
 import fs from 'node:fs';
-import {p, readJson, writeJson, config, log, warn, shuffle} from './lib.mjs';
+import {p, readJson, writeJson, config, log, warn, shuffle, rnd} from './lib.mjs';
 import {buildNarration, narrationScript} from './narration.mjs';
 
 const argv = process.argv.slice(2);
@@ -13,6 +16,8 @@ const arg = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i
 const cfg = config();
 const ROUNDS = Number(arg('rounds', cfg.roundsPerVideo));
 const COUNT = Number(arg('count', 1));
+const FORMAT_ARG = arg('format', cfg.format ?? 'duel');
+const FORMATS = ['duel', 'price', 'odd'];
 
 const catalog = readJson(p('data', 'catalog.json'));
 if (!catalog) { console.error('нет data/catalog.json — сначала `npm run data`'); process.exit(1); }
@@ -97,21 +102,122 @@ const slim = (i) => ({
   image: i.image,
 });
 
-const HOOKS = [
-  'Угадаешь хотя бы 3 из 5?',
-  '90% ошибаются на последнем раунде',
-  'Какой скин дороже? Проверь себя',
-  'Считай очки — ответ в комменты',
-  'Думаешь, знаешь цены в CS2?',
-];
+/** Округляет до «правдоподобной» цены: 2 значащие цифры ($34.52 → $35, $1278 → $1300). */
+const nicePrice = (v) => {
+  const mag = Math.pow(10, Math.floor(Math.log10(v)) - 1);
+  return Math.round(v / mag) * mag;
+};
+
+/** «Угадай цену»: один скин, три варианта. Разброс вариантов сужается к концу ролика. */
+function buildPriceRound(pool, roundIdx, taken) {
+  const t = ROUNDS === 1 ? 0 : roundIdx / (ROUNDS - 1);
+  const spread = 3.0 - 1.4 * t;                      // ранние раунды: варианты далеко, поздние: впритык
+  const allowKnife = Math.random() < (cfg.pairing.knifeChance ?? 0.25);
+  const scoped = allowKnife ? pool : pool.filter((i) => !i.knife);
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const item = pickWeighted(scoped);
+    if (taken.has(item.name)) continue;
+    const jitter = () => spread * (0.85 + Math.random() * 0.3);
+    const low = nicePrice(item.price / jitter());
+    const high = nicePrice(item.price * jitter());
+    const real = Number(item.price.toFixed(2));
+    if (low <= 0 || low === high || nicePrice(real) === low || nicePrice(real) === high) continue;
+    const options = shuffle([
+      {value: real, correct: true},
+      {value: low, correct: false},
+      {value: high, correct: false},
+    ]);
+    return {
+      item: slim(item),
+      options: options.map((o) => o.value),
+      answer: options.findIndex((o) => o.correct),
+    };
+  }
+  return null;
+}
+
+/** «Что лишнее»: два скина из одной ценовой лиги + один из другой. */
+function buildOddRound(pool, roundIdx, taken) {
+  const t = ROUNDS === 1 ? 0 : roundIdx / (ROUNDS - 1);
+  const gapLo = 5.5 - 2.5 * t;                       // ранние: лишний в 5.5–9x, поздние: в 3–5x
+  const gapHi = gapLo * 1.6;
+  const allowKnife = Math.random() < (cfg.pairing.knifeChance ?? 0.25);
+  const scoped = allowKnife ? pool : pool.filter((i) => !i.knife);
+
+  for (let attempt = 0; attempt < 400; attempt++) {
+    const a = pickWeighted(scoped);
+    if (taken.has(a.name)) continue;
+    const mates = scoped.filter((b) => {
+      if (b.name === a.name || taken.has(b.name) || b.weapon === a.weapon) return false;
+      const r = Math.max(a.price, b.price) / Math.min(a.price, b.price);
+      return r <= 1.5;                               // одна лига
+    });
+    if (!mates.length) continue;
+    const b = mates[Math.floor(Math.random() * mates.length)];
+    const mid = Math.sqrt(a.price * b.price);
+    const dearer = Math.random() < 0.5;              // лишний дороже или дешевле лиги
+    const odds = scoped.filter((c) => {
+      if (c.name === a.name || c.name === b.name || taken.has(c.name)) return false;
+      if (c.weapon === a.weapon || c.weapon === b.weapon) return false;
+      const r = dearer ? c.price / mid : mid / c.price;
+      return r >= gapLo && r <= gapHi;
+    });
+    if (!odds.length) continue;
+    const odd = odds[Math.floor(Math.random() * odds.length)];
+    const items = shuffle([slim(a), slim(b), slim(odd)]);
+    return {
+      items,
+      answer: items.findIndex((i) => i.hash === odd.hash),
+      ratio: Number((dearer ? odd.price / mid : mid / odd.price).toFixed(2)),
+      dearer,
+    };
+  }
+  return null;
+}
+
+/** Все скины раунда — для учёта повторов и скачивания картинок. */
+const roundItems = (round) => round.items ?? (round.item ? [round.item] : [round.a, round.b]);
+
+const HOOKS = {
+  duel: [
+    'Угадаешь хотя бы 3 из 5?',
+    '90% ошибаются на последнем раунде',
+    'Какой скин дороже? Проверь себя',
+    'Считай очки — ответ в комменты',
+    'Думаешь, знаешь цены в CS2?',
+  ],
+  price: [
+    'Угадаешь цену хотя бы 3 скинов?',
+    'Сколько стоит этот скин? 90% мимо',
+    'Проверь, чувствуешь ли ты цены CS2',
+  ],
+  odd: [
+    'Найди лишний скин — это сложнее, чем кажется',
+    'Один из трёх — из другой лиги. Какой?',
+    'Что лишнее? Финал валит почти всех',
+  ],
+};
 const TAGS = ['#cs2','#кс2','#counterstrike2','#cs2skins','#скиныcs2','#викторина','#quiz','#кейсы','#csgo','#рек'];
 
+/** Заголовки экранов под формат (перекрываются config.json → text). */
+const FORMAT_TEXT = {
+  duel: {},
+  price: {introTitle: 'УГАДАЙ ЦЕНУ', introSubtitle: '{n} скинов · сколько угадаешь?'},
+  odd: {introTitle: 'ЧТО ЛИШНЕЕ?', introSubtitle: '{n} раундов · найди чужака'},
+};
+
 function caption(quiz) {
-  const hook = HOOKS[Math.floor(Math.random() * HOOKS.length)];
-  const hardest = [...quiz.rounds].sort((r1, r2) => r1.ratio - r2.ratio)[0];
+  const hook = rnd(HOOKS[quiz.format] ?? HOOKS.duel);
+  const highlight =
+    quiz.format === 'duel'
+      ? `Самый сложный раунд: ${[...quiz.rounds].sort((r1, r2) => r1.ratio - r2.ratio)[0].a.name} против ${[...quiz.rounds].sort((r1, r2) => r1.ratio - r2.ratio)[0].b.name} 👀`
+      : quiz.format === 'price'
+        ? `Самый жирный лот: ${[...quiz.rounds].sort((r1, r2) => r2.item.price - r1.item.price)[0].item.name} 👀`
+        : `Самый хитрый раунд — последний 👀`;
   return [
     hook,
-    `Самый сложный раунд: ${hardest.a.name} против ${hardest.b.name} 👀`,
+    highlight,
     `Сколько угадал? Пиши в комменты 👇`,
     '',
     `Цены: Steam Market на ${new Date(quiz.priceMeta.updatedAt ?? Date.now()).toLocaleDateString('ru-RU')}`,
@@ -121,13 +227,17 @@ function caption(quiz) {
 }
 
 function makeOne(index) {
+  const format = FORMAT_ARG === 'random' ? rnd(FORMATS) : FORMAT_ARG;
+  if (!FORMATS.includes(format)) { console.error(`неизвестный формат «${format}» (есть: ${FORMATS.join(', ')}, random)`); process.exit(1); }
+  const build = format === 'price' ? buildPriceRound : format === 'odd' ? buildOddRound : buildRound;
+
   const pool = catalog.items.filter((i) => (used.items[i.hash] ?? 0) < cfg.pairing.maxUsesPerItem);
   const taken = new Set();
   const rounds = [];
   for (let r = 0; r < ROUNDS; r++) {
-    const round = buildRound(pool, r, taken);
-    if (!round) { warn(`раунд ${r + 1}: не нашёл пару, пропускаю`); continue; }
-    taken.add(round.a.name); taken.add(round.b.name);
+    const round = build(pool, r, taken);
+    if (!round) { warn(`раунд ${r + 1}: не нашёл подходящих скинов, пропускаю`); continue; }
+    for (const it of roundItems(round)) taken.add(it.name);
     rounds.push(round);
   }
   if (rounds.length < ROUNDS) warn(`собрано ${rounds.length}/${ROUNDS} раундов`);
@@ -135,17 +245,16 @@ function makeOne(index) {
   const stamp = new Date().toISOString().slice(0, 10);
   const id = arg('id', null) ?? `${stamp}-${String(index + 1).padStart(2, '0')}-${Math.random().toString(36).slice(2, 6)}`;
   const quiz = {
-    id, generatedAt: new Date().toISOString(),
+    id, format, generatedAt: new Date().toISOString(),
     priceMeta: catalog.meta, symbol: cfg.display.symbol, rate: cfg.display.rate,
-    timing: cfg.timing, text: cfg.text, audio: cfg.audio, captions: cfg.captions, rounds,
+    timing: cfg.timing, text: {...cfg.text, ...FORMAT_TEXT[format]}, audio: cfg.audio, captions: cfg.captions, rounds,
   };
   quiz.caption = caption(quiz);
   quiz.narration = buildNarration(quiz);
 
   for (const r of rounds) {
-    usedPairs.add([r.a.hash, r.b.hash].sort().join(' || '));
-    used.items[r.a.hash] = (used.items[r.a.hash] ?? 0) + 1;
-    used.items[r.b.hash] = (used.items[r.b.hash] ?? 0) + 1;
+    if (format === 'duel') usedPairs.add([r.a.hash, r.b.hash].sort().join(' || '));
+    for (const it of roundItems(r)) used.items[it.hash] = (used.items[it.hash] ?? 0) + 1;
   }
 
   writeJson(p('out', 'quizzes', `${id}.json`), quiz);
@@ -153,9 +262,15 @@ function makeOne(index) {
   fs.writeFileSync(p('out', 'captions', `${id}.txt`), quiz.caption);
   fs.mkdirSync(p('out', 'scripts'), {recursive: true});
   fs.writeFileSync(p('out', 'scripts', `${id}.txt`), narrationScript(quiz, cfg.video?.fps ?? 30));
-  log(`викторина ${id}:`);
+  log(`викторина ${id} (${format}):`);
   for (const [n, r] of rounds.entries()) {
-    log(`   ${n + 1}. ${r.a.name} ${r.a.wearShort} $${r.a.price}  vs  ${r.b.name} ${r.b.wearShort} $${r.b.price}  (x${r.ratio}${r.trap ? ', ловушка' : ''})`);
+    if (format === 'duel') {
+      log(`   ${n + 1}. ${r.a.name} ${r.a.wearShort} $${r.a.price}  vs  ${r.b.name} ${r.b.wearShort} $${r.b.price}  (x${r.ratio}${r.trap ? ', ловушка' : ''})`);
+    } else if (format === 'price') {
+      log(`   ${n + 1}. ${r.item.name} ${r.item.wearShort} $${r.item.price}  варианты: ${r.options.map((v, i) => `${'ABC'[i]}=$${v}${i === r.answer ? '✓' : ''}`).join(' ')}`);
+    } else {
+      log(`   ${n + 1}. ${r.items.map((it, i) => `${'ABC'[i]}: ${it.name} $${it.price}${i === r.answer ? ' ←лишний' : ''}`).join('  ')}`);
+    }
   }
   return quiz;
 }

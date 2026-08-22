@@ -14,6 +14,10 @@ const file = argv.find((a) => a.endsWith('.json')) ??
   p('out', 'quizzes', `${fs.readFileSync(p('out', 'last-quiz-id.txt'), 'utf8').trim()}.json`);
 const drop = argv.includes('--drop');
 const quiz = readJson(file);
+if (quiz.format && quiz.format !== 'duel') {
+  warn(`сверка цен работает только для формата duel (тут ${quiz.format})`);
+  process.exit(0);
+}
 
 const steamPrice = async (hash) => {
   const url = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(hash)}`;

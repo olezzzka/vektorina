@@ -1,5 +1,6 @@
 {
   "roundsPerVideo": 7,
+  "format": "duel",
   "video": {
     "width": 1080,
     "height": 1920,

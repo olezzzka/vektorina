@@ -33,8 +33,8 @@ const placeholder = (item, out) => {
 
 let ok = 0, ph = 0;
 for (const round of quiz.rounds) {
-  for (const key of ['a', 'b']) {
-    const item = round[key];
+  const items = round.items ?? (round.item ? [round.item] : [round.a, round.b]);
+  for (const item of items) {
     const h = crypto.createHash('sha1').update(item.hash).digest('hex').slice(0, 16);
     let name = `${h}.png`;
     let out = `${dir}/${name}`;

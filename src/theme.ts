@@ -17,9 +17,14 @@ export type Item = {
   knife?: boolean; price: number; image: string; imageLocal?: string;
 };
 export type Round = {a: Item; b: Item; answer: 'a' | 'b'; ratio: number; trap: boolean};
+export type PriceRound = {item: Item; options: number[]; answer: number};
+export type OddRound = {items: Item[]; answer: number; ratio: number; dearer: boolean};
+export type AnyRound = Round | PriceRound | OddRound;
+export type QuizFormat = 'duel' | 'price' | 'odd';
 export type NarrationLine = {text: string; alts?: string[]; frame: number; window: number};
 export type Quiz = {
   id: string;
+  format?: QuizFormat;
   symbol: string;
   rate: number;
   priceMeta: {source: string; updatedAt: string | null};
@@ -29,7 +34,7 @@ export type Quiz = {
   captions?: {enabled: boolean};
   narration?: NarrationLine[];
   voice?: string;
-  rounds: Round[];
+  rounds: AnyRound[];
 };
 
 export const roundLength = (t: Quiz['timing']) => t.roundIn + t.countdown + t.reveal;
