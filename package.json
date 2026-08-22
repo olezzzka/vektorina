@@ -14,7 +14,8 @@
     "studio": "remotion studio",
     "setup-voice": "node scripts/setup-voice.mjs",
     "sfx": "node scripts/make-sfx.mjs",
-    "ui": "node scripts/studio.mjs"
+    "ui": "node scripts/studio.mjs",
+    "say": "node scripts/say.mjs"
   },
   "dependencies": {
     "@fontsource/bebas-neue": "^5.3.0",

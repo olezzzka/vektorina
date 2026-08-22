@@ -17,7 +17,7 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {p, readJson, writeJson, config, log, warn, loadEnv, sleep} from './lib.mjs';
-import {displayText} from './narration.mjs';
+import {displayText, speechText} from './narration.mjs';
 
 loadEnv();
 const cfg = config();
@@ -182,10 +182,11 @@ function xttsBatch(items) {
 async function tts(text, emotion) {
   const f = cachePath(text, emotion);
   if (isCached(f)) return {file: f, cached: true};
-  if (ENGINE === 'silero') sileroBatch([{text, ssml: ssmlFor(text, emotion), out: f}]);
-  else if (ENGINE === 'xtts') xttsBatch([{text, speed: XTTS_SPEED[emotion ?? 'neutral'] ?? 1, out: f}]);
-  else if (ENGINE === 'piper') { piperSay(text, f); trimSilence(f); }
-  else { await elevenSay(text, f); trimSilence(f); }
+  const say = speechText(text);                          // «как читать», а не «как писать»
+  if (ENGINE === 'silero') sileroBatch([{text: say, ssml: ssmlFor(say, emotion), out: f}]);
+  else if (ENGINE === 'xtts') xttsBatch([{text: say, speed: XTTS_SPEED[emotion ?? 'neutral'] ?? 1, out: f}]);
+  else if (ENGINE === 'piper') { piperSay(say, f); trimSilence(f); }
+  else { await elevenSay(say, f); trimSilence(f); }
   return {file: f, cached: false};
 }
 
@@ -227,8 +228,8 @@ if (ENGINE === 'silero' || ENGINE === 'xtts') {
       const out = cachePath(text, line.emotion);
       if (!isCached(out) && !need.has(out)) {
         need.set(out, ENGINE === 'silero'
-          ? {text, ssml: ssmlFor(text, line.emotion), out}
-          : {text, speed: XTTS_SPEED[line.emotion ?? 'neutral'] ?? 1, out});
+          ? {text: speechText(text), ssml: ssmlFor(speechText(text), line.emotion), out}
+          : {text: speechText(text), speed: XTTS_SPEED[line.emotion ?? 'neutral'] ?? 1, out});
       }
     }
   }

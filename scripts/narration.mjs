@@ -21,16 +21,16 @@ import {p, readJson, writeJson, config, log, rnd} from './lib.mjs';
 const HOOKS = {
   any: [
     {text: 'Ты тупее обезьяны, если этого не знаешь.', emotion: 'hype', alts: ['Тупее обезьяны, если не знаешь!']},
-    {text: 'Ты вообще не играл в кэ-эс, если ответишь неправильно.', emotion: 'hype', alts: ['Ответишь неверно — ты не играл в кэ-эс!']},
+    {text: 'Ты вообще не играл в CS, если ответишь неправильно.', emotion: 'hype', alts: ['Ответишь неверно — ты не играл в CS!']},
     {text: 'Ты настоящий лох, если не ответишь на это.', emotion: 'hype', alts: ['Не ответишь — ты лох!']},
     {text: 'Не угадаешь — значит скины видел только на картинках.', emotion: 'hype', alts: ['Видел скины только на картинках?']},
-    {text: 'Ответишь неправильно — ты фейковый кэ-эсер.', emotion: 'hype', alts: ['Ответишь неверно — ты фейк!']},
-    {text: 'Сольёшь это — тебе пора в шашки, а не в кэ-эс.', emotion: 'hype', alts: ['Сольёшь — иди в шашки!']},
+    {text: 'Ответишь неправильно — ты фейковый CSер.', emotion: 'hype', alts: ['Ответишь неверно — ты фейк!']},
+    {text: 'Сольёшь это — тебе пора в шашки, а не в CS.', emotion: 'hype', alts: ['Сольёшь — иди в шашки!']},
     {text: 'Только конченый нуб не угадает первый раунд.', emotion: 'hype', alts: ['Только нуб сольёт первый раунд!']},
-    {text: 'Ты десятый лэвэл фейсита, если угадаешь всё.', emotion: 'hype', alts: ['Угадаешь всё — ты десятый лэвэл!']},
+    {text: 'Ты десятый лвл фейсита, если угадаешь всё.', emotion: 'hype', alts: ['Угадаешь всё — ты десятый лвл!']},
     {text: 'Твоя собака угадает лучше тебя. Проверим?', emotion: 'hype', alts: ['Собака угадает лучше тебя!']},
     {text: 'Девяносто процентов сливаются на последнем раунде.', emotion: 'hype', alts: ['Девяносто процентов сольются!']},
-    {text: 'Не угадаешь — удаляй кэ-эс, блядь, честное слово.', emotion: 'hype', nsfw: true, alts: ['Не угадаешь — удаляй кэ-эс!']},
+    {text: 'Не угадаешь — удаляй CS, блядь, честное слово.', emotion: 'hype', nsfw: true, alts: ['Не угадаешь — удаляй CS!']},
     {text: 'Скинов на тысячу долларов, а цены не знаешь?', emotion: 'hype', alts: ['А цены-то знаешь?']},
     {text: 'Тут даже сильвер угадает. Или нет?', emotion: 'hype', alts: ['Даже сильвер угадает!']},
     {text: 'Семь из семи — и ты шаришь за скины сильнее меня.', emotion: 'hype', alts: ['Семь из семи — и ты шаришь!']},
@@ -58,10 +58,10 @@ const HOOKS = {
   ],
   sound: [
     {text: 'Узнаешь ствол по выстрелу? Надевай наушники.', emotion: 'hype', alts: ['Узнаешь ствол по выстрелу?']},
-    {text: 'Тысячи часов в кэ-эс — а на слух угадаешь?', emotion: 'hype', alts: ['А на слух угадаешь?']},
+    {text: 'Тысячи часов в CS — а на слух угадаешь?', emotion: 'hype', alts: ['А на слух угадаешь?']},
   ],
   spot: [
-    {text: 'Не назовёшь калауты — ты в кэ-эс турист.', emotion: 'hype', nsfw: false, alts: ['Не назовёшь калауты — ты турист!']},
+    {text: 'Не назовёшь калауты — ты в CS турист.', emotion: 'hype', nsfw: false, alts: ['Не назовёшь калауты — ты турист!']},
     {text: 'Знаешь карты наизусть? Сейчас проверим.', emotion: 'hype', alts: ['Знаешь карты наизусть?']},
     {text: 'Смотри на подсвеченную зону и называй место.', emotion: 'hype', alts: ['Называй подсвеченное место!']},
   ],
@@ -95,12 +95,17 @@ const OUTRO = [
  * синтезатор читает их неверно, — но в субтитрах такое выглядит криво,
  * поэтому на показ возвращаем нормальное написание.
  */
-const SPEECH_TO_SCREEN = [
-  [/кэ-эс/gi, 'CS'],
-  [/лэвэл/gi, 'лвл'],
+const SPEECH_FIX = [
+  [/CS/gi, 'CS'],
+  [/кс/gi, 'CS'],
+  [/лвл/gi, 'лэвэл'],
+  [/фейсит(а|е|ом)?/gi, (m) => 'фэйсит' + (m.slice(7) || '')],
 ];
-export const displayText = (s) =>
-  SPEECH_TO_SCREEN.reduce((acc, [re, to]) => acc.replace(re, to), s);
+export const speechText = (s) =>
+  SPEECH_FIX.reduce((acc, [re, to]) => acc.replace(re, to), s);
+
+// на экран идёт исходный текст: правки нужны только синтезатору
+export const displayText = (s) => s;
 
 // числительные словами: синтезатор читает «в шесть раз» увереннее, чем «в 6 раз»
 const NUM = ['ноль', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь',
@@ -114,9 +119,16 @@ const allowNsfw = () => config()?.narration?.profanity !== false;
 /** Берёт неиспользованную реплику: в ролике 3–4 ловушки подряд, повтор режет ухо. */
 function pickFresh(pool, used) {
   const allowed = allowNsfw() ? pool : pool.filter((o) => !o.nsfw);
-  const fresh = allowed.filter((o) => !used.has(o.text));
+  let fresh = allowed.filter((o) => !used.has(o.text));
+  if (!fresh.length) {
+    // пул кончился — заходим на второй круг, но подряд одно и то же не даём:
+    // раньше при коротком пуле одна фраза могла прозвучать три раза за ролик
+    for (const o of allowed) used.delete(o.text);
+    fresh = allowed.filter((o) => o.text !== used.lastText);
+  }
   const choice = rnd(fresh.length ? fresh : allowed);
   used.add(choice.text);
+  used.lastText = choice.text;
   return choice;
 }
 
@@ -131,14 +143,25 @@ function revealLine(round, format, used) {
       {text: 'А вот тут половина мимо.', emotion: 'hype', alts: ['Половина мимо!']},
       {text: 'Ебать, это же очевидно было.', emotion: 'hype', nsfw: true, alts: ['Это же очевидно!']},
       {text: 'Не угадал — не расстраивайся.', emotion: 'neutral', alts: ['Не угадал? Бывает.']},
+      {text: 'Блядь, ну по текстуре же видно.', emotion: 'hype', nsfw: true, alts: ['По текстуре же видно!']},
+      {text: 'Сука, а вблизи и не узнать.', emotion: 'hype', nsfw: true, alts: ['Вблизи и не узнать!']},
+      {text: 'Вот такой он под лупой.', emotion: 'neutral', alts: ['Вот такой под лупой.']},
+      {text: 'Кто угадал — тот красавчик.', emotion: 'hype', alts: ['Угадал — красавчик!']},
+      {text: 'Хуй там угадаешь с такого куска.', emotion: 'hype', nsfw: true, alts: ['С такого куска не угадать!']},
     ], used);
   }
   if (format === 'rarity') {
     return pickFresh([
-      {text: 'Вот и цвет. Угадал?', emotion: 'hype', alts: ['Вот и цвет!']},
+      {text: 'Вот и цвет рамки.', emotion: 'hype', alts: ['Вот и цвет!']},
       {text: 'По виду вообще не скажешь.', emotion: 'neutral', alts: ['По виду не скажешь!']},
-      {text: 'Красный — это ковёрт, запомни.', emotion: 'neutral', alts: ['Запомни цвета!']},
       {text: 'Тут многие валятся.', emotion: 'hype', alts: ['Тут многие валятся!']},
+      {text: 'Ебать, а выглядит дешевле.', emotion: 'hype', nsfw: true, alts: ['А выглядит дешевле!']},
+      {text: 'Не угадал? Ну и хуй с ним.', emotion: 'hype', nsfw: true, alts: ['Не угадал? Бывает.']},
+      {text: 'Тайное — это самый топ, если что.', emotion: 'neutral', alts: ['Тайное — это топ.']},
+      {text: 'Сука, обманчивая штука.', emotion: 'hype', nsfw: true, alts: ['Обманчивая штука!']},
+      {text: 'Внешность тут вообще не помощник.', emotion: 'neutral', alts: ['Внешность не помощник.']},
+      {text: 'Блядь, а я думал наоборот.', emotion: 'hype', nsfw: true, alts: ['А я думал наоборот!']},
+      {text: 'Вот так вот, запоминай.', emotion: 'neutral', alts: ['Запоминай.']},
     ], used);
   }
   if (format === 'sound') {
@@ -147,6 +170,12 @@ function revealLine(round, format, used) {
       {text: 'На слух это отдельный скилл.', emotion: 'neutral', alts: ['Это отдельный скилл.']},
       {text: 'Не угадал — играй с наушниками.', emotion: 'hype', alts: ['Играй с наушниками!']},
       {text: 'Ветераны такое с полвыстрела ловят.', emotion: 'hype', alts: ['Ветераны ловят сразу!']},
+      {text: 'Ебать, ну это же очевидно.', emotion: 'hype', nsfw: true, alts: ['Это же очевидно!']},
+      {text: 'Спутал? Они реально похожи.', emotion: 'neutral', alts: ['Они похожи, бывает.']},
+      {text: 'Вот так он и звучит, блядь.', emotion: 'hype', nsfw: true, alts: ['Вот так и звучит!']},
+      {text: 'Тысячи часов, а не узнал?', emotion: 'hype', alts: ['Тысячи часов — и мимо?']},
+      {text: 'Сука, по звуку сложнее всего.', emotion: 'hype', nsfw: true, alts: ['По звуку сложнее всего!']},
+      {text: 'Уши не обманешь.', emotion: 'neutral', alts: ['Уши не обманешь.']},
     ], used);
   }
   if (format === 'spot') {
@@ -157,6 +186,10 @@ function revealLine(round, format, used) {
       {text: 'Кто играл — тот знает.', emotion: 'neutral', alts: ['Кто играл, тот знает.']},
       {text: 'Вот оно, это место.', emotion: 'neutral', alts: ['Вот оно!']},
       {text: 'Ебать, ты вообще карты видел?', emotion: 'hype', nsfw: true, alts: ['Карты вообще видел?']},
+      {text: 'Блядь, это же база.', emotion: 'hype', nsfw: true, alts: ['Это же база!']},
+      {text: 'Сюда бегают каждую катку.', emotion: 'neutral', alts: ['Сюда бегают каждую катку.']},
+      {text: 'Сука, а на радаре и не узнать.', emotion: 'hype', nsfw: true, alts: ['На радаре не узнать!']},
+      {text: 'Запомни, пригодится.', emotion: 'neutral', alts: ['Запомни, пригодится.']},
     ], used);
   }
   if (format === 'price') {
@@ -166,17 +199,23 @@ function revealLine(round, format, used) {
       {text: 'Столько за один скин, лол.', emotion: 'hype', alts: ['За один скин!']},
       {text: 'Дороже твоего компа, сука.', emotion: 'hype', nsfw: true, alts: ['Дороже компа!']},
       {text: 'Вот это ценник, я не шучу.', emotion: 'hype', alts: ['Вот это ценник!']},
+      {text: 'За такие деньги можно жить месяц.', emotion: 'hype', alts: ['На это можно жить месяц!']},
+      {text: 'Блядь, кто это вообще покупает?', emotion: 'hype', nsfw: true, alts: ['Кто это покупает?']},
     ], used);
     if (price <= 50) return pickFresh([
       {text: 'Копейки, лол.', emotion: 'hype', alts: ['Копейки!']},
       {text: 'Дешёвка, а выглядит дорого.', emotion: 'neutral', alts: ['Дешёвка!']},
       {text: 'И это всё? Ну такое.', emotion: 'neutral', alts: ['И это всё?']},
+      {text: 'За такие деньги — норм.', emotion: 'neutral', alts: ['За такие деньги норм.']},
+      {text: 'Ебать, дешевле обеда.', emotion: 'hype', nsfw: true, alts: ['Дешевле обеда!']},
     ], used);
     return pickFresh([
       {text: 'Вот столько. Угадал?', emotion: 'hype', alts: ['Угадал?']},
       {text: 'Мимо? Бывает, лол.', emotion: 'neutral', alts: ['Мимо?']},
       {text: 'Ни больше ни меньше.', emotion: 'neutral', alts: ['Вот столько.']},
       {text: 'Ну как, близко было?', emotion: 'hype', alts: ['Близко было?']},
+      {text: 'Блядь, вечно мимо угадывают.', emotion: 'hype', nsfw: true, alts: ['Вечно мимо!']},
+      {text: 'Средний ценник, ничего особенного.', emotion: 'neutral', alts: ['Средний ценник.']},
     ], used);
   }
 
@@ -190,6 +229,10 @@ function revealLine(round, format, used) {
       {text: 'Этот вообще из другой лиги.', emotion: 'hype', alts: ['Из другой лиги!']},
       {text: `Вот кто тут лишний — ${dir} ${gap}.`, emotion: 'neutral', alts: ['Вот кто лишний.']},
       {text: `Разница ${gap}. Спалил его?`, emotion: 'hype', alts: [`Разница ${gap}!`]},
+      {text: 'Блядь, а по виду не скажешь.', emotion: 'hype', nsfw: true, alts: ['По виду не скажешь!']},
+      {text: 'Сука, вот он и выбивается.', emotion: 'hype', nsfw: true, alts: ['Вот он и выбивается!']},
+      {text: 'Двое почти вровень, третий улетел.', emotion: 'neutral', alts: ['Третий улетел!']},
+      {text: 'Тут надо чувствовать цены.', emotion: 'neutral', alts: ['Надо чувствовать цены.']},
     ], used);
   }
 
@@ -200,22 +243,35 @@ function revealLine(round, format, used) {
     {text: 'Красивый — не значит дорогой, запомни.', emotion: 'neutral', alts: ['Красивый — не дорогой!']},
     {text: 'Ну и как, повёлся?', emotion: 'hype', alts: ['Повёлся?']},
     {text: 'Тут половина уже слилась.', emotion: 'hype', alts: ['Половина слилась!']},
+    {text: 'Сука, как всегда обманка.', emotion: 'hype', nsfw: true, alts: ['Как всегда обманка!']},
+    {text: 'Развели тебя, признай.', emotion: 'hype', alts: ['Развели тебя!']},
+    {text: 'Блядь, ну кто так думал?', emotion: 'hype', nsfw: true, alts: ['Кто так думал?']},
+    {text: 'Редкость и цена — разные вещи.', emotion: 'neutral', alts: ['Редкость — не цена.']},
   ], used);
   if (n >= 5) return pickFresh([
     {text: 'Нихуя себе разрыв!', emotion: 'hype', nsfw: true, alts: ['Вот это разрыв!']},
     {text: `Разрыв ${gap}, ебать.`, emotion: 'hype', nsfw: true, alts: [`${cap(gap)}!`]},
     {text: 'Это просто разъёб.', emotion: 'hype', nsfw: true, alts: ['Разъёб!']},
     {text: 'Даже рядом не стояли.', emotion: 'hype', alts: ['Не стояли рядом!']},
+    {text: 'Сука, вот это пропасть.', emotion: 'hype', nsfw: true, alts: ['Вот это пропасть!']},
+    {text: 'Разница конская.', emotion: 'hype', alts: ['Разница конская!']},
+    {text: 'В хлам разнесло по цене.', emotion: 'hype', alts: ['В хлам разнесло!']},
   ], used);
   if (n >= 2) return pickFresh([
     {text: `${cap(gap)}. Норм разница.`, emotion: 'neutral', alts: [`Разница ${gap}.`]},
     {text: `Разница ${gap}, чуешь?`, emotion: 'hype', alts: [`Разница ${gap}!`]},
     {text: 'Ощутимо дороже.', emotion: 'neutral', alts: ['Ощутимо дороже.']},
+    {text: 'Разрыв заметный, блядь.', emotion: 'hype', nsfw: true, alts: ['Разрыв заметный!']},
+    {text: 'Прилично так дороже.', emotion: 'neutral', alts: ['Прилично дороже.']},
+    {text: 'Разница есть, и немаленькая.', emotion: 'neutral', alts: ['Разница немаленькая.']},
   ], used);
   return pickFresh([
     {text: 'Впритык, сука.', emotion: 'hype', nsfw: true, alts: ['Впритык!']},
     {text: 'Чуть-чуть не дотянул?', emotion: 'hype', alts: ['Чуть не дотянул?']},
     {text: 'Тут реально сложно было.', emotion: 'neutral', alts: ['Тут было сложно!']},
+    {text: 'Почти вровень, ебать.', emotion: 'hype', nsfw: true, alts: ['Почти вровень!']},
+    {text: 'Разрыв копеечный.', emotion: 'neutral', alts: ['Разрыв копеечный.']},
+    {text: 'На волосок разошлись.', emotion: 'neutral', alts: ['На волосок!']},
   ], used);
 }
 
