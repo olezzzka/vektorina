@@ -3,6 +3,9 @@ data/
 out/
 public/images/
 public/voice/
+public/music/
 tools/
 config.local.json
 .env
+*.webm
+*.mkv

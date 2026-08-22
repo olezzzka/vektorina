@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
-import {OddRound, PriceRound, Quiz, Round, roundLength, theme} from './theme';
+import {OddRound, PriceRound, Quiz, Round, roundLength, theme, totalLength} from './theme';
 import {Background} from './components/Background';
 import {Captions} from './components/Captions';
 import {Fonts} from './Fonts';
@@ -16,12 +16,43 @@ export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
   // а не мелкой строкой субтитров внизу
   const first = quiz.narration?.[0];
   const hook = first && first.frame < quiz.timing.intro ? first.text : undefined;
+
+  /**
+   * Фоновая музыка приглушается на время реплик, чтобы не спорить с голосом,
+   * и возвращается в паузах. Переход плавный — резкий скачок громкости слышен
+   * как «дыхание» трека.
+   */
+  const music = quiz.audio?.enabled === false ? undefined : quiz.audio?.music;
+  // приглушаем по реальной длине речи (spoken), а не по окну реплики: окна
+  // покрывают почти весь ролик, и музыка оказалась бы приглушена всегда
+  const lines = quiz.voice ? (quiz.narration ?? []).filter((l) => l.spoken) : [];
+  const total = totalLength(quiz);
+  const RAMP = 9;
+  const musicVolume = (f: number) => {
+    const base = (quiz.audio?.master ?? 1) * (music?.volume ?? 0);
+    let duck = 0;
+    let nearest = Infinity;
+    for (const l of lines) {
+      const from = l.frame - 6;
+      const to = l.frame + (l.spoken ?? 0) + 8;
+      if (f >= from && f <= to) { duck = 1; break; }
+      nearest = Math.min(nearest, f < from ? from - f : f - to);
+    }
+    if (duck === 0 && nearest < RAMP) duck = 1 - nearest / RAMP;
+    const level = base * (1 - duck * (1 - (music?.duckTo ?? 0.45)));
+    const fadeIn = Math.min(1, f / 20);
+    const fadeOut = Math.min(1, Math.max(0, total - f) / 30);
+    return level * fadeIn * fadeOut;
+  };
   return (
     <AbsoluteFill style={{background: theme.bg, fontFamily: theme.fontUI}}>
       <Fonts />
       <Background />
       {quiz.voice ? (
         <Audio src={staticFile(quiz.voice)} volume={(quiz.audio?.master ?? 1) * (quiz.audio?.voice ?? 1)} />
+      ) : null}
+      {music?.file ? (
+        <Audio src={staticFile(music.file)} volume={musicVolume} loop />
       ) : null}
       <Sequence durationInFrames={quiz.timing.intro}>
         <Intro quiz={quiz} hook={hook} />

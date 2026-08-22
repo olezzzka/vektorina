@@ -37,7 +37,7 @@ export const Intro: React.FC<{quiz: Quiz; hook?: string}> = ({quiz, hook}) => {
         <div
           style={{
             position: 'absolute',
-            top: 1210,
+            top: 1330,
             width: 940,
             font: `800 54px ${theme.fontUI}`,
             color: theme.gold,

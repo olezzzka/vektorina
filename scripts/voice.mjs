@@ -184,12 +184,12 @@ async function fitLine(line) {
     const d = dur(clip);
     if (!cached && ENGINE === 'elevenlabs') await sleep(350);   // щадим rate limit
     const tempo = d / windowSec;
-    if (tempo <= 1.02) return {file: clip, text, tempo: 1};
-    if (tempo <= MAX_TEMPO) return {file: clip, text, tempo: Number(tempo.toFixed(3))};
-    if (!best || tempo < best.tempo) best = {file: clip, text, tempo};
+    if (tempo <= 1.02) return {file: clip, text, tempo: 1, seconds: d};
+    if (tempo <= MAX_TEMPO) return {file: clip, text, tempo: Number(tempo.toFixed(3)), seconds: d / tempo};
+    if (!best || tempo < best.tempo) best = {file: clip, text, tempo, seconds: d};
   }
   warn(`не влезает даже кратчайший вариант «${best.text}» (${best.tempo.toFixed(2)}x) — ускоряю до ${MAX_TEMPO}x`);
-  return {...best, tempo: MAX_TEMPO};
+  return {...best, tempo: MAX_TEMPO, seconds: best.seconds / MAX_TEMPO};
 }
 
 // --- подбор клипов ---
@@ -215,7 +215,8 @@ const clips = [];
 for (const line of quiz.narration) {
   const fit = await fitLine(line);
   line.text = fit.text;                                  // субтитры показывают то, что реально звучит
-  clips.push({...fit, frame: line.frame});
+  line.spoken = Math.ceil(fit.seconds * fps);            // сколько кадров реально занимает речь —
+  clips.push({...fit, frame: line.frame});               // по ним музыка приглушается, а не по всему окну
   log(`кадр ${String(line.frame).padStart(4)}  ${fit.tempo > 1 ? `${fit.tempo}x ` : ''}«${fit.text}»`);
 }
 

@@ -53,7 +53,12 @@
     "reveal": 0.5,
     "riser": 0.4,
     "outro": 0.4,
-    "voice": 1.0
+    "voice": 1.0,
+    "music": {
+      "file": null,
+      "volume": 0.12,
+      "duckTo": 0.45
+    }
   },
   "captions": {
     "enabled": true

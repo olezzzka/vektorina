@@ -21,7 +21,12 @@ export type PriceRound = {item: Item; options: number[]; answer: number};
 export type OddRound = {items: Item[]; answer: number; ratio: number; dearer: boolean};
 export type AnyRound = Round | PriceRound | OddRound;
 export type QuizFormat = 'duel' | 'price' | 'odd';
-export type NarrationLine = {text: string; alts?: string[]; frame: number; window: number};
+export type NarrationLine = {
+  text: string; alts?: string[]; emotion?: 'hype' | 'neutral' | 'warm';
+  frame: number; window: number;
+  /** сколько кадров реально занимает синтезированная речь (проставляет voice.mjs) */
+  spoken?: number;
+};
 export type Quiz = {
   id: string;
   format?: QuizFormat;
@@ -30,7 +35,11 @@ export type Quiz = {
   priceMeta: {source: string; updatedAt: string | null};
   timing: {intro: number; roundIn: number; countdown: number; reveal: number; outro: number};
   text: {introTitle: string; introSubtitle: string; outroTitle: string; outroSubtitle: string; outroCta: string};
-  audio?: {enabled: boolean; master: number; whoosh: number; tick: number; reveal: number; riser: number; outro: number; voice?: number};
+  audio?: {
+    enabled: boolean; master: number; whoosh: number; tick: number;
+    reveal: number; riser: number; outro: number; voice?: number;
+    music?: {file: string | null; volume: number; duckTo: number};
+  };
   captions?: {enabled: boolean};
   narration?: NarrationLine[];
   voice?: string;
