@@ -3,6 +3,7 @@
  * замирает, поверх неё по центру играет баннер, потом ролик едет дальше.
  *
  *   node scripts/insert-ad.mjs [out/videos/<id>.mp4] [--speed 2] [--scale 0.86] [--at 26.5]
+ *                              [--keep-original]   — оставить копию без рекламы
  *
  * Точка вставки по умолчанию — граница раундов ближе всего к середине
  * (берётся из JSON викторины), чтобы стоп-кадр пришёлся на законченный раунд,
@@ -91,11 +92,15 @@ run(['-loop', '1', '-t', String(insertDur), '-i', `${tmp}/freeze.png`, '-i', ban
   '-filter_complex', `${vFilter};${aFilter}`, '-map', '[v]', '-map', '[a]',
   '-t', String(insertDur), ...ENC, `${tmp}/insert.mp4`]);
 
-// склейка
+// склейка. По умолчанию результат заменяет исходник: ролик без рекламы
+// никому не нужен, держать две копии одного видео — только мусорить в out/.
 fs.writeFileSync(`${tmp}/list.txt`,
   ['part1.mp4', 'insert.mp4', 'part2.mp4'].map((f) => `file '${tmp.replace(/\\/g, '/')}/${f}'`).join('\n'));
-const out = video.replace(/\.mp4$/, '-ad.mp4');
-run(['-f', 'concat', '-safe', '0', '-i', `${tmp}/list.txt`, '-c', 'copy', out]);
+const keep = argv.includes('--keep-original');
+const out = keep ? video.replace(/\.mp4$/, '-ad.mp4') : video;
+run(['-f', 'concat', '-safe', '0', '-i', `${tmp}/list.txt`, '-c', 'copy', `${tmp}/final.mp4`]);
+if (!keep) fs.rmSync(video, {force: true});
+fs.renameSync(`${tmp}/final.mp4`, out);
 fs.rmSync(tmp, {recursive: true, force: true});
 
 log(`готово: ${out} (${(srcDur + insertDur).toFixed(1)}s)`);
