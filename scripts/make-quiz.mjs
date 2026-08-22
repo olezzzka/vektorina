@@ -280,6 +280,7 @@ const FORMAT_TEXT = {
   duel: {},
   price: {introTitle: 'УГАДАЙ ЦЕНУ', introSubtitle: '{n} скинов · сколько угадаешь?'},
   odd: {introTitle: 'ЛИШНИЙ ПО ЦЕНЕ', introSubtitle: 'два скина стоят почти одинаково — найди третий'},
+  spot: {introTitle: 'ГДЕ ЭТО?', introSubtitle: '{n} позиций · назови калаут'},
 };
 
 /** Поправки таймингов под формат (интро под опенинг задано в config → timing.intro). */
