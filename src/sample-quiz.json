@@ -1,0 +1,211 @@
+{
+  "id": "2026-08-22-01-8jmd",
+  "generatedAt": "2026-08-22T13:54:52.692Z",
+  "priceMeta": {
+    "source": "steam-snapshot",
+    "updatedAt": "2026-08-08T06:46:27.146Z"
+  },
+  "symbol": "$",
+  "rate": 1,
+  "timing": {
+    "intro": 66,
+    "roundIn": 12,
+    "countdown": 90,
+    "reveal": 66,
+    "outro": 96
+  },
+  "text": {
+    "introTitle": "ЧТО ДОРОЖЕ?",
+    "introSubtitle": "{n} раундов · сколько угадаешь?",
+    "outroTitle": "СКОЛЬКО УГАДАЛ?",
+    "outroSubtitle": "пиши в комменты",
+    "outroCta": "подписка — новая викторина каждый день"
+  },
+  "audio": {
+    "enabled": true,
+    "master": 1,
+    "whoosh": 0.7,
+    "tick": 0.9,
+    "reveal": 1,
+    "riser": 0.85,
+    "outro": 0.85
+  },
+  "rounds": [
+    {
+      "a": {
+        "hash": "M4A1-S | Welcome to the Jungle (Field-Tested)",
+        "name": "M4A1-S | Welcome to the Jungle",
+        "weapon": "M4A1-S",
+        "pattern": "Welcome to the Jungle",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 1278.88,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGMWrEwL9Jo-9oRCyMmRQguynLzYqgInjGZlcnX5ciE-IPthLrkN3hYu_ltQPW3Y1NzSn-jCpJ6ydpsvFCD_TdxQe8NQ",
+        "imageLocal": "images/cc53c86d119284f9.png"
+      },
+      "b": {
+        "hash": "AK-47 | Case Hardened (Well-Worn)",
+        "name": "AK-47 | Case Hardened",
+        "weapon": "AK-47",
+        "pattern": "Case Hardened",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": true,
+        "price": 305.93,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiNK0P2nZKFpH_yaCW-Ej7sk5bE8Sn-2lEpz4zndzoyvdHuUPwFzWZYiE7EK4Bi4k9TlY-y24FbAy9USGSiZd5Q",
+        "imageLocal": "images/b3af0cb230f18f5c.png"
+      },
+      "answer": "a",
+      "ratio": 4.18,
+      "trap": false
+    },
+    {
+      "a": {
+        "hash": "AK-47 | Inheritance (Well-Worn)",
+        "name": "AK-47 | Inheritance",
+        "weapon": "AK-47",
+        "pattern": "Inheritance",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 77.09,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiNQ0OKheqdoLPGaAFicyOl-pK8xGH_nwUt1sGrSz9ivcHKQOAcjXMYkRu5Yuxe4lYCyZOq25VSM2oMT02yg2UxBSEgA",
+        "imageLocal": "images/78727fe291ed4c35.png"
+      },
+      "b": {
+        "hash": "★ Bayonet | Stained (Factory New)",
+        "name": "Bayonet | Stained",
+        "weapon": "Bayonet",
+        "pattern": "Stained",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": true,
+        "hype": false,
+        "price": 462.87,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLzn4_v8ydP0PO_V6JiMvOWClicyOl-pK88SSq1xEV35muBm9qvcSrDbgZzDZVwROAM5EOwldflZbu27wWN2IhM02yg2UseboeH",
+        "imageLocal": "images/0e6c324c7e202ef1.png"
+      },
+      "answer": "b",
+      "ratio": 6,
+      "trap": false
+    },
+    {
+      "a": {
+        "hash": "AK-47 | Aphrodite (Well-Worn)",
+        "name": "AK-47 | Aphrodite",
+        "weapon": "AK-47",
+        "pattern": "Aphrodite",
+        "wear": "Well-Worn",
+        "wearShort": "WW",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": false,
+        "price": 16.45,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI7PqRaa9SJPqaB2mvzedxuPUnGCi3wktzt2rRn92pdXuXbA4iDcdxQOIMsBK4k9S2Zeiw4lTdjdhNyTK-0H1wmrL4zA",
+        "imageLocal": "images/b6e9187533902cad.png"
+      },
+      "b": {
+        "hash": "AK-47 | Redline (Field-Tested)",
+        "name": "AK-47 | Redline",
+        "weapon": "AK-47",
+        "pattern": "Redline",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": true,
+        "price": 42.1,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSI_-RHGavzedxuPUnFniykEtzsWWBzoyuIiifaAchDZUjTOZe4RC_w4buM-6z7wzbgokUyzK-0H08hRGDMA",
+        "imageLocal": "images/1ab1a2dc28d2f141.png"
+      },
+      "answer": "b",
+      "ratio": 2.56,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "USP-S | Royal Blue (Factory New)",
+        "name": "USP-S | Royal Blue",
+        "weapon": "USP-S",
+        "pattern": "Royal Blue",
+        "wear": "Factory New",
+        "wearShort": "FN",
+        "rarity": "Industrial Grade",
+        "color": "#5e98d9",
+        "knife": false,
+        "hype": false,
+        "price": 150.43,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSKOmsB2mUyOl5j_R6Xxa_nBovp3OAzNv6d3yVbVBxAsNzReNZuxK8kIHnNurj4wTaiNlBnH6q3CMYv3po_a9cBsy26Gzj",
+        "imageLocal": "images/2de7af33543bb3a3.png"
+      },
+      "b": {
+        "hash": "USP-S | Serum (Field-Tested)",
+        "name": "USP-S | Serum",
+        "weapon": "USP-S",
+        "pattern": "Serum",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 75.52,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSIf2sC2uVwvpkueJWXSy3qhEutDWR1I34J3uXOwFyCsF4TeAJt0bpw9OxNrzh7gyI3t1DmHiq3y5M6HxqsrwcEf1yfEp4lzc",
+        "imageLocal": "images/3442dc15ffad4139.png"
+      },
+      "answer": "a",
+      "ratio": 1.99,
+      "trap": true
+    },
+    {
+      "a": {
+        "hash": "Five-SeveN | Hyper Beast (Field-Tested)",
+        "name": "Five-SeveN | Hyper Beast",
+        "weapon": "Five-SeveN",
+        "pattern": "Hyper Beast",
+        "wear": "Field-Tested",
+        "wearShort": "FT",
+        "rarity": "Covert",
+        "color": "#eb4b4b",
+        "knife": false,
+        "hype": true,
+        "price": 400,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC3SV1-t4j-lwXyyhlxgmoCm6lob-KT-JO1QgWZVyELEPu0W4l9KzYbzn5Fbf3YkTzn_8hihIvXxtsOoFUKYirLqX0V_f6-eqCw",
+        "imageLocal": "images/6ec2dcc632a8b689.png"
+      },
+      "b": {
+        "hash": "Five-SeveN | Fall Hazard (Minimal Wear)",
+        "name": "Five-SeveN | Fall Hazard",
+        "weapon": "Five-SeveN",
+        "pattern": "Fall Hazard",
+        "wear": "Minimal Wear",
+        "wearShort": "MW",
+        "rarity": "Classified",
+        "color": "#d32ce6",
+        "knife": false,
+        "hype": false,
+        "price": 666.66,
+        "image": "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSNvWBGm6XztFwufdsXCylkBMYvzSCkpu3Ii-QbQ51XJpzQ-8PsUOwmoLvZLm3sQfb3tkTxHj-hytBv35jt7wFBL1lpPNwauo7lw",
+        "imageLocal": "images/aaf1ac89a5c68957.png"
+      },
+      "answer": "b",
+      "ratio": 1.67,
+      "trap": true
+    }
+  ],
+  "caption": "Какой скин дороже? Проверь себя\nСамый сложный раунд: Five-SeveN | Hyper Beast против Five-SeveN | Fall Hazard 👀\nСколько угадал? Пиши в комменты 👇\n\nЦены: Steam Market на 08.08.2026\n\n#cs2 #кс2 #counterstrike2 #cs2skins #скиныcs2 #викторина #quiz #кейсы #csgo #рек"
+}

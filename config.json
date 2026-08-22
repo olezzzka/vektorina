@@ -1,0 +1,56 @@
+{
+  "roundsPerVideo": 7,
+  "video": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "priceProvider": "github",
+  "display": {
+    "symbol": "$",
+    "rate": 1
+  },
+  "filters": {
+    "minPrice": 15,
+    "maxPrice": 3000,
+    "allowStatTrak": false,
+    "allowSouvenir": false,
+    "excludeCategories": [
+      "Gloves"
+    ],
+    "excludeWears": []
+  },
+  "pairing": {
+    "minRatio": 1.4,
+    "maxRatio": 8,
+    "trapChance": 0.45,
+    "sameWeaponChance": 0.25,
+    "popularBias": 0.75,
+    "maxUsesPerItem": 3,
+    "knifeChance": 0.25,
+    "hypeBias": 4
+  },
+  "timing": {
+    "intro": 66,
+    "roundIn": 12,
+    "countdown": 90,
+    "reveal": 66,
+    "outro": 96
+  },
+  "text": {
+    "introTitle": "ЧТО ДОРОЖЕ?",
+    "introSubtitle": "{n} раундов · сколько угадаешь?",
+    "outroTitle": "СКОЛЬКО УГАДАЛ?",
+    "outroSubtitle": "пиши в комменты",
+    "outroCta": "подписка — новая викторина каждый день"
+  },
+  "audio": {
+    "enabled": true,
+    "master": 1.0,
+    "whoosh": 0.7,
+    "tick": 0.9,
+    "reveal": 1.0,
+    "riser": 0.85,
+    "outro": 0.85
+  }
+}

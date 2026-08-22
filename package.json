@@ -1,0 +1,24 @@
+{
+  "name": "cs2-skin-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data": "node scripts/fetch-data.mjs",
+    "quiz": "node scripts/make-quiz.mjs",
+    "images": "node scripts/download-images.mjs",
+    "render": "node scripts/render.mjs",
+    "build": "node scripts/build.mjs",
+    "studio": "remotion studio"
+  },
+  "dependencies": {
+    "@fontsource/bebas-neue": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@remotion/bundler": "4.0.515",
+    "@remotion/cli": "4.0.515",
+    "@remotion/renderer": "4.0.515",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.515"
+  }
+}
