@@ -43,6 +43,8 @@ export type Quiz = {
   captions?: {enabled: boolean};
   narration?: NarrationLine[];
   voice?: string;
+  /** размытая видео-подложка, готовит prepare-bg.mjs */
+  background?: string;
   rounds: AnyRound[];
 };
 

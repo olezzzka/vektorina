@@ -47,7 +47,7 @@ export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
   return (
     <AbsoluteFill style={{background: theme.bg, fontFamily: theme.fontUI}}>
       <Fonts />
-      <Background />
+      <Background video={quiz.background} />
       {quiz.voice ? (
         <Audio src={staticFile(quiz.voice)} volume={(quiz.audio?.master ?? 1) * (quiz.audio?.voice ?? 1)} />
       ) : null}

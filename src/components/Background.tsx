@@ -1,15 +1,24 @@
 import React from 'react';
-import {AbsoluteFill, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
 import {theme} from '../theme';
 
-export const Background: React.FC<{accentA?: string; accentB?: string}> = ({
+export const Background: React.FC<{accentA?: string; accentB?: string; video?: string}> = ({
   accentA = '#2b6cff',
   accentB = '#ff5a2b',
+  video,
 }) => {
   const f = useCurrentFrame();
   const drift = Math.sin(f / 90) * 60;
   return (
     <AbsoluteFill style={{background: theme.bg}}>
+      {/* подложка уже размыта и притемнена в prepare-bg.mjs — тут её только показываем */}
+      {video ? (
+        <OffthreadVideo
+          src={staticFile(video)}
+          muted
+          style={{width: '100%', height: '100%', objectFit: 'cover'}}
+        />
+      ) : null}
       <AbsoluteFill
         style={{
           background: `radial-gradient(900px 900px at ${20 + drift / 6}% 18%, ${accentA}38, transparent 60%),

@@ -80,5 +80,13 @@
     "scale": 0.86,
     "dim": 0.45,
     "at": "middle"
+  },
+  "background": {
+    "file": "assets/cs-surf.webm",
+    "blur": 6,
+    "dim": 0.08,
+    "saturation": 1.05,
+    "blurHeight": 480,
+    "minBrightness": 45
   }
 }
