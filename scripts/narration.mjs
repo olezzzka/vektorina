@@ -163,8 +163,11 @@ export function buildNarration(quiz) {
   const usedReactions = new Set();
   const usedNext = new Set();
 
-  // опенинг: общий пул + пара крючков под конкретный формат
-  lines.push({...rnd([...HOOKS.any, ...(HOOKS[format] ?? [])]), frame: 4, window: t.intro - 8});
+  // опенинг: общий пул + крючки под формат. Форматным даём вес побольше —
+  // они заодно объясняют правило («один тут не из той лиги»), а для odd
+  // и price это единственное место, где правило звучит голосом.
+  const hookPool = [...HOOKS.any, ...Array(4).fill(HOOKS[format] ?? []).flat()];
+  lines.push({...rnd(hookPool), frame: 4, window: t.intro - 8});
 
   quiz.rounds.forEach((round, i) => {
     const start = t.intro + i * rl;
