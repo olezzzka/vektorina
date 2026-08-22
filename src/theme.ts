@@ -29,6 +29,8 @@ export type AnyRound = Round | PriceRound | OddRound | SpotRound;
 export type QuizFormat = 'duel' | 'price' | 'odd' | 'spot';
 export type NarrationLine = {
   text: string; alts?: string[]; emotion?: 'hype' | 'neutral' | 'warm';
+  /** написание для экрана: в text часть слов записана «как слышится» для синтезатора */
+  display?: string;
   frame: number; window: number;
   /** сколько кадров реально занимает синтезированная речь (проставляет voice.mjs) */
   spoken?: number;

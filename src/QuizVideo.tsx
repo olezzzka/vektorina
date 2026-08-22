@@ -16,7 +16,7 @@ export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
   // первая реплика — кликбейтный опенинг: показываем его крупно в интро,
   // а не мелкой строкой субтитров внизу
   const first = quiz.narration?.[0];
-  const hook = first && first.frame < quiz.timing.intro ? first.text : undefined;
+  const hook = first && first.frame < quiz.timing.intro ? (first.display ?? first.text) : undefined;
 
   /**
    * Фоновая музыка приглушается на время реплик, чтобы не спорить с голосом,

@@ -78,6 +78,18 @@ const OUTRO = [
   {text: 'Пиши в комменты, сколько угадал!', emotion: 'warm'},
 ];
 
+/**
+ * Текст для экрана. В репликах часть слов записана «как слышится», иначе
+ * синтезатор читает их неверно, — но в субтитрах такое выглядит криво,
+ * поэтому на показ возвращаем нормальное написание.
+ */
+const SPEECH_TO_SCREEN = [
+  [/кэ-эс/gi, 'CS'],
+  [/лэвэл/gi, 'лвл'],
+];
+export const displayText = (s) =>
+  SPEECH_TO_SCREEN.reduce((acc, [re, to]) => acc.replace(re, to), s);
+
 // числительные словами: синтезатор читает «в шесть раз» увереннее, чем «в 6 раз»
 const NUM = ['ноль', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь',
   'девять', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать',
@@ -203,6 +215,7 @@ export function buildNarration(quiz) {
   const outroStart = t.intro + quiz.rounds.length * rl;
   lines.push({alts: ['Пиши в комменты!'], ...rnd(OUTRO), frame: outroStart + 4, window: t.outro - 10});
 
+  for (const l of lines) l.display = displayText(l.text);
   return lines;
 }
 
@@ -213,7 +226,7 @@ export function narrationScript(quiz, fps) {
     return `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, '0')}`;
   };
   const rows = quiz.narration.map((l) =>
-    `${ts(l.frame)}–${ts(l.frame + l.window)}  ${l.text}`);
+    `${ts(l.frame)}–${ts(l.frame + l.window)}  ${l.display ?? l.text}`);
   return [
     `Сценарий озвучки · ролик ${quiz.id}`,
     `Каждая реплика должна уложиться в свой интервал (начало–конец).`,

@@ -42,7 +42,7 @@ export const Captions: React.FC<{quiz: Quiz}> = ({quiz}) => {
       {/* реплику интро рисует сам Intro — крупно, поэтому здесь её пропускаем */}
       {quiz.narration.filter((l) => l.frame >= quiz.timing.intro).map((l, i) => (
         <Sequence key={i} from={l.frame} durationInFrames={l.window}>
-          <Line text={l.text} window={l.window} />
+          <Line text={l.display ?? l.text} window={l.window} />
         </Sequence>
       ))}
     </>

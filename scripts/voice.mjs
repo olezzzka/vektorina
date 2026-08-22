@@ -17,6 +17,7 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {p, readJson, writeJson, config, log, warn, loadEnv, sleep} from './lib.mjs';
+import {displayText} from './narration.mjs';
 
 loadEnv();
 const cfg = config();
@@ -239,6 +240,7 @@ const clips = [];
 for (const line of quiz.narration) {
   const fit = await fitLine(line);
   line.text = fit.text;                                  // субтитры показывают то, что реально звучит
+  line.display = displayText(fit.text);                  // но нормальным написанием, а не «как слышится»
   line.spoken = Math.ceil(fit.seconds * fps);            // сколько кадров реально занимает речь —
   clips.push({...fit, frame: line.frame});               // по ним музыка приглушается, а не по всему окну
   log(`кадр ${String(line.frame).padStart(4)}  ${fit.tempo > 1 ? `${fit.tempo}x ` : ''}«${fit.text}»`);
