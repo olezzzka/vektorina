@@ -47,10 +47,14 @@
   "audio": {
     "enabled": true,
     "master": 1.0,
-    "whoosh": 0.7,
-    "tick": 0.9,
-    "reveal": 1.0,
-    "riser": 0.85,
-    "outro": 0.85
+    "whoosh": 0.4,
+    "tick": 0.45,
+    "reveal": 0.5,
+    "riser": 0.4,
+    "outro": 0.4,
+    "voice": 1.0
+  },
+  "captions": {
+    "enabled": true
   }
 }

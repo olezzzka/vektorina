@@ -17,6 +17,7 @@ export type Item = {
   knife?: boolean; price: number; image: string; imageLocal?: string;
 };
 export type Round = {a: Item; b: Item; answer: 'a' | 'b'; ratio: number; trap: boolean};
+export type NarrationLine = {text: string; alts?: string[]; frame: number; window: number};
 export type Quiz = {
   id: string;
   symbol: string;
@@ -24,7 +25,10 @@ export type Quiz = {
   priceMeta: {source: string; updatedAt: string | null};
   timing: {intro: number; roundIn: number; countdown: number; reveal: number; outro: number};
   text: {introTitle: string; introSubtitle: string; outroTitle: string; outroSubtitle: string; outroCta: string};
-  audio?: {enabled: boolean; master: number; whoosh: number; tick: number; reveal: number; riser: number; outro: number};
+  audio?: {enabled: boolean; master: number; whoosh: number; tick: number; reveal: number; riser: number; outro: number; voice?: number};
+  captions?: {enabled: boolean};
+  narration?: NarrationLine[];
+  voice?: string;
   rounds: Round[];
 };
 

@@ -21,6 +21,16 @@ const deepMerge = (base, over) => {
 };
 export const config = () => deepMerge(readJson(p('config.json')), readJson(p('config.local.json'), {}));
 
+/** Читает .env в корне проекта в process.env (существующие переменные не трогает). */
+export function loadEnv() {
+  let raw;
+  try { raw = fs.readFileSync(p('.env'), 'utf8'); } catch { return; }
+  for (const line of raw.split('\n')) {
+    const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+    if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+  }
+}
+
 export const log = (...a) => console.log('·', ...a);
 export const warn = (...a) => console.warn('!', ...a);
 

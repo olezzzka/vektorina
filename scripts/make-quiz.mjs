@@ -6,6 +6,7 @@
  */
 import fs from 'node:fs';
 import {p, readJson, writeJson, config, log, warn, shuffle} from './lib.mjs';
+import {buildNarration} from './narration.mjs';
 
 const argv = process.argv.slice(2);
 const arg = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : d; };
@@ -136,9 +137,10 @@ function makeOne(index) {
   const quiz = {
     id, generatedAt: new Date().toISOString(),
     priceMeta: catalog.meta, symbol: cfg.display.symbol, rate: cfg.display.rate,
-    timing: cfg.timing, text: cfg.text, audio: cfg.audio, rounds,
+    timing: cfg.timing, text: cfg.text, audio: cfg.audio, captions: cfg.captions, rounds,
   };
   quiz.caption = caption(quiz);
+  quiz.narration = buildNarration(quiz);
 
   for (const r of rounds) {
     usedPairs.add([r.a.hash, r.b.hash].sort().join(' || '));

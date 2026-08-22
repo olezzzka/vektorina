@@ -7,6 +7,8 @@
     "data": "node scripts/fetch-data.mjs",
     "quiz": "node scripts/make-quiz.mjs",
     "images": "node scripts/download-images.mjs",
+    "narration": "node scripts/narration.mjs",
+    "voice": "node scripts/voice.mjs",
     "render": "node scripts/render.mjs",
     "build": "node scripts/build.mjs",
     "studio": "remotion studio"

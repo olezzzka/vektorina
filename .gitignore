@@ -2,5 +2,6 @@ node_modules/
 data/
 out/
 public/images/
+public/voice/
 config.local.json
 .env

@@ -5,11 +5,15 @@
 
 ```bash
 npm install
-npm run build              # 1 ролик
-node scripts/build.mjs --count 5   # 5 роликов подряд
+cp .env.example .env       # вписать ключ и voice_id ElevenLabs (для озвучки)
+npm run build              # 1 ролик с озвучкой и субтитрами
+node scripts/build.mjs --count 5     # 5 роликов подряд
+node scripts/build.mjs --no-voice    # без озвучки (нет ключа / кончилась квота)
 ```
 
 Результат: `out/videos/<id>.mp4`, текст поста `out/captions/<id>.txt`.
+
+Локальные правки настроек — в `config.local.json` (не в гите, мёржится поверх `config.json`).
 
 ---
 
@@ -64,6 +68,26 @@ npm run studio
 
 ---
 
+## Озвучка и субтитры
+
+Реплики генерируются вместе с викториной (`scripts/narration.mjs`) и лежат в JSON
+с точной привязкой к кадрам. Дальше `scripts/voice.mjs`:
+
+- каждая реплика — отдельный запрос к ElevenLabs, клип ложится ровно на свой кадр,
+  рассинхрон невозможен по построению;
+- кэш по хэшу текста в `data/tts-cache/` — повторяющиеся фразы («Раунд 3!»)
+  озвучиваются один раз за всю жизнь проекта, экономит квоту;
+- если фраза длиннее окна — ускорение до 1.15x, потом укороченный вариант фразы;
+- дорожка собирается ffmpeg-ом в `public/voice/<id>.wav` и вшивается в рендер.
+
+Ключи — в `.env` (`ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`). Без ключей ролик
+собирается без голоса. Громкости слоёв — `config.json` → `audio` (голос — `voice`).
+
+Субтитры (`src/components/Captions.tsx`) рисуются из тех же реплик — текст точный
+по построению, распознавание речи не нужно. Выключить: `captions.enabled: false`.
+
+---
+
 ## Реалистичный рабочий цикл
 
 1. Раз в неделю ночью — крон на 7 роликов:
@@ -91,13 +115,16 @@ npm run studio
 ## Структура
 
 ```
-config.json              все настройки
+config.json              все настройки (config.local.json — личные правки, вне гита)
+.env                     ключи ElevenLabs (вне гита, шаблон — .env.example)
 scripts/fetch-data.mjs   каталог + цены → data/catalog.json
-scripts/make-quiz.mjs    подбор пар → out/quizzes/<id>.json + текст поста
+scripts/make-quiz.mjs    подбор пар + реплики → out/quizzes/<id>.json + текст поста
+scripts/narration.mjs    реплики озвучки по кадрам (вызывается из make-quiz)
 scripts/download-images.mjs  картинки → public/images/
+scripts/voice.mjs        TTS ElevenLabs → public/voice/<id>.wav
 scripts/verify-prices.mjs    точечная сверка со Steam
 scripts/render.mjs       рендер mp4
-scripts/build.mjs        всё вместе
+scripts/build.mjs        всё вместе (--no-voice — пропустить озвучку)
 src/                     шаблон видео (Remotion)
 ```
 

@@ -20,16 +20,17 @@ export const Outro: React.FC<{quiz: Quiz}> = ({quiz}) => {
         <div style={{display: 'flex', gap: 22, justifyContent: 'center', marginTop: 56}}>
           {Array.from({length: total + 1}).map((_, i) => {
             const a = spring({frame: f - 8 - i * 4, fps, config: {damping: 12}});
+            const box = Math.min(118, Math.floor((1000 - 22 * total) / (total + 1)));
             return (
               <div
                 key={i}
                 style={{
-                  width: 118, height: 118, borderRadius: 28,
+                  width: box, height: box, borderRadius: Math.round(box * 0.24),
                   border: `4px solid ${theme.gold}`,
                   background: 'rgba(240,178,50,.10)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transform: `scale(${a})`,
-                  font: `400 68px ${theme.fontNum}`, color: theme.gold, paddingTop: 6,
+                  font: `400 ${Math.round(box * 0.58)}px ${theme.fontNum}`, color: theme.gold, paddingTop: 6,
                 }}
               >
                 {i}
