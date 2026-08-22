@@ -17,7 +17,7 @@ const cfg = config();
 const ROUNDS = Number(arg('rounds', cfg.roundsPerVideo));
 const COUNT = Number(arg('count', 1));
 const FORMAT_ARG = arg('format', cfg.format ?? 'duel');
-const FORMATS = ['duel', 'price', 'odd', 'spot'];
+const FORMATS = ['duel', 'price', 'odd', 'spot', 'zoom', 'rarity', 'sound'];
 
 const catalog = readJson(p('data', 'catalog.json'));
 if (!catalog) { console.error('нет data/catalog.json — сначала `npm run data`'); process.exit(1); }
@@ -194,6 +194,118 @@ function buildOddRound(pool, roundIdx, taken) {
   return null;
 }
 
+/**
+ * «Угадай скин по зуму»: показываем сильно увеличенный кусок текстуры.
+ * Кроп делает сама сцена (масштаб + смещение картинки), поэтому обработка
+ * изображений тут не нужна — только выбираем точку и силу увеличения.
+ */
+function buildZoomRound(pool, roundIdx, taken) {
+  const t = ROUNDS === 1 ? 0 : roundIdx / (ROUNDS - 1);
+  const zoom = 3.2 + 3.3 * t;                        // к финалу почти пиксели
+  const scoped = pool.filter((i) => i.popular || i.hype || i.knife);
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const item = pickWeighted(scoped.length > 60 ? scoped : pool);
+    if (taken.has(item.name)) continue;
+    // варианты — из той же категории, иначе ответ считывается по силуэту оружия
+    const mates = shuffle(pool.filter((o) => o.name !== item.name && o.weapon !== item.weapon &&
+      o.category === item.category && !taken.has(o.name))).slice(0, 2);
+    if (mates.length < 2) continue;
+
+    const options = shuffle([item, ...mates]);
+    return {
+      item: slim(item),
+      // точка кропа не у самого края: там часто пусто
+      focus: {x: 0.3 + Math.random() * 0.4, y: 0.32 + Math.random() * 0.36},
+      zoom: Number(zoom.toFixed(2)),
+      options: options.map((o) => o.name),
+      answer: options.findIndex((o) => o.name === item.name),
+    };
+  }
+  return null;
+}
+
+/**
+ * «Какая редкость»: варианты — соседние тиры, иначе слишком легко.
+ *
+ * Названия тиров берутся из самого каталога, а не из своего списка: нумерация
+ * там своя (tier 5 — это Covert, а не Classified), и захардкоженная таблица
+ * незаметно давала бы неверные ответы.
+ *
+ * Ножи исключены: в каталоге они помечены Covert, хотя в игре у них отдельный
+ * золотой тир, — вопрос получился бы спорным.
+ */
+function rarityLabels(items) {
+  const byTier = {};
+  for (const i of items) {
+    if (i.knife || i.rarityTier == null || !i.rarity) continue;
+    byTier[i.rarityTier] = i.rarity;
+  }
+  return byTier;
+}
+
+function buildRarityRound(pool, roundIdx, taken) {
+  const labels = rarityLabels(catalog.items);
+  const scoped = pool.filter((i) => !i.knife && labels[i.rarityTier]);
+  if (scoped.length < 10) return null;
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const item = pickWeighted(scoped);
+    if (taken.has(item.name)) continue;
+    const tier = item.rarityTier;
+
+    const near = [tier - 2, tier - 1, tier + 1, tier + 2].filter((x) => labels[x]);
+    const wrong = shuffle(near).slice(0, 2);
+    if (wrong.length < 2) continue;
+
+    const options = shuffle([tier, ...wrong]);
+    return {
+      item: slim(item),
+      options: options.map((x) => labels[x]),
+      answer: options.findIndex((x) => x === tier),
+    };
+  }
+  return null;
+}
+
+/**
+ * «Угадай оружие по звуку»: играет выстрел, три ствола на выбор.
+ * Варианты подбираются из одного класса (винтовки к винтовкам), иначе
+ * пистолет на фоне AWP слышно за версту и угадывать нечего.
+ */
+const WEAPON_CLASS = {
+  ak47: 'rifle', m4a1: 'rifle', m4a1_silencer: 'rifle', famas: 'rifle',
+  galilar: 'rifle', aug: 'rifle', sg556: 'rifle',
+  awp: 'sniper', ssg08: 'sniper', scar20: 'sniper', g3sg1: 'sniper',
+  p90: 'smg', bizon: 'smg', mac10: 'smg', mp7: 'smg', mp9: 'smg', ump45: 'smg', mp5sd: 'smg',
+  nova: 'heavy', xm1014: 'heavy', sawedoff: 'heavy', mag7: 'heavy', m249: 'heavy', negev: 'heavy',
+  deagle: 'pistol', revolver: 'pistol', glock18: 'pistol', hkp2000: 'pistol', usp_silencer: 'pistol',
+  p250: 'pistol', cz75a: 'pistol', fiveseven: 'pistol', tec9: 'pistol', elite: 'pistol',
+};
+function buildSoundRound(_pool, roundIdx, taken) {
+  const db = readJson(p('data', 'weapon-sounds.json'));
+  if (!db?.sounds?.length) return null;
+
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const pick = db.sounds[Math.floor(Math.random() * db.sounds.length)];
+    if (taken.has(pick.key)) continue;
+    const cls = WEAPON_CLASS[pick.key];
+    const sameClass = db.sounds.filter((x) => x.key !== pick.key && WEAPON_CLASS[x.key] === cls);
+    const mates = shuffle(sameClass.length >= 2 ? sameClass : db.sounds.filter((x) => x.key !== pick.key)).slice(0, 2);
+    if (mates.length < 2) continue;
+
+    const options = shuffle([pick, ...mates]);
+    return {
+      weapon: pick.key,
+      file: pick.file,
+      options: options.map((o) => o.label),
+      answer: options.findIndex((o) => o.key === pick.key),
+      key: pick.key,
+    };
+  }
+  return null;
+}
+
 /** Все скины раунда — для учёта повторов и скачивания картинок. */
 const roundItems = (round) => round.items ?? (round.item ? [round.item] : (round.a ? [round.a, round.b] : []));
 
@@ -281,6 +393,9 @@ const FORMAT_TEXT = {
   price: {introTitle: 'УГАДАЙ ЦЕНУ', introSubtitle: '{n} скинов · сколько угадаешь?'},
   odd: {introTitle: 'ЛИШНИЙ ПО ЦЕНЕ', introSubtitle: 'два скина стоят почти одинаково — найди третий'},
   spot: {introTitle: 'ГДЕ ЭТО?', introSubtitle: '{n} позиций · назови калаут'},
+  zoom: {introTitle: 'ЧТО ЗА СКИН?', introSubtitle: '{n} раундов · узнай по кусочку'},
+  rarity: {introTitle: 'КАКАЯ РЕДКОСТЬ?', introSubtitle: '{n} скинов · угадай тир'},
+  sound: {introTitle: 'ЧТО ЗА СТВОЛ?', introSubtitle: '{n} выстрелов · угадай на слух'},
 };
 
 /** Поправки таймингов под формат (интро под опенинг задано в config → timing.intro). */
@@ -316,7 +431,10 @@ function makeOne(index) {
   if (!FORMATS.includes(format)) { console.error(`неизвестный формат «${format}» (есть: ${FORMATS.join(', ')}, random)`); process.exit(1); }
   const build = format === 'price' ? buildPriceRound
     : format === 'odd' ? buildOddRound
-      : format === 'spot' ? buildSpotRound : buildRound;
+      : format === 'spot' ? buildSpotRound
+        : format === 'zoom' ? buildZoomRound
+          : format === 'rarity' ? buildRarityRound
+            : format === 'sound' ? buildSoundRound : buildRound;
 
   const pool = catalog.items.filter((i) => (used.items[i.hash] ?? 0) < cfg.pairing.maxUsesPerItem);
   const taken = new Set();
@@ -357,6 +475,12 @@ function makeOne(index) {
       log(`   ${n + 1}. ${r.a.name} ${r.a.wearShort} $${r.a.price}  vs  ${r.b.name} ${r.b.wearShort} $${r.b.price}  (x${r.ratio}${r.trap ? ', ловушка' : ''})`);
     } else if (format === 'price') {
       log(`   ${n + 1}. ${r.item.name} ${r.item.wearShort} $${r.item.price}  варианты: ${r.options.map((v, i) => `${'ABC'[i]}=$${v}${i === r.answer ? '✓' : ''}`).join(' ')}`);
+    } else if (format === 'zoom') {
+      log(`   ${n + 1}. ${r.item.name} (x${r.zoom})  ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
+    } else if (format === 'rarity') {
+      log(`   ${n + 1}. ${r.item.name.padEnd(30)} ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
+    } else if (format === 'sound') {
+      log(`   ${n + 1}. ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else if (format === 'spot') {
       log(`   ${n + 1}. ${r.mapLabel.padEnd(9)} ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else {

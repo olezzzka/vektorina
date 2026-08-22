@@ -25,8 +25,16 @@ export type SpotRound = {
   zone: {x: number; y: number; w: number; h: number};
   options: string[]; answer: number; key: string;
 };
-export type AnyRound = Round | PriceRound | OddRound | SpotRound;
-export type QuizFormat = 'duel' | 'price' | 'odd' | 'spot';
+export type ZoomRound = {
+  item: Item; focus: {x: number; y: number}; zoom: number;
+  options: string[]; answer: number;
+};
+export type RarityRound = {item: Item; options: string[]; answer: number};
+export type SoundRound = {
+  weapon: string; file: string; options: string[]; answer: number; key: string;
+};
+export type AnyRound = Round | PriceRound | OddRound | SpotRound | ZoomRound | RarityRound | SoundRound;
+export type QuizFormat = 'duel' | 'price' | 'odd' | 'spot' | 'zoom' | 'rarity' | 'sound';
 export type NarrationLine = {
   text: string; alts?: string[]; emotion?: 'hype' | 'neutral' | 'warm';
   /** написание для экрана: в text часть слов записана «как слышится» для синтезатора */

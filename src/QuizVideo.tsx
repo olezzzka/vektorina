@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
-import {OddRound, PriceRound, Quiz, Round, SpotRound, roundLength, theme, totalLength} from './theme';
+import {OddRound, PriceRound, Quiz, RarityRound, Round, SoundRound, SpotRound, ZoomRound, roundLength, theme, totalLength} from './theme';
 import {Background} from './components/Background';
 import {Captions} from './components/Captions';
 import {Fonts} from './Fonts';
@@ -9,6 +9,8 @@ import {OddRoundScene} from './components/OddRound';
 import {Outro} from './components/Outro';
 import {PriceRoundScene} from './components/PriceRound';
 import {SpotRoundScene} from './components/SpotRound';
+import {SoundRoundScene} from './components/SoundRound';
+import {RarityRoundScene, ZoomRoundScene} from './components/GuessRound';
 import {RoundScene} from './components/Round';
 
 export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
@@ -60,7 +62,13 @@ export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
       </Sequence>
       {quiz.rounds.map((r, i) => (
         <Sequence key={i} from={quiz.timing.intro + i * rl} durationInFrames={rl}>
-          {quiz.format === 'spot' ? (
+          {quiz.format === 'zoom' ? (
+            <ZoomRoundScene round={r as ZoomRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+          ) : quiz.format === 'rarity' ? (
+            <RarityRoundScene round={r as RarityRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+          ) : quiz.format === 'sound' ? (
+            <SoundRoundScene round={r as SoundRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+          ) : quiz.format === 'spot' ? (
             <SpotRoundScene round={r as SpotRound} index={i} total={quiz.rounds.length} quiz={quiz} />
           ) : quiz.format === 'price' ? (
             <PriceRoundScene round={r as PriceRound} index={i} total={quiz.rounds.length} quiz={quiz} />
