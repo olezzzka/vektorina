@@ -5,7 +5,8 @@ import {theme, Quiz, ZoomRound, RarityRound} from '../theme';
 /** Три варианта ответа — общий вид для всех «один предмет + A/B/C» форматов. */
 const Options: React.FC<{
   options: string[]; answer: number; revealed: boolean; revealFrame: number; top: number;
-}> = ({options, answer, revealed, revealFrame, top}) => {
+  subs?: string[];
+}> = ({options, answer, revealed, revealFrame, top, subs}) => {
   const f = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
@@ -42,6 +43,11 @@ const Options: React.FC<{
               {'ABC'[i]}
             </span>
             <span style={{font: `800 38px ${theme.fontUI}`, color: theme.text, lineHeight: 1.1}}>{label}</span>
+            {subs?.[i] ? (
+              <span style={{font: `600 26px ${theme.fontUI}`, color: theme.dim, marginLeft: 'auto'}}>
+                {subs[i]}
+              </span>
+            ) : null}
           </div>
         );
       })}
@@ -218,10 +224,11 @@ export const RarityRoundScene: React.FC<{round: RarityRound; index: number; tota
         ) : null}
       </div>
 
-      <Options options={round.options} answer={round.answer} revealed={revealed} revealFrame={revealFrame} top={960} />
+      <Options options={round.options} subs={round.optionsSub} answer={round.answer}
+        revealed={revealed} revealFrame={revealFrame} top={960} />
 
       <div style={{position: 'absolute', top: 1310, font: `500 30px ${theme.fontUI}`, color: theme.dim, textAlign: 'center', width: 900}}>
-        {revealed ? 'цвет рамки — подсказка, которую скрывали' : 'цвет намеренно скрыт'}
+        {revealed ? 'вот и цвет рамки' : 'рамку обесцветил — угадывай по скину'}
       </div>
     </Frame>
   );

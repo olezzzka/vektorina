@@ -29,7 +29,7 @@ export type ZoomRound = {
   item: Item; focus: {x: number; y: number}; zoom: number;
   options: string[]; answer: number;
 };
-export type RarityRound = {item: Item; options: string[]; answer: number};
+export type RarityRound = {item: Item; options: string[]; optionsSub?: string[]; answer: number};
 export type SoundRound = {
   weapon: string; file: string; options: string[]; answer: number; key: string;
 };

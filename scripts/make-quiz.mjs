@@ -244,9 +244,23 @@ function rarityLabels(items) {
   return byTier;
 }
 
+/**
+ * Русские названия редкостей — ровно те, что показывает игра в русском клиенте.
+ * Взяты из её же файла локализации (resource/csgo_russian.txt), а не придуманы:
+ * «по цвету» их зовут в чате, но на экране должно стоять то, что видит игрок.
+ */
+const RARITY_RU = {
+  'Consumer Grade': 'Ширпотреб',
+  'Industrial Grade': 'Промышленное качество',
+  'Mil-Spec Grade': 'Армейское качество',
+  'Restricted': 'Запрещённое',
+  'Classified': 'Засекреченное',
+  'Covert': 'Тайное',
+};
+
 function buildRarityRound(pool, roundIdx, taken) {
   const labels = rarityLabels(catalog.items);
-  const scoped = pool.filter((i) => !i.knife && labels[i.rarityTier]);
+  const scoped = pool.filter((i) => !i.knife && labels[i.rarityTier] && RARITY_RU[labels[i.rarityTier]]);
   if (scoped.length < 10) return null;
 
   for (let attempt = 0; attempt < 200; attempt++) {
@@ -254,14 +268,15 @@ function buildRarityRound(pool, roundIdx, taken) {
     if (taken.has(item.name)) continue;
     const tier = item.rarityTier;
 
-    const near = [tier - 2, tier - 1, tier + 1, tier + 2].filter((x) => labels[x]);
+    const near = [tier - 2, tier - 1, tier + 1, tier + 2].filter((x) => labels[x] && RARITY_RU[labels[x]]);
     const wrong = shuffle(near).slice(0, 2);
     if (wrong.length < 2) continue;
 
     const options = shuffle([tier, ...wrong]);
     return {
       item: slim(item),
-      options: options.map((x) => labels[x]),
+      options: options.map((x) => RARITY_RU[labels[x]]),   // на экране крупно — цвет
+      optionsSub: options.map((x) => labels[x]),            // мелко — как в игре
       answer: options.findIndex((x) => x === tier),
     };
   }
@@ -478,7 +493,7 @@ function makeOne(index) {
     } else if (format === 'zoom') {
       log(`   ${n + 1}. ${r.item.name} (x${r.zoom})  ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else if (format === 'rarity') {
-      log(`   ${n + 1}. ${r.item.name.padEnd(30)} ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
+      log(`   ${n + 1}. ${r.item.name.padEnd(28)} ${r.options.map((v, i) => `${'ABC'[i]}=${v} (${r.optionsSub[i]})${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else if (format === 'sound') {
       log(`   ${n + 1}. ${r.options.map((v, i) => `${'ABC'[i]}=${v}${i === r.answer ? '✓' : ''}`).join('  ')}`);
     } else if (format === 'spot') {
