@@ -246,7 +246,7 @@ function revealLine(round, format, used) {
   if (round.trap) return pickFresh([
     {text: 'Ебать, попался?', emotion: 'hype', nsfw: true, alts: ['Попался?']},
     {text: 'Классика, блядь.', emotion: 'hype', nsfw: true, alts: ['Классика!']},
-    {text: 'На это ведутся вообще все.', emotion: 'hype', alts: ['На это ведутся все!']},
+    {text: 'На это ведутся все подряд, каждый раз.', emotion: 'hype', alts: ['На это ведутся все подряд!']},
     {text: 'Красивый — не значит дорогой, запомни.', emotion: 'neutral', alts: ['Красивый — не дорогой!']},
     {text: 'Ну и как, повёлся?', emotion: 'hype', alts: ['Повёлся?']},
     {text: 'Тут половина уже слилась.', emotion: 'hype', alts: ['Половина слилась!']},

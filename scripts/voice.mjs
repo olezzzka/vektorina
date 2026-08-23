@@ -50,8 +50,21 @@ const sileroSpeaker = vcfg.speaker ?? 'aidar';
 const xttsSpeaker = vcfg.xttsSpeaker ?? 'Lidiya Szekeres';
 const PYTHON = process.env.PYTHON ?? 'python';
 
-/** XTTS не понимает SSML — эмоция передаётся темпом речи. */
+/**
+ * XTTS не понимает SSML — эмоция передаётся темпом речи. Но менять темп
+ * внутри модели нельзя: на значениях мимо 1.0 она смазывает концы фраз
+ * и дописывает лишние слоги. Поэтому синтез всегда на 1.0, а темп
+ * накладывается потом через ffmpeg — он тянет время, не трогая фонемы.
+ */
 const XTTS_SPEED = {hype: 1.08, warm: 0.95, neutral: 1.0};
+
+function retempo(file, tempo) {
+  if (!tempo || Math.abs(tempo - 1) < 0.01) return;
+  const tmp = `${file}.tempo.wav`;
+  execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', file, '-af', `atempo=${tempo}`, tmp],
+    {stdio: ['ignore', 'ignore', 'pipe']});
+  fs.renameSync(tmp, file);
+}
 
 /**
  * Эмоция реплики → SSML-разметка Silero. hype заводит темп и поднимает тон
@@ -172,11 +185,15 @@ function sileroBatch(items) {
 function xttsBatch(items) {
   if (!items.length) return;
   const job = p('data', 'tts-cache', 'job.json');
-  fs.writeFileSync(job, JSON.stringify({speaker: xttsSpeaker, language: 'ru', items}));
+  // модели отдаём ровный темп, ускорение накладываем сами — см. retempo
+  fs.writeFileSync(job, JSON.stringify({
+    speaker: xttsSpeaker, language: 'ru',
+    items: items.map(({text, out}) => ({text, speed: 1.0, out})),
+  }));
   log(`синтезирую ${items.length} реплик (XTTS, первая загрузка модели ~минуту)…`);
   execFileSync(PYTHON, [p('scripts', 'xtts_tts.py'), job], {stdio: ['ignore', 'ignore', 'inherit']});
   fs.rmSync(job, {force: true});
-  for (const it of items) trimSilence(it.out);
+  for (const it of items) { trimSilence(it.out); retempo(it.out, it.speed); }
 }
 
 async function tts(text, emotion) {
