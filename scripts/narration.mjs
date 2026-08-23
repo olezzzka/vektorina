@@ -35,6 +35,9 @@ const HOOKS = {
     {text: 'Тут даже сильвер угадает. Или нет?', emotion: 'hype', alts: ['Даже сильвер угадает!']},
     {text: 'Семь из семи — и ты шаришь за скины сильнее меня.', emotion: 'hype', alts: ['Семь из семи, и ты шаришь!']},
     {text: 'Сольёшь — твой инвентарь тебя не уважает.', emotion: 'hype', alts: ['Сольёшь, и инвентарь тебя не уважает!']},
+    {text: 'Ты нихуя не шаришь, если не угадаешь это.', emotion: 'hype', nsfw: true, alts: ['Не угадаешь, значит нихуя не шаришь!']},
+    {text: 'Сольёшь — значит руки из жопы растут.', emotion: 'hype', nsfw: true, alts: ['Сольёшь, значит руки из жопы!']},
+    {text: 'Проиграешь этой викторине, блядь, — стыдно должно быть.', emotion: 'hype', nsfw: true, alts: ['Проиграешь — стыдно должно быть!']},
   ],
   duel: [
     {text: 'Ты тупее своей собаки, если не угадаешь это.', emotion: 'hype', alts: ['Не угадаешь, совсем плохо!']},
@@ -50,7 +53,7 @@ const HOOKS = {
   ],
   zoom: [
     {text: 'Узнаешь скин по одному пикселю? Погнали.', emotion: 'hype', alts: ['Узнаешь скин по пикселю?']},
-    {text: 'Тут по кусочку. Настоящие задроты угадают все.', emotion: 'hype', alts: ['Задроты угадают все!']},
+    {text: 'Тут по кусочку. Настоящие задроты угадают всё.', emotion: 'hype', alts: ['Задроты угадают всё!']},
   ],
   rarity: [
     {text: 'Отличишь ковёрт от рестрикта? Сомневаюсь.', emotion: 'hype', alts: ['Отличишь ковёрт от рестрикта?']},
@@ -73,6 +76,9 @@ const HOOKS = {
  */
 const NEXT = [
   {text: 'Дальше.', emotion: 'neutral'},
+  {text: 'Так, блядь, поехали дальше.', emotion: 'hype', nsfw: true},
+  {text: 'Ладно, хуй с ним. Следующий.', emotion: 'neutral', nsfw: true},
+  {text: 'А тут что за хуйня, смотри.', emotion: 'hype', nsfw: true},
   {text: 'Погнали дальше.', emotion: 'hype'},
   {text: 'Следующий.', emotion: 'neutral'},
   {text: 'Едем дальше.', emotion: 'neutral'},
@@ -82,12 +88,15 @@ const NEXT = [
 ];
 const ROUND_LAST = [
   {text: 'Последний. Не слейся.', emotion: 'hype', alts: ['Последний!']},
-  {text: 'Финалка. Тут все и палятся.', emotion: 'hype', alts: ['Финалка!']},
+  {text: 'Финалка. Тут народ и палится.', emotion: 'hype', alts: ['Финалка!']},
   {text: 'Последний, самый жёсткий.', emotion: 'hype', alts: ['Последний!']},
+  {text: 'Финал, блядь. Тут и посмотрим.', emotion: 'hype', nsfw: true, alts: ['Финал, блядь!']},
 ];
 const OUTRO = [
   {text: 'Сколько угадал? Пиши в комменты и подпишись!', emotion: 'warm'},
   {text: 'Пиши в комменты, сколько угадал!', emotion: 'warm'},
+  {text: 'Сколько угадал, блядь? Пиши в комменты.', emotion: 'warm', nsfw: true},
+  {text: 'Ну что, сколько из семи? Пиши, не стесняйся.', emotion: 'warm'},
 ];
 
 /**
@@ -141,9 +150,18 @@ const tagFor = (emotion, used) => {
 // мат включается флагом narration.profanity в config; фразы с ним помечены nsfw
 const allowNsfw = () => config()?.narration?.profanity !== false;
 
+/** Насколько часто выбирать реплику с матом, когда он разрешён. */
+const nsfwBias = () => config()?.narration?.profanityBias ?? 0.65;
+
 /** Берёт неиспользованную реплику: в ролике 3–4 ловушки подряд, повтор режет ухо. */
 function pickFresh(pool, used) {
-  const allowed = allowNsfw() ? pool : pool.filter((o) => !o.nsfw);
+  let allowed = allowNsfw() ? pool : pool.filter((o) => !o.nsfw);
+  // без перекоса мат тонул в общей массе: случайный выбор давал его дай бог
+  // в каждой седьмой реплике, а просили заметно чаще
+  if (allowNsfw() && Math.random() < nsfwBias()) {
+    const spicy = allowed.filter((o) => o.nsfw && !used.has(o.text));
+    if (spicy.length) allowed = spicy;
+  }
   let fresh = allowed.filter((o) => !used.has(o.text));
   if (!fresh.length) {
     // пул кончился — заходим на второй круг, но подряд одно и то же не даём:
@@ -264,7 +282,7 @@ function revealLine(round, format, used) {
   if (round.trap) return pickFresh([
     {text: 'Ебать, попался?', emotion: 'hype', nsfw: true, alts: ['Попался?']},
     {text: 'Классика, блядь.', emotion: 'hype', nsfw: true, alts: ['Классика!']},
-    {text: 'На это ведутся все подряд, каждый раз.', emotion: 'hype', alts: ['На это ведутся все подряд!']},
+    {text: 'На это попадается каждый второй, каждый раз.', emotion: 'hype', alts: ['На это попадается каждый второй!']},
     {text: 'Красивый — не значит дорогой, запомни.', emotion: 'neutral', alts: ['Красивый не значит дорогой!']},
     {text: 'Ну и как, повёлся?', emotion: 'hype', alts: ['Повёлся?']},
     {text: 'Тут половина уже слилась.', emotion: 'hype', alts: ['Половина слилась!']},
