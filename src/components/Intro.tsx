@@ -12,9 +12,6 @@ export const Intro: React.FC<{quiz: Quiz; hook?: string}> = ({quiz, hook}) => {
 
   return (
     <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: out}}>
-      {quiz.audio?.enabled ? (
-        <Audio src={staticFile('sfx/riser.mp3')} volume={quiz.audio.master * quiz.audio.riser} />
-      ) : null}
       <div style={{transform: `scale(${interpolate(s, [0, 1], [0.7, 1])})`, textAlign: 'center'}}>
         <div style={{font: `700 40px ${theme.fontUI}`, color: theme.gold, letterSpacing: 10}}>CS2</div>
         <div
