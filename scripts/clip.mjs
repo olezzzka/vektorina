@@ -29,6 +29,8 @@ const OFFSET = Number(arg('offset', cfg.clip?.offset ?? 30));        // где �
 const LIMIT = Number(arg('limit', 0));                               // 0 — все куски
 const MIN_TAIL = Number(arg('minTail', cfg.clip?.minTail ?? 45));    // хвост короче — приклеиваем к прошлому
 const SKIP = arg('skip', '');                                        // «4:07-4:30» — вырезать из исходника
+const TITLE = arg('title', '');                                      // короткая надпись сверху
+const NO_SUBS = argv.includes('--no-subs');
 
 /** Путь для списка concat: ffmpeg хочет прямые слэши. */
 const toPosix = (f) => f.split('\\').join('/');
@@ -86,7 +88,10 @@ const FPS = cfg.video?.fps ?? 30;
 
 const ENC = ['-c:v', 'libx264', '-crf', '20', '-preset', 'veryfast', '-pix_fmt', 'yuv420p',
   '-r', String(FPS), '-c:a', 'aac', '-b:a', '192k', '-ar', '44100', '-ac', '2'];
-const ff = (args) => execFileSync('ffmpeg', ['-y', '-v', 'error', ...args], {stdio: ['ignore', 'ignore', 'inherit']});
+// cwd нужен для субтитров: в filtergraph двоеточие диска Windows парсится как
+// разделитель опций, а из нужной папки достаточно короткого имени файла
+const ff = (args, cwd) => execFileSync('ffmpeg', ['-y', '-v', 'error', ...args],
+  {stdio: ['ignore', 'ignore', 'inherit'], ...(cwd ? {cwd} : {})});
 const probe = (file, entries, stream = null) => execFileSync('ffprobe',
   ['-v', 'error', ...(stream ? ['-select_streams', stream] : []), '-show_entries', entries, '-of', 'csv=p=0', file],
   {encoding: 'utf8'}).trim().split('\n')[0].replace(/,+$/, '');
@@ -130,6 +135,107 @@ function source() {
   return path.join(dir, got);
 }
 
+// --- субтитры и заголовок ---
+
+const FONT = cfg.clip?.font ?? 'Arial Black';
+// цвета заголовка в формате ASS: там задом наперёд — BGR, а не RGB
+const TITLE_COLORS = cfg.clip?.titleColors ?? ['&H00FFFFFF&', '&H0042B3F5&', '&H008AE037&'];
+
+/** Автосубтитры ролика: качаются один раз и лежат рядом с исходником. */
+function fetchSubs(url, id) {
+  if (NO_SUBS) return null;
+  const dir = p('assets', 'source');
+  const srt = path.join(dir, `${id}.ru.srt`);
+  if (fs.existsSync(srt)) return srt;
+  if (!url) return null;
+  log('качаю субтитры…');
+  spawnSync('yt-dlp', ['--skip-download', '--write-auto-sub', '--sub-lang', 'ru',
+    '--convert-subs', 'srt', '--no-playlist', '-o', path.join(dir, id), url],
+    {encoding: 'utf8', stdio: ['ignore', 'ignore', 'ignore']});
+  return fs.existsSync(srt) ? srt : null;
+}
+
+/**
+ * Разбор автосубтитров. YouTube отдаёт их «бегущим окном»: в каждой реплике
+ * повторяется предыдущая строка, а новая идёт последней. Берём только новую —
+ * иначе на экране всё двоится.
+ */
+function parseSubs(file) {
+  const raw = fs.readFileSync(file, 'utf8').replace(/^﻿/, '');
+  const secs = (t) => {
+    const [h, m, rest] = t.split(':');
+    return Number(h) * 3600 + Number(m) * 60 + Number(String(rest).replace(',', '.'));
+  };
+  const cues = [];
+  for (const block of raw.split(/\r?\n\s*\r?\n/)) {
+    const lines = block.split(/\r?\n/).filter((l) => l.trim());
+    const tl = lines.find((l) => l.includes('-->'));
+    if (!tl) continue;
+    const [from, to] = tl.split('-->').map((x) => secs(x.trim()));
+    if (to - from < 0.05) continue;                    // технические врезки по 10 мс
+    const text = lines.filter((l) => !l.includes('-->') && !/^\d+$/.test(l.trim()))
+      .map((l) => l.replace(/<[^>]+>/g, '').trim()).filter(Boolean).pop();
+    if (!text) continue;
+    if (cues.length && cues[cues.length - 1].text === text) continue;
+    cues.push({from, to, text});
+  }
+  // фраза висит до начала следующей: так текст не мигает
+  for (let i = 0; i < cues.length - 1; i++) cues[i].to = Math.max(cues[i].to, cues[i + 1].from);
+  return cues;
+}
+
+/** Время исходника → время после вырезов; null, если попало в вырезанное. */
+function makeMapper(cuts) {
+  return (t) => {
+    let shift = 0;
+    for (const c of cuts) {
+      if (t >= c.from && t < c.to) return null;
+      if (t >= c.to) shift += c.to - c.from;
+    }
+    return t - shift;
+  };
+}
+
+const ass = (t) => {
+  const h = Math.floor(t / 3600);
+  const m = Math.floor((t % 3600) / 60);
+  const sec = (t % 60).toFixed(2).padStart(5, '0');
+  return `${h}:${String(m).padStart(2, '0')}:${sec}`;
+};
+const assEscape = (s) => s.replace(/\{/g, '(').replace(/\}/g, ')').replace(/\n/g, ' ');
+
+/** Заголовок: слова раскрашены по кругу, два-три цвета, как на референсе. */
+function titleLine(text) {
+  return text.split(/\s+/).filter(Boolean)
+    .map((w, i) => `{\\c${TITLE_COLORS[i % TITLE_COLORS.length]}}${assEscape(w)}`)
+    .join(' ');
+}
+
+/**
+ * Разметка для одного куска: заголовок сверху висит всё время, субтитры снизу
+ * идут по своим таймкодам. Белые с чёрной обводкой — читаются на любом фоне.
+ */
+function buildAss(file, title, cues, dur) {
+  const head = [
+    '[Script Info]', 'ScriptType: v4.00+', `PlayResX: ${W}`, `PlayResY: ${H}`, 'WrapStyle: 0', '',
+    '[V4+ Styles]',
+    'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour,' +
+      ' Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline,' +
+      ' Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
+    `Style: Title,${FONT},92,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,8,3,8,60,60,130,204`,
+    `Style: Sub,${FONT},56,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,6,2,2,90,90,380,204`,
+    '',
+    '[Events]',
+    'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
+  ];
+  const events = [];
+  if (title) events.push(`Dialogue: 0,${ass(0)},${ass(dur)},Title,,0,0,0,,${titleLine(title)}`);
+  for (const c of cues) {
+    events.push(`Dialogue: 0,${ass(c.from)},${ass(c.to)},Sub,,0,0,0,,${assEscape(c.text)}`);
+  }
+  fs.writeFileSync(file, head.concat(events).join('\n'), 'utf8');
+}
+
 // --- фон: случайный кусок размытого геймплея, как в викторинах ---
 const bgCfg = cfg.background ?? {};
 function bgSource() {
@@ -166,14 +272,17 @@ function hookSound() {
 }
 
 /** Кусок исходника в вертикальном кадре: размытый фон + видео по центру. */
-function verticalize(src, start, dur, out) {
+function verticalize(src, start, dur, out, assFile) {
   const bg = bgSource();
+  // подписи накладываются последними: поверх и видео, и фона
+  const subs = assFile ? `,subtitles=${path.basename(assFile)}` : '';
   const hook = hookSound();
 
   if (!bg) {
     // фонового видео нет — просто чёрные поля
     ff(['-ss', String(start), '-t', String(dur), '-i', src,
-      '-vf', `scale=${W}:-2,pad=${W}:${H}:0:(oh-ih)/2:black${punchFilter}`, ...ENC, out]);
+      '-vf', `scale=${W}:-2,pad=${W}:${H}:0:(oh-ih)/2:black${punchFilter}${subs}`, ...ENC, out],
+      assFile ? path.dirname(assFile) : undefined);
     return;
   }
   const bgDur = Number(probe(bg, 'format=duration'));
@@ -187,7 +296,7 @@ function verticalize(src, start, dur, out) {
     `[0:v]scale=-2:${blurH}:force_original_aspect_ratio=increase,crop=${blurW}:${blurH},` +
       `gblur=sigma=${bgCfg.blur ?? 6},lutyuv=y=val*${gain},scale=${W}:${H}:flags=bicubic,fps=${FPS}[bg];` +
     `[1:v]scale=${W}:-2,fps=${FPS}[fg];` +
-    `[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1${punchFilter}[v]`;
+    `[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1${punchFilter}${subs}[v]`;
 
   const args = [
     '-ss', String(at), '-t', String(dur), '-i', bg,
@@ -204,7 +313,7 @@ function verticalize(src, start, dur, out) {
   args.push('-filter_complex', video + audio,
     '-map', '[v]', ...(hook ? ['-map', '[a]'] : ['-map', '1:a?']),
     '-t', String(dur), ...ENC, out);
-  ff(args);
+  ff(args, assFile ? path.dirname(assFile) : undefined);
 }
 
 // --- баннер: картинка замирает, поверх играет ролик, потом видео едет дальше ---
@@ -267,11 +376,34 @@ function insertBanners(file, tmp) {
 }
 
 // --- нарезка ---
+const url = arg('url', null);
 let src = source();
+
+// субтитры берём до вырезов: их таймкоды в системе координат исходника
+const videoId = path.basename(src).replace(/\.[^.]+$/, '').replace(/-clean$/, '');
+const srtFile = fetchSubs(url, videoId);
+const allCues = srtFile ? parseSubs(srtFile) : [];
+if (srtFile) log(`субтитры: ${allCues.length} фраз`);
+else if (!NO_SUBS) warn('субтитров нет — ролики соберутся без них');
+
+let cutRanges = [];
 if (SKIP) {
   log('убираю лишние отрезки из исходника…');
+  cutRanges = SKIP.split(',').map((r) => {
+    const [a, b] = r.split('-').map(seconds);
+    return {from: a, to: b};
+  }).filter((r) => r.to > r.from).sort((x, y) => x.from - y.from);
   src = cutOut(src, SKIP);
 }
+const toClean = makeMapper(cutRanges);
+
+// заголовок: свой, либо коротко из названия ролика
+let title = TITLE;
+if (!title && url) {
+  const r = spawnSync('yt-dlp', ['--simulate', '--no-playlist', '--print', 'title', url], {encoding: 'utf8'});
+  title = (r.stdout || '').trim().split('\n').pop().split(/\s+/).slice(0, 5).join(' ');
+}
+if (title) log(`заголовок: «${title}»`);
 const total = Number(probe(src, 'format=duration'));
 const outDir = p('out', 'clips');
 fs.mkdirSync(outDir, {recursive: true});
@@ -293,13 +425,42 @@ for (let i = 0; i < count; i++) {
   fs.mkdirSync(tmp, {recursive: true});
 
   log(`${i + 1}/${count}: ${Math.floor(start / 60)}:${String(Math.round(start % 60)).padStart(2, '0')} + ${Math.round(dur)}с`);
+
+  // субтитры этого куска: переводим из времени исходника в время куска
+  const cues = [];
+  for (const c of allCues) {
+    const from = toClean(c.from);
+    const to = toClean(c.to);
+    if (from === null || to === null) continue;
+    if (to <= start || from >= start + dur) continue;
+    cues.push({
+      from: Math.max(0, from - start),
+      to: Math.min(dur, to - start),
+      text: c.text,
+    });
+  }
+  const assFile = `${tmp}/subs.ass`;
+  if (title || cues.length) buildAss(assFile, title, cues, dur);
+  if (cues.length) log(`   субтитров в куске: ${cues.length}`);
+
   const vertical = `${tmp}/vertical.mp4`;
-  verticalize(src, start, dur, vertical);
+  verticalize(src, start, dur, vertical, (title || cues.length) ? assFile : null);
 
   const withAds = insertBanners(vertical, tmp);
   const out = path.join(outDir, `${slug}-${String(i + 1).padStart(2, '0')}.mp4`);
-  fs.rmSync(out, {force: true});
-  fs.copyFileSync(withAds, out);
+  try {
+    fs.rmSync(out, {force: true});
+    fs.copyFileSync(withAds, out);
+  } catch (e) {
+    if (e.code === 'EPERM' || e.code === 'EBUSY') {
+      console.error(`
+  файл занят: ${out}
+  закрой его в плеере и запусти снова
+`);
+      process.exit(1);
+    }
+    throw e;
+  }
   fs.rmSync(tmp, {recursive: true, force: true});
   log(`   готово: ${out} (${probe(out, 'format=duration')}с)`);
 }

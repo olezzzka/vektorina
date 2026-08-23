@@ -40,6 +40,8 @@ function startClip(opts) {
   if (opts.length) args.push('--length', String(opts.length));
   if (opts.every) args.push('--every', String(opts.every));
   if (opts.limit) args.push('--limit', String(opts.limit));
+  if (opts.title) args.push('--title', opts.title);
+  if (opts.skip) args.push('--skip', opts.skip);
   return spawnJob(args);
 }
 

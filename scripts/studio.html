@@ -177,6 +177,14 @@
         <span>…или путь к файлу на диске</span>
         <input id="clipFile" type="text" placeholder="assets/video.mp4">
       </label>
+      <label class="field">
+        <span>Надпись сверху</span>
+        <input id="clipTitle" type="text" placeholder="50 ФАКТОВ О CS2">
+      </label>
+      <label class="field">
+        <span>Вырезать рекламу (необязательно)</span>
+        <input id="clipSkip" type="text" placeholder="4:03-4:47">
+      </label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <label class="field">
           <span>Длина куска, мин</span>
@@ -315,6 +323,8 @@ $('clipRun').onclick = async () => {
       url, file,
       length: Math.round((Number($('clipLen').value) || 3) * 60),
       limit: Number($('clipLimit').value) || 0,
+      title: $('clipTitle').value.trim(),
+      skip: $('clipSkip').value.trim(),
     }),
   });
 };

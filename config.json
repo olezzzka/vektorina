@@ -96,6 +96,12 @@
     "every": 60,
     "offset": 30,
     "minTail": 45,
-    "punch": 1.28
+    "punch": 1.28,
+    "font": "Arial Black",
+    "titleColors": [
+      "&H00FFFFFF&",
+      "&H0042B3F5&",
+      "&H008AE037&"
+    ]
   }
 }
