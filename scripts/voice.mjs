@@ -117,8 +117,8 @@ const tag = ENGINE === 'silero'
       ? `piper|${piperVoice}|${vcfg.lengthScale ?? 1}`
       : `11labs|${EL_MODEL}|${EL_VOICE}`;
 // эмоция меняет звучание — значит входит в ключ кэша
-const hash = (text, emotion) => crypto.createHash('sha1')
-  .update(`${tag}|${emotion ?? 'neutral'} ${text}`).digest('hex').slice(0, 16);
+const hash = (text, emotion, voiceTag) => crypto.createHash('sha1')
+  .update(`${tag}|${emotion ?? 'neutral'}|${voiceTag ?? ''} ${text}`).digest('hex').slice(0, 16);
 const ext = ENGINE === 'elevenlabs' ? 'mp3' : 'wav';
 
 fs.mkdirSync(p('data', 'tts-cache'), {recursive: true});
@@ -132,6 +132,10 @@ function piperSay(text, out) {
     '--sentence_silence', '0.0',       // паузы ставим сами, по кадрам
   ], {input: text, stdio: ['pipe', 'ignore', 'pipe']});
 }
+
+/** Тег эмоции понимает только v3 — остальным моделям он бы читался словом. */
+const withTag = (text, tag) =>
+  tag && EL_MODEL.includes('v3') ? `[${tag}] ${text}` : text;
 
 async function elevenSay(text, out) {
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -162,7 +166,7 @@ function trimSilence(f) {
   fs.renameSync(tmp, f);
 }
 
-const cachePath = (text, emotion) => p('data', 'tts-cache', `${hash(text, emotion)}.${ext}`);
+const cachePath = (text, emotion, voiceTag) => p('data', 'tts-cache', `${hash(text, emotion, voiceTag)}.${ext}`);
 const isCached = (f) => fs.existsSync(f) && fs.statSync(f).size > 0;
 
 /**
@@ -198,14 +202,14 @@ function xttsBatch(items) {
   for (const it of items) { trimSilence(it.out); retempo(it.out, it.speed); }
 }
 
-async function tts(text, emotion) {
-  const f = cachePath(text, emotion);
+async function tts(text, emotion, voiceTag) {
+  const f = cachePath(text, emotion, voiceTag);
   if (isCached(f)) return {file: f, cached: true};
   const say = speechText(text);                          // «как читать», а не «как писать»
   if (ENGINE === 'silero') sileroBatch([{text: say, ssml: ssmlFor(say, emotion), out: f}]);
   else if (ENGINE === 'xtts') xttsBatch([{text: say, speed: XTTS_SPEED[emotion ?? 'neutral'] ?? 1, out: f}]);
   else if (ENGINE === 'piper') { piperSay(say, f); trimSilence(f); }
-  else { await elevenSay(say, f); trimSilence(f); }
+  else { await elevenSay(withTag(say, voiceTag), f); trimSilence(f); }
   return {file: f, cached: false};
 }
 
@@ -221,7 +225,7 @@ async function fitLine(line) {
   const windowSec = line.window / fps;
   let best = null;
   for (const text of variants) {
-    const {file: clip, cached} = await tts(text, line.emotion);
+    const {file: clip, cached} = await tts(text, line.emotion, line.tag);
     const d = dur(clip);
     if (!cached && ENGINE === 'elevenlabs') await sleep(350);   // щадим rate limit
     const tempo = d / windowSec;
@@ -244,7 +248,7 @@ if (ENGINE === 'silero' || ENGINE === 'xtts') {
   const need = new Map();
   for (const line of quiz.narration) {
     for (const text of [line.text, ...(line.alts ?? [])]) {
-      const out = cachePath(text, line.emotion);
+      const out = cachePath(text, line.emotion, line.tag);
       if (!isCached(out) && !need.has(out)) {
         need.set(out, ENGINE === 'silero'
           ? {text: speechText(text), ssml: ssmlFor(speechText(text), line.emotion), out}

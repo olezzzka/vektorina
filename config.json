@@ -35,7 +35,7 @@
     "intro": 112,
     "roundIn": 12,
     "countdown": 90,
-    "reveal": 66,
+    "reveal": 84,
     "outro": 96
   },
   "text": {
@@ -65,7 +65,7 @@
     "enabled": true
   },
   "voice": {
-    "engine": "xtts",
+    "engine": "elevenlabs",
     "speaker": "baya",
     "piperVoice": "dmitri",
     "lengthScale": 1,

@@ -120,6 +120,24 @@ const NUM = ['ноль', 'один', 'два', 'три', 'четыре', 'пят
   'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать', 'двадцать'];
 const times = (n) => `в ${NUM[n] ?? n} раз${n >= 2 && n <= 4 ? 'а' : ''}`;
 
+/**
+ * Звуковые теги ElevenLabs v3: модель отыгрывает их голосом, а не зачитывает.
+ * Без них реплики звучат ровно — а ровная подача в ленте не держит.
+ * Другие движки тег игнорируют, на экран он тоже не попадает.
+ */
+const TAGS = {
+  hype: ['excited', 'laughs', 'mischievously', 'shouts', 'laughs harder'],
+  neutral: ['sarcastic', 'curious', 'mischievously'],
+  warm: ['happy', 'laughs'],
+};
+const tagFor = (emotion, used) => {
+  const pool = TAGS[emotion ?? 'neutral'] ?? TAGS.neutral;
+  const fresh = pool.filter((t) => t !== used.lastTag);
+  const tag = rnd(fresh.length ? fresh : pool);
+  used.lastTag = tag;
+  return tag;
+};
+
 // мат включается флагом narration.profanity в config; фразы с ним помечены nsfw
 const allowNsfw = () => config()?.narration?.profanity !== false;
 
@@ -315,7 +333,10 @@ export function buildNarration(quiz) {
   const outroStart = t.intro + quiz.rounds.length * rl;
   lines.push({alts: ['Пиши в комменты!'], ...rnd(OUTRO), frame: outroStart + 4, window: t.outro - 10});
 
-  for (const l of lines) l.display = displayText(l.text);
+  for (const l of lines) {
+    l.display = displayText(l.text);
+    if (!l.tag) l.tag = tagFor(l.emotion, usedReactions);
+  }
   return lines;
 }
 
