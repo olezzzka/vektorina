@@ -145,13 +145,35 @@ function bgBrightness(file, sec) {
   return m ? Number(m[1]) : 0;
 }
 
+/**
+ * Рывок камеры в первые кадры куска: изображение наезжает и отскакивает назад.
+ * Вместе с ударом звуком это то, ради чего зритель тормозит палец, — без такого
+ * начала вертикалку пролистывают раньше, чем поймут, о чём она.
+ */
+const PUNCH_FROM = Number(arg('punch', cfg.clip?.punch ?? 1.28));   // 1 — выключить
+const PUNCH_SEC = 0.34;
+// crop размер по времени менять не умеет — он фиксируется при инициализации,
+// поэтому наезд делаем zoompan: он для этого и сделан и держит размер кадра
+const punchFilter = PUNCH_FROM > 1
+  ? `,zoompan=z='if(lte(it\,${PUNCH_SEC})\,max(1\,${PUNCH_FROM}-${((PUNCH_FROM - 1) / PUNCH_SEC).toFixed(3)}*it)\,1)'` +
+    `:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=${W}x${H}:fps=${FPS}`
+  : '';
+
+/** Звук-хук на первом кадре: свой файл, если положен в public/sfx/impact.mp3. */
+function hookSound() {
+  const f = p('public', 'sfx', 'impact.mp3');
+  return fs.existsSync(f) ? f : null;
+}
+
 /** Кусок исходника в вертикальном кадре: размытый фон + видео по центру. */
 function verticalize(src, start, dur, out) {
   const bg = bgSource();
+  const hook = hookSound();
+
   if (!bg) {
     // фонового видео нет — просто чёрные поля
     ff(['-ss', String(start), '-t', String(dur), '-i', src,
-      '-vf', `scale=${W}:-2,pad=${W}:${H}:0:(oh-ih)/2:black`, ...ENC, out]);
+      '-vf', `scale=${W}:-2,pad=${W}:${H}:0:(oh-ih)/2:black${punchFilter}`, ...ENC, out]);
     return;
   }
   const bgDur = Number(probe(bg, 'format=duration'));
@@ -161,16 +183,28 @@ function verticalize(src, start, dur, out) {
   const blurH = bgCfg.blurHeight ?? 480;
   const blurW = Math.round(blurH * (W / H) / 2) * 2;
 
-  ff([
-    '-ss', String(at), '-t', String(dur), '-i', bg,
-    '-ss', String(start), '-t', String(dur), '-i', src,
-    '-filter_complex',
+  const video =
     `[0:v]scale=-2:${blurH}:force_original_aspect_ratio=increase,crop=${blurW}:${blurH},` +
       `gblur=sigma=${bgCfg.blur ?? 6},lutyuv=y=val*${gain},scale=${W}:${H}:flags=bicubic,fps=${FPS}[bg];` +
     `[1:v]scale=${W}:-2,fps=${FPS}[fg];` +
-    `[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1[v]`,
-    '-map', '[v]', '-map', '1:a?', '-t', String(dur), ...ENC, out,
-  ]);
+    `[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1${punchFilter}[v]`;
+
+  const args = [
+    '-ss', String(at), '-t', String(dur), '-i', bg,
+    '-ss', String(start), '-t', String(dur), '-i', src,
+  ];
+  if (hook) args.push('-i', hook);
+
+  // звук хука подмешиваем к дорожке куска, а не поверх: иначе он режет громкость
+  const audio = hook
+    ? `;[1:a]aresample=44100[a0];[2:a]aresample=44100,adelay=0:all=1[a1];` +
+      `[a0][a1]amix=inputs=2:duration=first:normalize=0[a]`
+    : '';
+
+  args.push('-filter_complex', video + audio,
+    '-map', '[v]', ...(hook ? ['-map', '[a]'] : ['-map', '1:a?']),
+    '-t', String(dur), ...ENC, out);
+  ff(args);
 }
 
 // --- баннер: картинка замирает, поверх играет ролик, потом видео едет дальше ---

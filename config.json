@@ -58,7 +58,8 @@
       "file": null,
       "volume": 0.12,
       "duckTo": 0.45
-    }
+    },
+    "impact": 0.9
   },
   "captions": {
     "enabled": true
@@ -93,6 +94,7 @@
     "length": 180,
     "every": 60,
     "offset": 30,
-    "minTail": 45
+    "minTail": 45,
+    "punch": 1.28
   }
 }

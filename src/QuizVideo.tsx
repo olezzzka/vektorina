@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
+import {AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {OddRound, PriceRound, Quiz, RarityRound, Round, SoundRound, SpotRound, ZoomRound, roundLength, theme, totalLength} from './theme';
 import {Background} from './components/Background';
 import {Captions} from './components/Captions';
@@ -15,6 +15,16 @@ import {RoundScene} from './components/Round';
 
 export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
   const rl = roundLength(quiz.timing);
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+
+  /**
+   * Рывок камеры в первые кадры: кадр наезжает и тут же отскакивает назад.
+   * Вместе с ударом звуком это то, ради чего зритель тормозит палец — без
+   * такого начала ролик пролистывают до того, как поймут, о чём он.
+   */
+  const punch = spring({frame, fps, config: {damping: 11, mass: 0.45, stiffness: 190}});
+  const punchScale = interpolate(punch, [0, 1], [1.28, 1]);
   // первая реплика — кликбейтный опенинг: показываем его крупно в интро,
   // а не мелкой строкой субтитров внизу
   const first = quiz.narration?.[0];
@@ -50,39 +60,48 @@ export const QuizVideo: React.FC<{quiz: Quiz}> = ({quiz}) => {
   return (
     <AbsoluteFill style={{background: theme.bg, fontFamily: theme.fontUI}}>
       <Fonts />
-      <Background video={quiz.background} />
       {quiz.voice ? (
         <Audio src={staticFile(quiz.voice)} volume={(quiz.audio?.master ?? 1) * (quiz.audio?.voice ?? 1)} />
       ) : null}
       {music?.file ? (
         <Audio src={staticFile(music.file)} volume={musicVolume} loop />
       ) : null}
-      <Sequence durationInFrames={quiz.timing.intro}>
-        <Intro quiz={quiz} hook={hook} />
-      </Sequence>
-      {quiz.rounds.map((r, i) => (
-        <Sequence key={i} from={quiz.timing.intro + i * rl} durationInFrames={rl}>
-          {quiz.format === 'zoom' ? (
-            <ZoomRoundScene round={r as ZoomRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : quiz.format === 'rarity' ? (
-            <RarityRoundScene round={r as RarityRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : quiz.format === 'sound' ? (
-            <SoundRoundScene round={r as SoundRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : quiz.format === 'spot' ? (
-            <SpotRoundScene round={r as SpotRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : quiz.format === 'price' ? (
-            <PriceRoundScene round={r as PriceRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : quiz.format === 'odd' ? (
-            <OddRoundScene round={r as OddRound} index={i} total={quiz.rounds.length} quiz={quiz} />
-          ) : (
-            <RoundScene round={r as Round} index={i} total={quiz.rounds.length} quiz={quiz} />
-          )}
+      {quiz.audio?.enabled === false ? null : (
+        <Sequence from={0} durationInFrames={Math.round(1.6 * fps)}>
+          <Audio src={staticFile('sfx/impact.mp3')} volume={(quiz.audio?.master ?? 1) * (quiz.audio?.impact ?? 0.9)} />
         </Sequence>
-      ))}
-      <Sequence from={quiz.timing.intro + quiz.rounds.length * rl} durationInFrames={quiz.timing.outro}>
-        <Outro quiz={quiz} />
-      </Sequence>
-      <Captions quiz={quiz} />
+      )}
+
+      {/* всё изображение целиком, включая фон, — чтобы наезд читался как движение камеры */}
+      <AbsoluteFill style={{transform: `scale(${punchScale})`, transformOrigin: 'center center'}}>
+        <Background video={quiz.background} />
+        <Sequence durationInFrames={quiz.timing.intro}>
+          <Intro quiz={quiz} hook={hook} />
+        </Sequence>
+        {quiz.rounds.map((r, i) => (
+          <Sequence key={i} from={quiz.timing.intro + i * rl} durationInFrames={rl}>
+            {quiz.format === 'zoom' ? (
+              <ZoomRoundScene round={r as ZoomRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : quiz.format === 'rarity' ? (
+              <RarityRoundScene round={r as RarityRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : quiz.format === 'sound' ? (
+              <SoundRoundScene round={r as SoundRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : quiz.format === 'spot' ? (
+              <SpotRoundScene round={r as SpotRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : quiz.format === 'price' ? (
+              <PriceRoundScene round={r as PriceRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : quiz.format === 'odd' ? (
+              <OddRoundScene round={r as OddRound} index={i} total={quiz.rounds.length} quiz={quiz} />
+            ) : (
+              <RoundScene round={r as Round} index={i} total={quiz.rounds.length} quiz={quiz} />
+            )}
+          </Sequence>
+        ))}
+        <Sequence from={quiz.timing.intro + quiz.rounds.length * rl} durationInFrames={quiz.timing.outro}>
+          <Outro quiz={quiz} />
+        </Sequence>
+        <Captions quiz={quiz} />
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
