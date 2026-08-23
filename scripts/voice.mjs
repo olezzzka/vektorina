@@ -144,6 +144,8 @@ async function elevenSay(text, out) {
       }),
     });
     if (res.status === 429) { await sleep(2000 * (attempt + 1)); continue; }
+    if (res.status === 401) throw new Error('ElevenLabs: ключ не принят — проверь ELEVENLABS_API_KEY в .env');
+    if (res.status === 422) throw new Error(`ElevenLabs: не тот voice_id или модель — ${(await res.text()).slice(0, 200)}`);
     if (!res.ok) throw new Error(`ElevenLabs HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
     fs.writeFileSync(out, Buffer.from(await res.arrayBuffer()));
     return;
