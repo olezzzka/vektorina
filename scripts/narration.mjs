@@ -302,7 +302,7 @@ function revealLine(round, format, used) {
   ], used);
   if (n >= 2) return pickFresh([
     {text: `${cap(gap)}. Норм разница.`, emotion: 'neutral', alts: [`Разница ${gap}.`]},
-    {text: `Разница ${gap}, чуешь?`, emotion: 'hype', alts: [`Разница ${gap}!`]},
+    {text: `Разница ${gap}, еблан.`, emotion: 'hype', nsfw: true, alts: [`Разница ${gap}, еблан!`]},
     {text: 'Ощутимо дороже.', emotion: 'neutral', alts: ['Ощутимо дороже.']},
     {text: 'Разрыв заметный, блядь.', emotion: 'hype', nsfw: true, alts: ['Разрыв заметный!']},
     {text: 'Прилично так дороже.', emotion: 'neutral', alts: ['Прилично дороже.']},
